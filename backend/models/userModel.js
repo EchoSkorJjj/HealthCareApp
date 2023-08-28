@@ -23,7 +23,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false // Default value is false for normal users
     },
-})
+    },
+    {
+        timestamps: true
+    }
+)
 
 // Middleware to hash the password before saving
 // call the save method
