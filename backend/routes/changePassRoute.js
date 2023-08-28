@@ -7,7 +7,6 @@ const nodemailer = require('nodemailer'); // You'll need to set up nodemailer fo
 // Middleware to verify JWT
 const verifyToken = (req, res, next) => {
     const token = req.header('Authorization');
-    console.log(token);
     if (!token) {
         return res.status(401).json({ message: 'Authorization token not found' });
     }
