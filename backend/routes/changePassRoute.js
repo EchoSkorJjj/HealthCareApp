@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/model');
+const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer'); // You'll need to set up nodemailer for sending emails
 

@@ -15,8 +15,10 @@ Brief overview of the healthcare app and its purpose.
 ## Installation
 1. Clone the repository.
 ```
-
+gh repo clone HelloTech69/HealthCareApp
 ```
+
+
 
 ## Usage
 Guidance on how to use the app effectively.
