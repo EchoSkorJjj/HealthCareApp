@@ -1,4 +1,4 @@
-# My Healthcare App
+# My Healthcare App (HealthPortalPro)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -24,7 +24,11 @@ gh repo clone HelloTech69/HealthCareApp
 Guidance on how to use the app effectively.
 
 ## Features
-List of key features and functionalities of the app.
+1. Remember Me Functionality: Many applications offer a "Remember Me" option during login. If the user selects this option, a longer-lasting token (usually a refresh token) is issued, allowing them to stay logged in for an extended period.
+
+2. Session Management: Some applications also use session management techniques, where a server-side session is established and maintained for a user. This session can store authentication-related information and can be used to validate the user's access to certain resources.
+
+3. Device and Location Analysis: Applications may also analyze the device and location from which the user is logging in to assess the risk level. If the user is logging in from a recognized device or location, the application might allow a longer session without reauthentication.
 
 ## API Documentation
 Explanation of the API endpoints and data structures.
