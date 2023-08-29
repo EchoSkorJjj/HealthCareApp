@@ -1,0 +1,14 @@
+/* Custom CSS for Floating Labels */
+.formStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+.form-group {
+    margin: 10px;
+}
+  
+
+  

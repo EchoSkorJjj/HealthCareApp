@@ -39,7 +39,36 @@ const createNewUser = async (req, res) => {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
-        // Check email format, password format, etc. (same validation as before)
+        // Check email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        // Check password format
+        if (passwordHash.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters' });
+        }
+
+        if (passwordHash.length > 20) {
+            return res.status(400).json({ message: 'Password must be less than 20 characters' });
+        }
+
+        if (!/(?=.*[!@#$%^&*])/.test(passwordHash)) {
+            return res.status(400).json({ message: 'Password must have at least one special character' });
+        }
+
+        if (!/\d/.test(passwordHash)) {
+            return res.status(400).json({ message: 'Password must have at least one number' });
+        }
+
+        if (!/[a-z]/.test(passwordHash)) {
+            return res.status(400).json({ message: 'Password must have at least one lowercase letter' });
+        }
+
+        if (!/[A-Z]/.test(passwordHash)) {
+            return res.status(400).json({ message: 'Password must have at least one uppercase letter' });
+        }
 
         // Create a new user
         const user = new User({

@@ -17,7 +17,11 @@ Brief overview of the healthcare app and its purpose.
 ```
 gh repo clone HelloTech69/HealthCareApp
 ```
-
+2. Install Dependencies.
+```
+cd frontend
+npm install bootstrap && react-router-dom
+```
 
 
 ## Usage
