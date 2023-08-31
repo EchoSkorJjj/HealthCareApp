@@ -1,14 +1,140 @@
 /* Custom CSS for Floating Labels */
-.formStyle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-.form-group {
-    margin: 10px;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:Arial, Helvetica, sans-serif;
 }
+
+.form-header {
+  color: #fff;
+}
+
+.formStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  flex-direction: column;
+  gap: 80px;
+  background: transparent;
+  width: 1000px;
+  height: 1000px;
+  margin:auto;
+  margin-top: 200px;
+  border-radius: 70px;
+  border: 2px solid #fff;
+}
+
+.formStyle h1 {
+  height: 10px;
+  font-size: 50px;
+}
+
+.input-container {
+  position: relative;
+  width: 500px;
+  height: 30px;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: #fff;
+  border-radius: 15px;
+  outline: none;
+  color: #070707;
+  font-size: 1.7em;
+  transition: 0.5s;
+}
+
+.input-container label {
+  position: absolute;
+  left: 0;
+  padding: 15px;
+  pointer-events: none;
+  font-size: 2em;
+  color: #999;
+  transition: 0.5s;
+}
+
+
+.input-container input:focus ~ label,
+.input-container input.has-input ~ label {
+  color: #163c38;
+  transform: translateX(10px) translateY(-7px);
+  font-size: 0.9em;
+  padding: 0 8px;
+  background: #fff;
+  letter-spacing: 0.2em;
+  border-radius: 15px;
+}
+
+.input-checkbox {
+  padding-top: 40px;
+}
+
+.checkbox-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px; /* Adjust as needed */
+  color: #fff;
+}
+
+.alert-required { 
+  margin-top: 2px;
+  margin-left: 60%;
+}
+
+.alert-noconfirm {
+  margin-top: 2px;
+  margin-left: 50%;
+}
+
+.alert-notmatch {
+  margin-top: 2px;
+  margin-left: 60%
+}
+
+.error-message {
+  margin-top: 5px; /* Adjust as needed */
+}
+
+.input-button {
+  font-size: 1.6em;
+  width: 450px;
+  height: 60px;
+  border-radius: 40px;
+}
+  
+/* .input-container {
+  
+} */
+
+/* .form-control {
+  height: 60px;
+  width: 200px;
+  font-size: 15px;
+}
+
+.input-container label {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(0, 23px) scale(1);
+  transform-origin: top left;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  color: #6f81a5;
+  font-size: 16px;
+  line-height: 1;
+  left: 10px;
+}
+
+.input-container:focus-within label {
+  transform: translate(0, 9px) scale(0.8);
+  color: #0a53e4;
+} */
   
 
   

@@ -7,11 +7,18 @@ import { Route, Routes } from "react-router-dom";
 
 // We import all the components we need in our app
 import Register from './components/Register';
+import Login from './components/Login';
+import Navbar from './components/Navbar';
+
 
 function App() {
   return (
     <div>
-      <Register />
+      <Navbar />
+      <Routes>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<Login/>}/>
+      </Routes>
     </div>
   );
 }
