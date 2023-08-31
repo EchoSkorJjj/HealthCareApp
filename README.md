@@ -28,11 +28,17 @@ npm install bootstrap && react-router-dom
 Guidance on how to use the app effectively.
 
 ## Features
-1. Remember Me Functionality: Many applications offer a "Remember Me" option during login. If the user selects this option, a longer-lasting token (usually a refresh token) is issued, allowing them to stay logged in for an extended period.
 
-2. Session Management: Some applications also use session management techniques, where a server-side session is established and maintained for a user. This session can store authentication-related information and can be used to validate the user's access to certain resources.
+1. Protect Routes with JWT:
+Apply the verifyToken middleware to all the routes that need JWT authentication, like updateUserRoute.js and deleteUserRoute.js.
+Handle Token in React Native Frontend:
+In your React Native frontend, store the received JWT token securely and include it in the headers of API requests to protected routes.
 
-3. Device and Location Analysis: Applications may also analyze the device and location from which the user is logging in to assess the risk level. If the user is logging in from a recognized device or location, the application might allow a longer session without reauthentication.
+2. Remember Me Functionality: Many applications offer a "Remember Me" option during login. If the user selects this option, a longer-lasting token (usually a refresh token) is issued, allowing them to stay logged in for an extended period.
+
+3. Session Management: Some applications also use session management techniques, where a server-side session is established and maintained for a user. This session can store authentication-related information and can be used to validate the user's access to certain resources.
+
+4. Device and Location Analysis: Applications may also analyze the device and location from which the user is logging in to assess the risk level. If the user is logging in from a recognized device or location, the application might allow a longer session without reauthentication.
 
 ## API Documentation
 Explanation of the API endpoints and data structures.
