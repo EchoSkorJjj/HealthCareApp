@@ -24,7 +24,7 @@
   margin:auto;
   margin-top: 200px;
   border-radius: 70px;
-  border: 2px solid #fff;
+  border: 4px solid #fff;
 }
 
 .formStyle h1 {
@@ -48,6 +48,7 @@
   color: #070707;
   font-size: 1.7em;
   transition: 0.5s;
+  
 }
 
 .input-container label {
@@ -60,6 +61,12 @@
   transition: 0.5s;
 }
 
+.input-icon {
+  position: absolute;
+  right: 0;
+  padding-right: 30px;
+  transform: translateY(-55px);
+}
 
 .input-container input:focus ~ label,
 .input-container input.has-input ~ label {
@@ -80,7 +87,7 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px; /* Adjust as needed */
-  color: #fff;
+  color: #163c38;
 }
 
 .alert-required { 
