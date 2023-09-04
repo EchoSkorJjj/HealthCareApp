@@ -9,21 +9,24 @@ import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Login() {
     const navigate = useNavigate();
-
-    const [loginForm, setForm] = useState({
-        usernameOrEmail: "",
-        password: ""
-    })
+    const { login } = useAuth();
 
     const [iconClicked, setIconClicked] = useState({
-        passIcon: false
-      })
+      passIcon: false
+    })
     const [keepSignedIn, setSignedIn] = useState(false);
 
     const [validated, setValidated] = useState(false);
+
+    const [loginForm, setForm] = useState({
+        usernameOrEmail: "",
+        password: "",
+        keepSignedIn
+    })
 
     function updateForm(value) {
         return setForm((prev) => {
@@ -50,15 +53,30 @@ export default function Login() {
         const loginUser = {...loginForm};
 
         try {
-            await fetch("http://localhost:3500/api/account/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(loginUser),
+            const response = await fetch("http://localhost:3500/api/account/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(loginUser),
             });
-            setForm({ usernameOrEmail: "", password: ""});
-            navigate("/login");
+
+            if (response.ok) {
+              const { accessToken, refreshToken } = await response.json();
+               // Access the login function from the context
+              login(accessToken, refreshToken);
+        
+              setForm({ usernameOrEmail: "", password: "" });
+              navigate("/");
+            } else {
+              try {
+                const errorResponse = await response.json();
+                const errorMessage = errorResponse.message; // Assuming the error message is stored in a "message" field
+                window.alert(`Login failed: ${errorMessage}`);
+              } catch (error) {
+                window.alert("An error occurred while logging in."); // Fallback if unable to parse error response
+              }
+            }
         } catch(error) {
             window.alert(error);
         }
@@ -66,7 +84,7 @@ export default function Login() {
 
     return (
     <Container fluid className="col-lg-5 mt-5">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
         <Form.Group as={Row} className="mb-3" controlId="validationCustomUsername">
           <Form.Label column sm={2}>Username</Form.Label>
           <Col sm={10}>

@@ -51,15 +51,26 @@ export default function Register() {
         const newUser = { ...registerForm };
         
         try {
-            await fetch("http://localhost:3500/api/account/register", {
+            const response = await fetch("http://localhost:3500/api/account/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newUser),
             });
-            setForm({ username: "", fullname: "", email: "" , passwordHash: ""});
-            navigate("/user-pages/login");
+
+            if (response.ok) {
+              setForm({ username: "", fullname: "", email: "" , passwordHash: ""});
+              navigate("/user-pages/login");
+            } else {
+              try {
+                const errorResponse = await response.json();
+                const errorMessage = errorResponse.message; // Assuming the error message is stored in a "message" field
+                window.alert(`Registration failed: ${errorMessage}`);
+              } catch (error) {
+                window.alert("An error occurred while registering."); // Fallback if unable to parse error response
+              }
+            }
         }  catch(error) {
             window.alert(error);
             }
@@ -67,7 +78,7 @@ export default function Register() {
 
     return (
       <Container fluid className="col-lg-5 mt-5">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
         <Form.Group as={Row} className="mb-3" controlId="validationCustomUsername">
           <Form.Label column sm={2}>Username</Form.Label>
           <Col sm={10}>

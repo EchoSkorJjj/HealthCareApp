@@ -117,7 +117,7 @@ const loginUser = async (req, res) => {
 
         // Set the refresh token expiration based on rememberMe
         const refreshTokenExpiresIn = rememberMe ? '30d' : '7d';
-
+        
         // Successful login
         const accessToken = generateAccessToken(user._id);
         const refreshToken = generateRefreshToken(user._id, refreshTokenExpiresIn);
