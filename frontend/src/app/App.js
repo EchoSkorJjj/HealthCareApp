@@ -10,6 +10,7 @@ import Register from './user-pages/Register';
 import Login from './user-pages/Login';
 import NavBar from './shared/NavBar';
 import ForgotPass from './user-pages/ForgotPass';
+import NutritionAnalyzer from './user-pages/NutritionAnalyzer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/user-pages/register" element={<Register/>}/>
         <Route path="/user-pages/login" element={<Login/>}/>
+        <Route path="/user-pages/nutritionanalyzer" element={<NutritionAnalyzer/>}/>
       </Routes>
     </AuthProvider>
 
