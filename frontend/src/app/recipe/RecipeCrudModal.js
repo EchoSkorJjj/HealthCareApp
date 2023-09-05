@@ -4,7 +4,7 @@ import '../../assets/styles/RecipeCard.css'; // Import your CSS file
 
 Modal.setAppElement('#root'); // Set the root element for accessibility
 
-function RecipeCrudModal({ isOpen, onRequestClose }) {
+export default function RecipeCrudModal({ isOpen, onRequestClose }) {
   // Define CRUD operation functions here
   const handleCreate = () => {
     // Implement your create logic
@@ -39,5 +39,3 @@ function RecipeCrudModal({ isOpen, onRequestClose }) {
     </Modal>
   );
 }
-
-export default RecipeCrudModal;

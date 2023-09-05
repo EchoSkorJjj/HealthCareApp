@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../assets/styles/RecipeCard.css';
 import RecipeCrudModal from './RecipeCrudModal'; // Import your modal component
 
-function RecipeDetail({ recipe, setSelectedRecipe }) {
+export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   const [crudModalOpen, setCrudModalOpen] = useState(false);
 
   const openCrudModal = () => {
@@ -36,5 +36,3 @@ function RecipeDetail({ recipe, setSelectedRecipe }) {
     </div>
   );
 }
-
-export default RecipeDetail;

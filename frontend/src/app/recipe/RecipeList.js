@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/styles/RecipeCard.css';
 import RecipeDetail from './RecipeDetail';
 
-function RecipeList({ searchQuery }) {
+export default function RecipeList({ searchQuery }) {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
@@ -61,5 +61,3 @@ function RecipeList({ searchQuery }) {
     </div>
   );
 }
-
-export default RecipeList;
