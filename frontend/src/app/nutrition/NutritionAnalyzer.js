@@ -4,8 +4,8 @@ import '../../assets/styles/NutritionAnalyzer.css';
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [nutritionDataList, setNutritionDataList] = useState([]);
-  const app_id = process.env.REACT_APP_EDAMAM_APP_ID
-  const app_key = process.env.REACT_APP_EDAMAM_API_KEY
+  const app_id = process.env.REACT_APP_EDAMAM_NUTRITION_APP_ID
+  const app_key = process.env.REACT_APP_EDAMAM_NUTRITION_API_KEY
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

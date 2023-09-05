@@ -39,7 +39,8 @@ export default function NavBar() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link href="/user-pages/nutritionanalyzer">Nutrition Analyzer</Nav.Link>
+                  <Nav.Link href="/nutrition/nutritionanalyzer">Nutrition Analyzer</Nav.Link>
+                  <Nav.Link href="/recipe">Recipe Search</Nav.Link>
                   <Nav.Link href="/support">Support</Nav.Link>
                   <Nav.Link href="/user-pages/login">Log In</Nav.Link>
                   <NavDropdown
