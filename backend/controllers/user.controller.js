@@ -15,7 +15,7 @@ const generateRefreshToken = (userId, expiresIn) => {
 
 // Helper function to generate a session token
 const generateSessionToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SESSION_SECRET, { expiresIn: '15m' }); // Adjust the expiration time as needed
+    return jwt.sign({ userId }, process.env.JWT_SESSION_SECRET, { expiresIn: '60m' }); // Adjust the expiration time as needed
   };
 
 // Create a nodemailer transporter using your email service credentials

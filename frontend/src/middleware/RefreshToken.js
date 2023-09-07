@@ -2,16 +2,14 @@ import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAuth } from '../contexts/AuthContext';
 
-const RefreshToken = () => {
+const RefreshToken = ( {expirationDate}) => {
   const { login, logout, accessToken } = useAuth();
 
   useEffect(() => {
-    const sessionToken = Cookies.get('sessionToken');
-    if (sessionToken) {
-      const sessionTokenExpiration = new Date(Cookies.get('sessionTokenExpiration'));
+    if (expirationDate) {
       const now = new Date();
-      const timeUntilExpiration = sessionTokenExpiration - now;
-
+      const timeUntilExpiration = expirationDate - now;
+      
       if (timeUntilExpiration > 0) {
         setTimeout(() => {
           logout();
