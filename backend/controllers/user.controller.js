@@ -13,6 +13,11 @@ const generateRefreshToken = (userId, expiresIn) => {
     return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn });
 };
 
+// Helper function to generate a session token
+const generateSessionToken = (userId) => {
+    return jwt.sign({ userId }, process.env.JWT_SESSION_SECRET, { expiresIn: '15m' }); // Adjust the expiration time as needed
+  };
+
 // Create a nodemailer transporter using your email service credentials
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -98,7 +103,7 @@ const createNewUser = async (req, res) => {
 
 // Function to handle user login
 const loginUser = async (req, res) => {
-    const { usernameOrEmail, password, rememberMe } = req.body; 
+    const { usernameOrEmail, password, rememberMe, cookieConsent } = req.body; 
     try {
         // Find user by username or email
         const user = await User.findOne({
@@ -115,13 +120,18 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
-        // Set the refresh token expiration based on rememberMe
-        const refreshTokenExpiresIn = rememberMe ? '30d' : '7d';
+        if (cookieConsent === 'accepted') {
+            const refreshTokenExpiresIn = rememberMe ? '30d' : '7d';
         
-        // Successful login
-        const accessToken = generateAccessToken(user._id);
-        const refreshToken = generateRefreshToken(user._id, refreshTokenExpiresIn);
-        res.status(200).json({ accessToken, refreshToken });
+            const accessToken = generateAccessToken(user._id);
+            const refreshToken = generateRefreshToken(user._id, refreshTokenExpiresIn);
+            res.status(200).json({ accessToken, refreshToken });
+        } else if (cookieConsent === 'rejected') {
+            const sessionToken = generateSessionToken(user._id);
+            res.status(200).json({ sessionToken });
+        } else {
+            res.status(400).json({ message: 'Invalid or missing cookieConsent' });
+        }
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

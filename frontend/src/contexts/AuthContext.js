@@ -1,26 +1,41 @@
 import { createContext, useContext, useState } from 'react';
+import Cookies from 'js-cookie'; 
 
-// Create a context
 const AuthContext = createContext();
 
-// Custom hook to use the context
 export function useAuth() {
   return useContext(AuthContext);
 }
 
-// AuthProvider component to wrap your app
 export function AuthProvider({ children }) {
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
+  const [accessToken, setAccessToken] = useState(Cookies.get('accessToken') || null);
+  const [refreshToken, setRefreshToken] = useState(Cookies.get('refreshToken') || null);
 
-  const login = (accessToken, refreshToken) => {
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
+  const login = (token1, token2) => {
+    if (token2) {
+      Cookies.set('accessToken', token1, { expires: 7 }); 
+      Cookies.set('refreshToken', token2, { expires: 7 });
+      const expirationMinutes = 2;
+      const expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + expirationMinutes * 60 * 1000);
+      Cookies.set('accessTokenExpiration', expirationDate);
+      setAccessToken(token1);
+      setRefreshToken(token2);
+    } else {
+      const expirationMinutes = 2;
+      const expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + expirationMinutes * 60 * 1000);
+      Cookies.set('sessionTokenExpiration', expirationDate);
+      setAccessToken(token1);
+    }
   };
 
   const logout = () => {
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
     setAccessToken(null);
     setRefreshToken(null);
+    console.log('logout success');
   };
 
   return (

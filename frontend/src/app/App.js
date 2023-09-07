@@ -13,6 +13,8 @@ import ForgotPass from './user-pages/ForgotPass';
 import NutritionAnalyzer from './nutrition/NutritionAnalyzer';
 import SearchBar from './recipe/SearchBar';
 import RecipeList from './recipe/RecipeList';
+import CookieConsent from './cookies/CookieConsent';
+import RefreshToken from '../middleware/RefreshToken';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,6 +25,7 @@ function App() {
 
   return (
   <AuthProvider>
+    <RefreshToken />
     <NavBar />
     <Routes>
       <Route path="/user-pages/register" element={<Register />} />
@@ -35,8 +38,8 @@ function App() {
         </>
       } />
     </Routes>
+    <CookieConsent onAcceptCookies={() => {}} />
   </AuthProvider>
-
 
   );
 }
