@@ -54,7 +54,7 @@ const transporter = nodemailer.createTransport({
       user: 'healthportalpro@gmail.com',
       pass: 'gbemtnsldihqgpqy'
     }
-  });
+});
 
 // Function to create a new user
 const createNewUser = async (req, res) => {
@@ -79,7 +79,7 @@ const createNewUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email format' });
         }
 
-        const passwordError = isPasswordValid(password);
+        const passwordError = isPasswordValid(passwordHash);
         if (passwordError) {
             return res.status(400).json({ message: passwordError });
         }

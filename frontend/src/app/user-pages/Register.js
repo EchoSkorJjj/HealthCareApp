@@ -27,7 +27,7 @@ export default function Register() {
 
     function updateForm(value) {
         return setForm((prev) => {
-            return {...prev, ...value}; 
+            return {...prev, ...value}; // update previous value with new value
         });
     }
 
@@ -39,7 +39,7 @@ export default function Register() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+    
         const form =e.currentTarget;
         if (form.checkValidity() === false) {
           e.stopPropagation();
@@ -47,6 +47,7 @@ export default function Register() {
           return;
         }
         
+        // When a post request is sent to the create url, we'll add a new record to the database.
         const newUser = { ...registerForm };
         
         try {
@@ -64,10 +65,10 @@ export default function Register() {
             } else {
               try {
                 const errorResponse = await response.json();
-                const errorMessage = errorResponse.message; 
+                const errorMessage = errorResponse.message; // Assuming the error message is stored in a "message" field
                 window.alert(`Registration failed: ${errorMessage}`);
               } catch (error) {
-                window.alert("An error occurred while registering."); 
+                window.alert("An error occurred while registering."); // Fallback if unable to parse error response
               }
             }
         }  catch(error) {
@@ -86,7 +87,7 @@ export default function Register() {
           <Col sm={10}>
           <InputGroup hasValidation>
             <FloatingLabel
-                controlId="floatingInput"
+                controlId="floatingUsername"
                 label="Username"
                 className="mb-3"
             >
@@ -114,7 +115,7 @@ export default function Register() {
           <Col sm={10}>
           <InputGroup hasValidation>
             <FloatingLabel
-                controlId="floatingInput"
+                controlId="floatingFullname"
                 label="Fullname"
                 className="mb-3"
             >
@@ -142,7 +143,7 @@ export default function Register() {
           <Col sm={10}>
           <InputGroup hasValidation>
               <FloatingLabel
-                controlId="floatingInput"
+                controlId="floatingEmail"
                 label="Email address"
                 className="mb-3"
               >
