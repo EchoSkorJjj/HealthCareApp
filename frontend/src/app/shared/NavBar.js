@@ -43,6 +43,7 @@ export default function NavBar() {
                   <Nav.Link href="/recipe">Recipe Search</Nav.Link>
                   <Nav.Link href="/support">Support</Nav.Link>
                   <Nav.Link href="/user-pages/login">Log In</Nav.Link>
+                  <Nav.Link href="/user-pages/register">Sign Up</Nav.Link>
                   <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
