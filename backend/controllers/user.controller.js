@@ -16,7 +16,36 @@ const generateRefreshToken = (userId, expiresIn) => {
 // Helper function to generate a session token
 const generateSessionToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SESSION_SECRET, { expiresIn: '60m' }); // Adjust the expiration time as needed
-  };
+};
+
+// Check if password is valid
+function isPasswordValid(password) {
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+  
+    if (password.length > 20) {
+      return 'Password must be less than 20 characters';
+    }
+  
+    if (!/(?=.*[!@#$%^&*])/.test(password)) {
+      return 'Password must have at least one special character';
+    }
+  
+    if (!/\d/.test(password)) {
+      return 'Password must have at least one number';
+    }
+  
+    if (!/[a-z]/.test(password)) {
+      return 'Password must have at least one lowercase letter';
+    }
+  
+    if (!/[A-Z]/.test(password)) {
+      return 'Password must have at least one uppercase letter';
+    }
+  
+    return null; // Password is valid
+}
 
 // Create a nodemailer transporter using your email service credentials
 const transporter = nodemailer.createTransport({
@@ -50,29 +79,9 @@ const createNewUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid email format' });
         }
 
-        // Check password format
-        if (passwordHash.length < 8) {
-            return res.status(400).json({ message: 'Password must be at least 8 characters' });
-        }
-
-        if (passwordHash.length > 20) {
-            return res.status(400).json({ message: 'Password must be less than 20 characters' });
-        }
-
-        if (!/(?=.*[!@#$%^&*])/.test(passwordHash)) {
-            return res.status(400).json({ message: 'Password must have at least one special character' });
-        }
-
-        if (!/\d/.test(passwordHash)) {
-            return res.status(400).json({ message: 'Password must have at least one number' });
-        }
-
-        if (!/[a-z]/.test(passwordHash)) {
-            return res.status(400).json({ message: 'Password must have at least one lowercase letter' });
-        }
-
-        if (!/[A-Z]/.test(passwordHash)) {
-            return res.status(400).json({ message: 'Password must have at least one uppercase letter' });
+        const passwordError = isPasswordValid(password);
+        if (passwordError) {
+            return res.status(400).json({ message: passwordError });
         }
 
         // Create a new user
@@ -240,7 +249,7 @@ const requestPasswordReset = async (req,res) => {
         const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_RESET_SECRET, { expiresIn: '1h' });
 
         // Send password reset email (using nodemailer or other email service)
-        const resetLink = `${process.env.FRONTEND_URL}/forgotPassword?token=${resetToken}`;
+        const resetLink = `${process.env.FRONTEND_URL}/user-pages/resetpassword?token=${resetToken}`;
 
         // Email content
         const mailOptions = {
@@ -279,6 +288,11 @@ const resetPassword = async (req, res) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
+        }
+
+        const passwordError = isPasswordValid(newPassword);
+        if (passwordError) {
+            return res.status(400).json({ message: passwordError });
         }
 
         // Update the user's password

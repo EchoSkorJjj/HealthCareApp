@@ -11,6 +11,7 @@ router.post('/refresh', userController.refreshAccessToken);
 // Get all users route (requires admin privileges)
 router.get('/getAll', isAdminMiddleware, userController.getAllUsers);
 router.delete('/delete/:username', isJWTMiddleware, userController.deleteUser);
+// Route for reset password
 router.patch('/updatePassword', isJWTMiddleware, userController.updatePassword);
 router.post('/requestPasswordReset', userController.requestPasswordReset);
 router.patch('/resetPassword', userController.resetPassword);

@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
       Cookies.set('accessTokenExpiration', expirationDate);
       setAccessToken(token1);
       setRefreshToken(token2);
+      console.log("login success");
     } else {
       const expirationMinutes = 60;
       const expirationDate = new Date();

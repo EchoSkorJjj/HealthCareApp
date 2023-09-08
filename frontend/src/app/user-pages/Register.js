@@ -27,7 +27,7 @@ export default function Register() {
 
     function updateForm(value) {
         return setForm((prev) => {
-            return {...prev, ...value}; // update previous value with new value
+            return {...prev, ...value}; 
         });
     }
 
@@ -47,7 +47,6 @@ export default function Register() {
           return;
         }
         
-        // When a post request is sent to the create url, we'll add a new record to the database.
         const newUser = { ...registerForm };
         
         try {
@@ -65,10 +64,10 @@ export default function Register() {
             } else {
               try {
                 const errorResponse = await response.json();
-                const errorMessage = errorResponse.message; // Assuming the error message is stored in a "message" field
+                const errorMessage = errorResponse.message; 
                 window.alert(`Registration failed: ${errorMessage}`);
               } catch (error) {
-                window.alert("An error occurred while registering."); // Fallback if unable to parse error response
+                window.alert("An error occurred while registering."); 
               }
             }
         }  catch(error) {
