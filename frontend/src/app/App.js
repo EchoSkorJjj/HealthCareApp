@@ -9,7 +9,7 @@ import { AuthProvider } from '../contexts/AuthContext';
 import Register from './user-pages/Register';
 import Login from './user-pages/Login';
 import NavBar from './shared/NavBar';
-import ForgotPass from './user-pages/ForgotPass';
+import ForgotPassword from './user-pages/forgotPassword';
 import NutritionAnalyzer from './nutrition/NutritionAnalyzer';
 import SearchBar from './recipe/SearchBar';
 import RecipeList from './recipe/RecipeList';
@@ -30,6 +30,7 @@ function App() {
     <Routes>
       <Route path="/user-pages/register" element={<Register />} />
       <Route path="/user-pages/login" element={<Login />} />
+      <Route path="/user-pages/forgotpassword" element={<ForgotPassword/>} />
       <Route path="/nutrition/nutritionanalyzer" element={<NutritionAnalyzer />} />
       <Route path="/recipe" element={
         <>

@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'healthportalpro@gmail.com',
-      pass: 'Abcd@1234'
+      pass: 'gbemtnsldihqgpqy'
     }
   });
 
