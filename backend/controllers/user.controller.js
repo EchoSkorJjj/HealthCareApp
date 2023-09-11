@@ -1,22 +1,6 @@
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
-const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer'); // You'll need to set up nodemailer for sending emails
-
-// Helper function to generate access token
-const generateAccessToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '15m' });
-};
-
-// Helper function to generate refresh token
-const generateRefreshToken = (userId, expiresIn) => {
-    return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn });
-};
-
-// Helper function to generate a session token
-const generateSessionToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SESSION_SECRET, { expiresIn: '60m' }); // Adjust the expiration time as needed
-};
 
 // Check if password is valid
 function isPasswordValid(password) {
@@ -129,15 +113,20 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
+        // Set session variable based on cookieConsent
         if (cookieConsent === 'accepted') {
-            const refreshTokenExpiresIn = rememberMe ? '30d' : '7d';
-        
-            const accessToken = generateAccessToken(user._id);
-            const refreshToken = generateRefreshToken(user._id, refreshTokenExpiresIn);
-            res.status(200).json({ accessToken, refreshToken });
+          
+            // store user information in session, typically a user id
+            req.session.user = user._id
+            res.status(200).json({ message: 'Login successful' });
         } else if (cookieConsent === 'rejected') {
-            const sessionToken = generateSessionToken(user._id);
-            res.status(200).json({ sessionToken });
+            // Handle the session for rejected cookies here
+            // You can create a sessionToken if needed
+            // You can also set session variables here
+            // For example, req.session.someVariable = someValue;
+            // Set session expiration if required
+            // Optionally, you can create a sessionToken
+            res.status(200).json({ message: 'Login successful without cookies' });
         } else {
             res.status(400).json({ message: 'Invalid or missing cookieConsent' });
         }
@@ -146,26 +135,23 @@ const loginUser = async (req, res) => {
     }
 };
 
-// Function to refresh access token
-const refreshAccessToken = async (req, res) => {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-        return res.status(401).json({ message: 'Refresh token missing' });
-    }
-
+// Function to handle user logout
+const logoutUser = (req, res) => {
     try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-        const userId = decoded.userId;
-
-        const accessToken = generateAccessToken(userId);
-
-        res.status(200).json({ accessToken });
-    } catch (error) {
-        res.status(403).json({ message: 'Invalid refresh token' });
-    }
+        // Clear the session data
+        req.session.destroy(function (err) {
+          if (err) {
+            console.log('Error destroying session:', err);
+          }
+          // Clear the session cookie
+          res.clearCookie('sid', {expires: new Date(1), path:'/'});
+          res.status(200).json({ message: 'Logout successful' });
+        });
+      } catch (error) {
+        res.status(500).json({ message: 'Error logging out' });
+      }
 };
-
+  
 // Function to get all users (requires admin privileges)
 const getAllUsers = async (req, res) => {
     try {
@@ -308,10 +294,10 @@ const resetPassword = async (req, res) => {
 module.exports = {
     createNewUser,
     loginUser,
-    refreshAccessToken,
+    logoutUser,
     getAllUsers,
     deleteUser,
     updatePassword,
     requestPasswordReset,
-    resetPassword
+    resetPassword,
 };

@@ -1,15 +1,40 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import React, { useState, useEffect } from 'react';
+import { Nav, Navbar, NavDropdown, Container, Form, Offcanvas, Button, Modal } from 'react-bootstrap';  
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function NavBar() {
+export default function NavBar({ isAuthenticated }) {
+  const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  async function handleLogout() {
+    try {
+      const response = await fetch('http://localhost:3500/api/account/logout', {
+        method: 'GET',
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
+        setAuthenticated(false);
+        console.log('Logged out successfully');
+        navigate('/user-pages/login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAuthenticated(true);
+    }
+  }, [isAuthenticated]);
+  
+  
   return (
     <>
       {['lg'].map((expand) => (
@@ -38,12 +63,34 @@ export default function NavBar() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/home">Home</Nav.Link>
+                  <Nav.Link href="/user-pages/home">Home</Nav.Link>
                   <Nav.Link href="/nutrition/nutritionanalyzer">Nutrition Analyzer</Nav.Link>
                   <Nav.Link href="/recipe">Recipe Search</Nav.Link>
                   <Nav.Link href="/support">Support</Nav.Link>
-                  <Nav.Link href="/user-pages/login">Log In</Nav.Link>
-                  <Nav.Link href="/user-pages/register">Sign Up</Nav.Link>
+                  {authenticated ? (
+                    <>
+                      <Nav.Link onClick={() => setShowLogoutModal(true)}>Log Out</Nav.Link>
+                      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Confirm Logout</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Do you wish to log out?</Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+                            Cancel
+                          </Button>
+                          <Button variant="primary" onClick={handleLogout}>
+                            Yes, Log Out
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </>
+                  ) : (
+                    <>
+                      <Nav.Link href="/user-pages/login">Log In</Nav.Link>
+                      <Nav.Link href="/user-pages/register">Sign Up</Nav.Link>
+                    </>
+                  )}
                   <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

@@ -9,11 +9,9 @@ import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 
-export default function Login() {
+export default function Login({onLogin}) {
     const navigate = useNavigate();
-    const { login } = useAuth();
 
     const [iconClicked, setIconClicked] = useState({
       passIcon: false
@@ -62,17 +60,13 @@ export default function Login() {
                 ...loginUser,
                 cookieConsent: localStorage.getItem('cookieConsent'),
               }),
+              credentials: 'include',
             });
 
             if (response.ok) {
-              const { accessToken, refreshToken, sessionToken } = await response.json();
-              if (accessToken && refreshToken) {
-                login(accessToken, refreshToken);
-              } else if (sessionToken) {
-                login(sessionToken);
-              } 
+              onLogin();
               setForm({ usernameOrEmail: "", password: "" });
-              navigate("/");
+              navigate("/user-pages/dashboard");
             } else {
               try {
                 const errorResponse = await response.json();

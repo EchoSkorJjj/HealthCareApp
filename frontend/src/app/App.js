@@ -5,32 +5,36 @@ import React, { useState } from 'react';
 import { Route, Routes} from "react-router-dom";
 
 // We import all the components we need in our app
-import { AuthProvider } from '../contexts/AuthContext';
 import Register from './user-pages/Register';
 import Login from './user-pages/Login';
 import NavBar from './shared/NavBar';
+import Dashboard from './dashboard/Dashboard';
 import ForgotPassword from './user-pages/ForgotPassword';
 import NutritionAnalyzer from './nutrition/NutritionAnalyzer';
 import SearchBar from './recipe/SearchBar';
 import RecipeList from './recipe/RecipeList';
 import CookieConsent from './cookies/CookieConsent';
-import RefreshToken from '../middleware/RefreshToken';
 import ResetPassword from './user-pages/ResetPassword';
 
 function App() {
+  const [isAuthenticated, setAuthenticated] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const handleLogin = () => {
+    setAuthenticated(true);
+  };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
 
   return (
-  <AuthProvider>
-    <RefreshToken />
-    <NavBar />
+    <>
+    <NavBar isAuthenticated={isAuthenticated}/>
     <Routes>
       <Route path="/user-pages/register" element={<Register />} />
-      <Route path="/user-pages/login" element={<Login />} />
+      <Route path="/user-pages/login" element={<Login onLogin={handleLogin}/>} />
+      <Route path="/user-pages/dashboard" element={<Dashboard />} />
       <Route path="/user-pages/forgotpassword" element={<ForgotPassword/>} />
       <Route path="/nutrition/nutritionanalyzer" element={<NutritionAnalyzer />} />
       <Route path="/user-pages/resetpassword" element={<ResetPassword/>} />
@@ -42,7 +46,7 @@ function App() {
       } />
     </Routes>
     <CookieConsent onAcceptCookies={() => {}} />
-  </AuthProvider>
+    </>
 
   );
 }

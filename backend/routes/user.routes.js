@@ -2,17 +2,23 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 const isAdminMiddleware = require('../middlewares/adminMiddleware');
-const isJWTMiddleware = require('../middlewares/jwtMiddleware');
+const isSessionMiddleware = require('../middlewares/sessionMiddleware');
+const isAuthMiddleware = require('../middlewares/authMiddleware');
+
+router.use(isSessionMiddleware);
 
 // Route for creating a new user
 router.post('/register', userController.createNewUser);
 router.post('/login', userController.loginUser);
-router.post('/refresh', userController.refreshAccessToken);
+router.get('/logout', userController.logoutUser);
+
+// router.get('/protected', userController.protectedRoute);
+  
 // Get all users route (requires admin privileges)
 router.get('/getAll', isAdminMiddleware, userController.getAllUsers);
-router.delete('/delete/:username', isJWTMiddleware, userController.deleteUser);
+router.delete('/delete/:username', isAdminMiddleware, userController.deleteUser);
 // Route for reset password
-router.patch('/updatePassword', isJWTMiddleware, userController.updatePassword);
+router.patch('/updatePassword', isAdminMiddleware , userController.updatePassword);
 router.post('/requestPasswordReset', userController.requestPasswordReset);
 router.patch('/resetPassword', userController.resetPassword);
 
