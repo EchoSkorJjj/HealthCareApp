@@ -96,7 +96,7 @@ const createNewUser = async (req, res) => {
 
 // Function to handle user login
 const loginUser = async (req, res) => {
-    const { usernameOrEmail, password, rememberMe, cookieConsent } = req.body; 
+    const { usernameOrEmail, password, rememberMe} = req.body; 
     try {
         // Find user by username or email
         const user = await User.findOne({
@@ -112,24 +112,16 @@ const loginUser = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-
-        // Set session variable based on cookieConsent
-        if (cookieConsent === 'accepted') {
-          
-            // store user information in session, typically a user id
-            req.session.user = user._id
-            res.status(200).json({ message: 'Login successful' });
-        } else if (cookieConsent === 'rejected') {
-            // Handle the session for rejected cookies here
-            // You can create a sessionToken if needed
-            // You can also set session variables here
-            // For example, req.session.someVariable = someValue;
-            // Set session expiration if required
-            // Optionally, you can create a sessionToken
-            res.status(200).json({ message: 'Login successful without cookies' });
+        // store user information in session, typically a user id
+        req.session.user = user._id
+        if (rememberMe) {
+            // Set cookie to expire in 30 days
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
         } else {
-            res.status(400).json({ message: 'Invalid or missing cookieConsent' });
+            // Set cookie to expire at end of session
+            req.session.cookie.expires = false;
         }
+        res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

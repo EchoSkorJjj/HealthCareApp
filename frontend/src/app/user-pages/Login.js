@@ -58,7 +58,6 @@ export default function Login({onLogin}) {
               },
               body: JSON.stringify({
                 ...loginUser,
-                cookieConsent: localStorage.getItem('cookieConsent'),
               }),
               credentials: 'include',
             });

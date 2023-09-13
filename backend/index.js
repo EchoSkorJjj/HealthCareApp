@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./config/swaggerConfig')
 
 require('dotenv').config();
 const mongoString = process.env.DATABASE_URL
@@ -12,7 +14,15 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-// app.use(express.urlencoded({ extended: true }));
+app.use('/api/account', require('./routes/user.routes'));
+
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpecs)
+);
+
+app.use(express.urlencoded({ extended: true }));
 //serving public file
 app.use(express.static(__dirname));
 
@@ -32,4 +42,4 @@ database.once('connected', () => {
     console.log('Database Connected');
 })
 
-app.use('/api/account', require('./routes/user.routes'));
+

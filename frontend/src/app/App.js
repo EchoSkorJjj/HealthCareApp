@@ -8,12 +8,13 @@ import { Route, Routes} from "react-router-dom";
 import Register from './user-pages/Register';
 import Login from './user-pages/Login';
 import NavBar from './shared/NavBar';
+import Home from './home/Home';
 import Dashboard from './dashboard/Dashboard';
+import AdminDashboard from './dashboard/AdminDashboard';
 import ForgotPassword from './user-pages/ForgotPassword';
 import NutritionAnalyzer from './nutrition/NutritionAnalyzer';
 import SearchBar from './recipe/SearchBar';
 import RecipeList from './recipe/RecipeList';
-import CookieConsent from './cookies/CookieConsent';
 import ResetPassword from './user-pages/ResetPassword';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <Routes>
       <Route path="/user-pages/register" element={<Register />} />
       <Route path="/user-pages/login" element={<Login onLogin={handleLogin}/>} />
+      <Route path="/user-pages/home" element={<Home />} />
       <Route path="/user-pages/dashboard" element={<Dashboard />} />
       <Route path="/user-pages/forgotpassword" element={<ForgotPassword/>} />
       <Route path="/nutrition/nutritionanalyzer" element={<NutritionAnalyzer />} />
@@ -45,7 +47,6 @@ function App() {
         </>
       } />
     </Routes>
-    <CookieConsent onAcceptCookies={() => {}} />
     </>
 
   );
