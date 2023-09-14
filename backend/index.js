@@ -5,16 +5,16 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./config/swaggerConfig')
+const helmetConfig = require('./config/helmetConfig.js');
 
 require('dotenv').config();
 const mongoString = process.env.DATABASE_URL
 
 const app = express();
 
+app.use(helmetConfig);
 app.use(cors(corsOptions));
 app.use(cookieParser());
-
-app.use('/api/account', require('./routes/user.routes'));
 
 app.use(
     '/api-docs',
@@ -42,4 +42,4 @@ database.once('connected', () => {
     console.log('Database Connected');
 })
 
-
+app.use('/api/account', require('./routes/user.routes'));

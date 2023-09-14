@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
+- [Pre-requisites](#pre-requisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
@@ -12,16 +13,18 @@
 ## Introduction
 Brief overview of the healthcare app and its purpose.
 
+## Pre-requisites
+1. Docker
+2. Docker Compose
+3. Make
+
 ## Installation
-1. Clone the repository.
-```
-gh repo clone HelloTech69/HealthCareApp
-```
-2. Install Dependencies.
-```
-cd frontend
-npm install bootstrap && react-router-dom
-```
+1. For Ubuntu
+2. For Windows
+
+### Installing Make on Ubuntu
+
+### Installing Make on Windows
 
 
 ## Usage
