@@ -5,6 +5,8 @@ services:
       context: ./frontend  # The path to your frontend Dockerfile and code
     ports:
       - "3000:3000"
+    environment:
+      NODE_ENV: production
     depends_on:
       - backend  # Make sure the frontend waits for the backend to be ready
 
@@ -14,6 +16,7 @@ services:
     ports:
       - "3500:3500"
     environment:
+      NODE_ENV: production
       MONGO_URI: mongodb://mongo:27017/HealthCareDB
     depends_on:
       - mongo
@@ -22,4 +25,3 @@ services:
     image: mongo
     ports:
       - "27017:27017"
-
