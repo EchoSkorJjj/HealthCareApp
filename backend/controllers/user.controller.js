@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const nodemailer = require('nodemailer'); // You'll need to set up nodemailer for sending emails
+const jwt = require('jsonwebtoken');
 
 // Check if password is valid
 function isPasswordValid(password) {

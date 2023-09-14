@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./frontend  # The path to your frontend Dockerfile and code
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend  # Make sure the frontend waits for the backend to be ready
+
+  backend:
+    build:
+      context: ./backend  # Updated path to the backend Dockerfile and code
+    ports:
+      - "3500:3500"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/HealthCareDB
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+

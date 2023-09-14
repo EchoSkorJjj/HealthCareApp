@@ -62,6 +62,7 @@ export default function ResetPassword() {
 
             if (response.ok) {
                 setForm({newPassword: "", token: ""})
+                window.alert("Password reset successful.");
                 navigate("/user-pages/login");
             } else {
                 try {
