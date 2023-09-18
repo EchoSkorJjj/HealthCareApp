@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {useState, useCallback} from "react";
 import Form from 'react-bootstrap/Form';
 import '../../assets/styles/Register.css'
 import Container from 'react-bootstrap/Container';
@@ -8,9 +9,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { LOGGED_IN_KEY, useLocalStorage } from '../../features/localStorage'
 
-export default function Login({onLogin}) {
+export default function Login() {
+    const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
     const navigate = useNavigate();
 
     const [iconClicked, setIconClicked] = useState({
@@ -38,6 +41,10 @@ export default function Login({onLogin}) {
         });
     }
 
+    const login = useCallback(() => {
+      setIsAuthenticated(true);
+    }, [setIsAuthenticated]);
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -63,9 +70,9 @@ export default function Login({onLogin}) {
             });
 
             if (response.ok) {
-              onLogin();
+              login();
               setForm({ usernameOrEmail: "", password: "" });
-              navigate("/user-pages/dashboard");
+              navigate("/home");
             } else {
               try {
                 const errorResponse = await response.json();
@@ -157,7 +164,7 @@ export default function Login({onLogin}) {
             <Form.Check label="Remember me" onChange={() => setSignedIn(!keepSignedIn)} />
             </Col>
             <Col sm={{ span: 4, offset: 2 }} className="text-end">
-            <Link to='/user-pages/forgotpassword' className="auth-link text-black">Forgot password?
+            <Link to='/forgotpassword' className="auth-link text-black">Forgot password?
             </Link>
             </Col>
         </Form.Group>
@@ -167,7 +174,7 @@ export default function Login({onLogin}) {
         </Col>
         </Form.Group>
         <div className="text-center font-weight-light mt-5">
-            Don't have an account? <Link to="/user-pages/register" className="text-primary">Create</Link>
+            Don't have an account? <Link to="/register" className="text-primary">Create</Link>
         </div>
       </Form>
       </Container>

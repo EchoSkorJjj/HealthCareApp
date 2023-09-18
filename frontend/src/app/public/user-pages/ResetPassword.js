@@ -1,3 +1,5 @@
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -63,7 +65,7 @@ export default function ResetPassword() {
             if (response.ok) {
                 setForm({newPassword: "", token: ""})
                 window.alert("Password reset successful.");
-                navigate("/user-pages/login");
+                navigate("/login");
             } else {
                 try {
                   const errorResponse = await response.json();

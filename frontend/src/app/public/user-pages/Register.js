@@ -1,3 +1,5 @@
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
@@ -61,7 +63,7 @@ export default function Register() {
 
             if (response.ok) {
               setForm({ username: "", fullname: "", email: "" , passwordHash: ""});
-              navigate("/user-pages/login");
+              navigate("/login");
             } else {
               try {
                 const errorResponse = await response.json();
@@ -218,7 +220,7 @@ export default function Register() {
         <Button size="lg" type="submit">Sign Up</Button>
         </Col>
         <div className="text-center font-weight-light mt-5">
-            Already have an account? <Link to="/user-pages/login" className="text-primary">Sign In</Link>
+            Already have an account? <Link to="/login" className="text-primary">Sign In</Link>
         </div>
       </Form>
       </Container>

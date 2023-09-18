@@ -47,6 +47,8 @@ router.post('/login', userController.loginUser);
  */
 router.get('/logout', userController.logoutUser);
 
+router.get('/check-auth', isAuthMiddleware);  
+
 
 
 /**

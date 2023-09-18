@@ -1,3 +1,5 @@
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -6,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { Link } from 'react-router-dom';
 
 export default function ForgotPassword() {
 
@@ -94,6 +97,12 @@ export default function ForgotPassword() {
                     </FloatingLabel>
                 </InputGroup>
                 </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3" controlId="formHorizontalCheck">
+                    <Col sm={{ span: 4, offset: 1 }} className="text-center">
+                    <Link to='/login' className="text-primary">Back to Log In?
+                    </Link>
+                    </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }} className="text-center d-grid">
