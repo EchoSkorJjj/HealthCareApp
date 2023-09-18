@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/styles/RecipeCard.css';
+import '../../../assets/styles/RecipeCard.css';
 import RecipeDetail from './RecipeDetail';
 
 export default function RecipeList({ searchQuery }) {

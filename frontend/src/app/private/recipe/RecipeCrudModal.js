@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import '../../assets/styles/RecipeCard.css'; // Import your CSS file
+import '../../../assets/styles/RecipeCard.css'; // Import your CSS file
 
 Modal.setAppElement('#root'); // Set the root element for accessibility
 

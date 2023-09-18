@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../assets/styles/RecipeCard.css';
+import '../../../assets/styles/RecipeCard.css';
 import RecipeCrudModal from './RecipeCrudModal'; // Import your modal component
 
 export default function RecipeDetail({ recipe, setSelectedRecipe }) {

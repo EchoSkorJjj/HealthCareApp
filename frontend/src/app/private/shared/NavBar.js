@@ -1,11 +1,11 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../assets/styles/Navbar.css';
+import '../../../assets/styles/Navbar.css';
 import { useNavigate} from 'react-router-dom'
 import React, { useState, useEffect, useCallback } from 'react';
 import { Nav, Navbar, NavDropdown, Container, Form } from 'react-bootstrap';  
 import { Offcanvas, Button, Modal, Row, Col, Badge, OverlayTrigger, Tooltip} from 'react-bootstrap';  
-import { LOGGED_IN_KEY, useLocalStorage } from '../../features/localStorage'
+import { LOGGED_IN_KEY, useLocalStorage } from '../../../features/localStorage'
 
 export default function NavBar() {
   const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
@@ -47,7 +47,7 @@ export default function NavBar() {
           <Navbar.Brand href="#">
             <img
               alt=""
-              src={require('../../assets/images/logo.png')}
+              src={require('../../../assets/images/logo.png')}
               width="70"
               height="70"
               className="d-inline-block align-top"

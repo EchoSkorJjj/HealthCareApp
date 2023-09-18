@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
-import '../../assets/styles/Register.css'
+import '../../../assets/styles/Register.css'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -82,7 +82,7 @@ export default function Register() {
       <Container fluid className="col-lg-5 mt-5">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
         <Form.Group as={Row} className="mb-3">
-          <Form.Label className="text-center fw-bold fs-3">Registration</Form.Label>
+          <Form.Label className="text-center fw-bold fs-3 text-primary">Registration</Form.Label>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm={2}>Username</Form.Label>

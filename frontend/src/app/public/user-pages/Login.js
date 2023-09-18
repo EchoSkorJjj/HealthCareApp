@@ -2,7 +2,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useCallback} from "react";
 import Form from 'react-bootstrap/Form';
-import '../../assets/styles/Register.css'
+import '../../../assets/styles/Register.css'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOGGED_IN_KEY, useLocalStorage } from '../../features/localStorage'
+import { LOGGED_IN_KEY, useLocalStorage } from '../../../features/localStorage'
 
 export default function Login() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
@@ -91,7 +91,7 @@ export default function Login() {
     <Container fluid className="col-lg-5 mt-5">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
         <Form.Group as={Row} className="mb-3">
-          <Form.Label className="text-center fw-bold fs-3">Log In</Form.Label>
+          <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm={2}>Username</Form.Label>

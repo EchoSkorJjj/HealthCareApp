@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../assets/styles/NutritionAnalyzer.css';
+import '../../../assets/styles/NutritionAnalyzer.css';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
