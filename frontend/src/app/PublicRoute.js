@@ -4,10 +4,10 @@ import { ROOT_ROUTE } from '../constants/routes';
 import { useAuth } from '../features/auth';
 
 export const PublicRoute = ({strict}) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isGoogleAuthenticated } = useAuth();
 
   return (
-    isAuthenticated && strict ? (
+    (isAuthenticated || isGoogleAuthenticated ) && strict ? (
       <Navigate
         to={ROOT_ROUTE}
       />

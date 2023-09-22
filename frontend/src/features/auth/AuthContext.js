@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { LOGGED_IN_KEY, useLocalStorage } from '../localStorage';
+import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, useLocalStorage } from '../localStorage';
 
 const AuthContext = createContext();
 
@@ -19,9 +19,10 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
   const [isAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
+  const [isGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
 
   return {
     isAuthenticated,
+    isGoogleAuthenticated,
   };
 };
-

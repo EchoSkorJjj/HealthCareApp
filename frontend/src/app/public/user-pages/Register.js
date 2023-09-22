@@ -99,7 +99,7 @@ export default function Register() {
                 required
                 onChange={(e) => updateForm({username: e.target.value})}
               />
-              <div className="input-icon mt-3">
+              <div className="input-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
@@ -127,7 +127,7 @@ export default function Register() {
                 required
                 onChange={(e) => updateForm({fullname: e.target.value})}
               />
-              <div className="input-icon mt-3">
+              <div className="input-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
@@ -155,7 +155,7 @@ export default function Register() {
                   required
                   onChange={(e) => updateForm({email: e.target.value})}
                 />
-                <div className="input-icon mt-3">
+                <div className="input-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
                       <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
                   </svg>
@@ -183,7 +183,7 @@ export default function Register() {
                 placeholder="Password"
                 onChange={(e) => updateForm({passwordHash: e.target.value})}
               />
-              <div className="input-icon mt-3" onClick={togglePassVisibility}>
+              <div className="input-icon" onClick={togglePassVisibility}>
                 {iconClicked.passIcon && (
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-eye-slash" viewBox="0 0 16 16">
                         <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
@@ -216,7 +216,7 @@ export default function Register() {
           />
           </Col>
         </Form.Group>
-        <Col sm={{ span: 10, offset: 2 }} className="text-center d-grid">
+        <Col className="text-center d-grid">
         <Button size="lg" type="submit">Sign Up</Button>
         </Col>
         <div className="text-center font-weight-light mt-5">

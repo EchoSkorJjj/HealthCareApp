@@ -128,15 +128,12 @@ const loginUser = async (req, res) => {
     }
 };
 
-// Function to handle user logout
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
     try {
-        // Clear the session data
         req.session.destroy(function (err) {
           if (err) {
             console.log('Error destroying session:', err);
           }
-          // Clear the session cookie
           res.clearCookie('sid', {expires: new Date(1), path:'/'});
           res.status(200).json({ message: 'Logout successful' });
         });
@@ -187,7 +184,7 @@ const deleteUser = async (req, res) => {
 
 const updatePassword = async (req,res) => {
     try {
-        const userId = req.userId; // User ID from verified token
+        const userId = req.userId;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -195,13 +192,10 @@ const updatePassword = async (req,res) => {
         }
         const { currentPassword, newPassword} = req.body;
 
-        // Check if the provided current password matches the user's actual password
         const passwordMatch = await user.comparePassword(currentPassword);
         if (!passwordMatch) {
             return res.status(401).json({ message: 'Current password is incorrect' });
         }
-
-        // Update the user's password
         user.passwordHash = newPassword;
         await user.save();
 
@@ -238,7 +232,6 @@ const requestPasswordReset = async (req,res) => {
             text: `Click the following link to reset your password: ${resetLink}`
           };
 
-        // Send the email
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               console.log(error);
@@ -274,7 +267,6 @@ const resetPassword = async (req, res) => {
             return res.status(400).json({ message: passwordError });
         }
 
-        // Update the user's password
         user.passwordHash = newPassword;
         await user.save();
 

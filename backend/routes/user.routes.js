@@ -45,7 +45,7 @@ router.post('/login', userController.loginUser);
  *       200:
  *         description: User logged out successfully.
  */
-router.get('/logout', userController.logoutUser);
+router.post('/logout', userController.logoutUser);
 
 router.get('/check-auth', isAuthMiddleware);  
 

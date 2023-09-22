@@ -3,10 +3,10 @@ import { LOGIN_ROUTE } from '../constants/routes';
 import { useAuth } from '../features/auth';
 
 export const PrivateRoute = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isGoogleAuthenticated } = useAuth();
 
   return (
-    isAuthenticated ? (
+    (isAuthenticated || isGoogleAuthenticated) ? (
       <Outlet/>
     ) : (
       <Navigate

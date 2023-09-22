@@ -2,13 +2,17 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/styles/Navbar.css';
 import { useNavigate} from 'react-router-dom'
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Nav, Navbar, NavDropdown, Container, Form } from 'react-bootstrap';  
 import { Offcanvas, Button, Modal, Row, Col, Badge, OverlayTrigger, Tooltip} from 'react-bootstrap';  
-import { LOGGED_IN_KEY, useLocalStorage } from '../../../features/localStorage'
+import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
+import { useAuth } from '../../../features/auth';
 
 export default function NavBar() {
   const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
+  const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
+  const { isAuthenticated, isGoogleAuthenticated } = useAuth();
+
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
@@ -17,28 +21,34 @@ export default function NavBar() {
     setShowProfileDropdown(!showProfileDropdown);
   };
 
+  const googleLogout = useCallback(() => {
+    setIsGoogleAuthenticated(undefined);
+  }, [setIsGoogleAuthenticated]);
+
   const logout = useCallback(() => {
     setIsAuthenticated(undefined);
   }, [setIsAuthenticated]);
 
+
   async function handleLogout() {
-    try {
-      const response = await fetch('http://localhost:3500/api/account/logout', {
-        method: 'GET',
-        credentials: 'include',
-      });
-  
-      if (response.ok) {
+    const response = await fetch('http://localhost:3500/api/account/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      if (isGoogleAuthenticated) {  
+        googleLogout();
+      } 
+      if (isAuthenticated) {
         logout();
-        console.log('Logged out successfully');
-        navigate('/login')
-      } else {
-        console.error('Logout failed');
       }
-    } catch (error) {
-      console.error('Error during logout:', error);
+      console.log('Logged out successfully');
+      navigate('/login')
+    } else {
+      console.error('Logout failed');
     }
-  }
+  } 
+  
 
   return (
     <>

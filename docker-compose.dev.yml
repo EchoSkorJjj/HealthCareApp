@@ -2,7 +2,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend  # The path to your frontend Dockerfile and code
+      context: ./frontend
     ports:
       - "3000:3000"
     environment:
@@ -10,10 +10,18 @@ services:
       REACT_APP_BACKEND_URL: http://localhost:3500
     depends_on:
       - backend  # Make sure the frontend waits for the backend to be ready
+  # healthcheck for frontend service in docker after checking if backend is up and running
+  # if not, it will wait for 30 seconds and try again
+  # if it fails, it will stop the container
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3500"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
 
   backend:
     build:
-      context: ./backend  # Updated path to the backend Dockerfile and code
+      context: ./backend 
     ports:
       - "3500:3500"
     environment:
@@ -21,8 +29,26 @@ services:
       MONGO_URI: mongodb://mongo:27017/HealthCareDB
     depends_on:
       - mongo
+# depends on service healthy
+# check if mongo is up and running (healthy inside docker)
+# if not, it will wait for 30 seconds and try again
+# if it fails, it will stop the container
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
 
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+# depends on service healthy
+# check if mongo is up and running
+# if not, it will wait for 30 seconds and try again
+# if it fails, it will stop the container
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3

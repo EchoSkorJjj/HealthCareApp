@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useCallback} from "react";
 import Form from 'react-bootstrap/Form';
 import '../../../assets/styles/Register.css'
+import '../../../assets/styles/Login.css'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -10,10 +11,15 @@ import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOGGED_IN_KEY, useLocalStorage } from '../../../features/localStorage'
+import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
+import { useGoogleLogin } from '@react-oauth/google';
+import GoogleButton from 'react-google-button';
+import axios from 'axios';
 
 export default function Login() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
+    const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
+    
     const navigate = useNavigate();
 
     const [iconClicked, setIconClicked] = useState({
@@ -41,6 +47,34 @@ export default function Login() {
         });
     }
 
+    const googleLogin = useCallback(() => {
+      setIsGoogleAuthenticated(true);
+    }, [setIsGoogleAuthenticated]);
+
+    const googleAuth = useGoogleLogin({
+      onSuccess: async ({ code }) => {
+        try {
+          const response = await axios.post('http://localhost:3500/api/auth/google/callback', {
+            code,
+          }, {
+            withCredentials: true,
+          });
+          if (response.status === 200) {
+            googleLogin();
+            navigate("/home");
+          } else {
+            window.alert("Unexpected response status:", response.status);
+          }
+        } catch (error) {
+          window.alert("Error:", error);
+        }
+      },
+      onError: (error) => {
+        window.alert("Google Login Error:", error);
+      },
+      flow: 'auth-code',
+    });
+    
     const login = useCallback(() => {
       setIsAuthenticated(true);
     }, [setIsAuthenticated]);
@@ -88,8 +122,8 @@ export default function Login() {
     }
 
     return (
-    <Container fluid className="col-lg-5 mt-5">
-      <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
+    <Container fluid className="col-lg-5 mt-5 p-3 border border-primary">
+      <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3">
         <Form.Group as={Row} className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
         </Form.Group>
@@ -108,7 +142,7 @@ export default function Login() {
                 required
                 onChange={(e) => updateForm({usernameOrEmail: e.target.value})}
               />
-              <div className="input-icon mt-3">
+              <div className="input-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
@@ -136,7 +170,7 @@ export default function Login() {
                 placeholder="Password"
                 onChange={(e) => updateForm({password: e.target.value})}
               />
-              <div className="input-icon mt-3" onClick={togglePassVisibility}>
+              <div className="input-icon" onClick={togglePassVisibility}>
                 {iconClicked.passIcon && (
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-eye-slash" viewBox="0 0 16 16">
                         <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
@@ -169,14 +203,21 @@ export default function Login() {
             </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
-        <Col sm={{ span: 10, offset: 2 }} className="text-center d-grid">
-          <Button size="lg" type="submit">Sign in</Button>
-        </Col>
+          <Col className="text-center d-grid">
+            <Button size="lg" type="submit">Sign in</Button>
+          </Col>
         </Form.Group>
         <div className="text-center font-weight-light mt-5">
             Don't have an account? <Link to="/register" className="text-primary">Create</Link>
         </div>
+        <div className="text-center font-weight-light mt-3">
+          Or sign in with
+          <hr className="my-1" />
+        </div>
       </Form>
+      <div className="font-weight-light d-flex justify-content-center">
+        <GoogleButton onClick={() => googleAuth()} />
+      </div>
       </Container>
     )
 }

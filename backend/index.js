@@ -43,3 +43,4 @@ database.once('connected', () => {
 })
 
 app.use('/api/account', require('./routes/user.routes'));
+app.use('/api', require('./routes/auth.routes'));
