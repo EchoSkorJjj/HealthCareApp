@@ -28,7 +28,7 @@ export const useLocalStorage = (key, initialValue) => {
       setStoredValue(newValue);
       window.dispatchEvent(new Event(LOCAL_STORAGE_EVENT));
     } catch {
-      // Handle errors here
+      // handle errors here
     }
   };
 

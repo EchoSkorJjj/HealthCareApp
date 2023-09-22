@@ -1,6 +1,6 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect, useRef} from "react";
 import Form from 'react-bootstrap/Form';
 import '../../../assets/styles/Register.css'
 import '../../../assets/styles/Login.css'
@@ -11,14 +11,15 @@ import Row from 'react-bootstrap/Row';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
+import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
 import { useGoogleLogin } from '@react-oauth/google';
-import GoogleButton from 'react-google-button';
 import axios from 'axios';
+import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 export default function Login() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
     const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
+    const [, setIsGithubAuthenticated] = useLocalStorage(GITHUB_AUTH_KEY);
     
     const navigate = useNavigate();
 
@@ -74,6 +75,51 @@ export default function Login() {
       },
       flow: 'auth-code',
     });
+
+    const githubLogin = useCallback(() => {
+      setIsGithubAuthenticated(true);
+    }, [setIsGithubAuthenticated]);
+   
+    function initiateGitHubLogin() {
+      const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}`;
+      window.location.href = githubAuthUrl;
+    };  
+
+    const handleGitHubCallback = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get('code');
+  
+      if (code) {
+        try {
+          const response = await fetch('http://localhost:3500/api/auth/github/callback', {
+            method: 'POST',
+            body: JSON.stringify({ code }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+          });
+  
+          if (response.ok) {
+            githubLogin();
+            navigate("/home");
+          } else {
+            console.error('Error during GitHub token exchange:', response);
+          }
+        } catch (error) {
+          console.error('Error during GitHub token exchange:', error);
+        } 
+      }
+    };
+
+    // This is to prevent useEffect and handleGitHubCallback from being called twice.
+    const callGithub = useRef(true);
+    useEffect(() => {
+      if (callGithub.current) {
+        callGithub.current = false;
+        handleGitHubCallback();
+      }
+    }, []);  
     
     const login = useCallback(() => {
       setIsAuthenticated(true);
@@ -122,7 +168,7 @@ export default function Login() {
     }
 
     return (
-    <Container fluid className="col-lg-5 mt-5 p-3 border border-primary">
+    <Container fluid className="col-lg-5 col-md-10 col-sm-11 mt-5 p-3 border border-primary">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3">
         <Form.Group as={Row} className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
@@ -215,8 +261,11 @@ export default function Login() {
           <hr className="my-1" />
         </div>
       </Form>
-      <div className="font-weight-light d-flex justify-content-center">
-        <GoogleButton onClick={() => googleAuth()} />
+      <div className="font-weight-light mt-2 d-flex justify-content-center d-grid gap-2 col-6 mx-auto">
+        <GoogleLoginButton onClick={() => googleAuth()} />
+      </div>
+      <div className="font-weight-light mt-2 d-flex justify-content-center d-grid gap-2 col-6 mx-auto">
+        <GithubLoginButton onClick={initiateGitHubLogin} />
       </div>
       </Container>
     )

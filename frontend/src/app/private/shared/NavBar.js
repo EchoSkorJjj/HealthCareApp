@@ -5,13 +5,15 @@ import { useNavigate} from 'react-router-dom'
 import React, { useState, useCallback } from 'react';
 import { Nav, Navbar, NavDropdown, Container, Form } from 'react-bootstrap';  
 import { Offcanvas, Button, Modal, Row, Col, Badge, OverlayTrigger, Tooltip} from 'react-bootstrap';  
-import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
+import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
 import { useAuth } from '../../../features/auth';
 
 export default function NavBar() {
   const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
   const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
-  const { isAuthenticated, isGoogleAuthenticated } = useAuth();
+  const [, setIsGithubAuthenticated] = useLocalStorage(GITHUB_AUTH_KEY);
+
+  const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
 
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -24,6 +26,10 @@ export default function NavBar() {
   const googleLogout = useCallback(() => {
     setIsGoogleAuthenticated(undefined);
   }, [setIsGoogleAuthenticated]);
+
+  const githubLogout = useCallback(() => {
+    setIsGithubAuthenticated(undefined);
+  }, [setIsGithubAuthenticated]);
 
   const logout = useCallback(() => {
     setIsAuthenticated(undefined);
@@ -39,6 +45,9 @@ export default function NavBar() {
       if (isGoogleAuthenticated) {  
         googleLogout();
       } 
+      if (isGithubAuthenticated) {
+        githubLogout();
+      }
       if (isAuthenticated) {
         logout();
       }
