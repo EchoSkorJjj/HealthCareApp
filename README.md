@@ -99,7 +99,10 @@ Guidance on how to use the app effectively.
     - Description of feature 4
 
 ## API Documentation
-Explanation of the API endpoints and data structures.
+#### For viewing the API documentation, run the application and visit the following URL:
+```bash
+http://localhost:3500/api-docs
+```
 
 ## Contributing
 Guidelines for contributing to the project.

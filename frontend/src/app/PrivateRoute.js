@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { LOGIN_ROUTE } from '../constants/routes';
+import { HOME_ROUTE } from '../constants/routes';
 import { useAuth } from '../features/auth';
 
 export const PrivateRoute = () => {
@@ -10,7 +10,7 @@ export const PrivateRoute = () => {
       <Outlet/>
     ) : (
       <Navigate
-        to={LOGIN_ROUTE}
+        to={HOME_ROUTE}
       />
     )
   );

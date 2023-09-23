@@ -62,7 +62,7 @@ export default function Login() {
           });
           if (response.status === 200) {
             googleLogin();
-            navigate("/home");
+            navigate("/homepage");
           } else {
             window.alert("Unexpected response status:", response.status);
           }
@@ -102,7 +102,7 @@ export default function Login() {
   
           if (response.ok) {
             githubLogin();
-            navigate("/home");
+            navigate("/homepage");
           } else {
             console.error('Error during GitHub token exchange:', response);
           }
@@ -152,7 +152,7 @@ export default function Login() {
             if (response.ok) {
               login();
               setForm({ usernameOrEmail: "", password: "" });
-              navigate("/home");
+              navigate("/homepage");
             } else {
               try {
                 const errorResponse = await response.json();

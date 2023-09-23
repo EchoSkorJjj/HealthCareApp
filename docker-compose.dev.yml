@@ -9,7 +9,10 @@ services:
       NODE_ENV: development
       REACT_APP_BACKEND_URL: http://localhost:3500
     depends_on:
-      - backend  # Make sure the frontend waits for the backend to be ready
+      - backend
+    dns:   # Add custom DNS resolver for frontend service
+      - 8.8.8.8  
+  # Make sure the frontend waits for the backend to be ready
   # healthcheck for frontend service in docker after checking if backend is up and running
   # if not, it will wait for 30 seconds and try again
   # if it fails, it will stop the container
@@ -29,6 +32,8 @@ services:
       MONGO_URI: mongodb://mongo:27017/HealthCareDB
     depends_on:
       - mongo
+    dns:   # Add custom DNS resolver for backend service
+      - 8.8.8.8
 # depends on service healthy
 # check if mongo is up and running (healthy inside docker)
 # if not, it will wait for 30 seconds and try again
@@ -43,6 +48,8 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+    dns:   # Add custom DNS resolver for backend service
+      - 8.8.8.8
 # depends on service healthy
 # check if mongo is up and running
 # if not, it will wait for 30 seconds and try again
