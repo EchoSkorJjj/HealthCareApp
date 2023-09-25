@@ -79,8 +79,8 @@ export default function Register() {
     }
 
     return (
-      <Container fluid className="col-lg-5 mt-5">
-      <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3 border border-primary">
+      <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto">
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Registration</Form.Label>
         </Form.Group>

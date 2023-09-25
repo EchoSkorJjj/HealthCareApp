@@ -1,1 +1,51 @@
-  
+.sticky-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+}
+
+.navbar {
+    padding-top:0% !important;
+}
+
+.footer-custom {
+    background-color: #e8e8b8;
+    color: white;
+    padding: 1rem 0;
+}
+
+.dropdown-toggle {
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: background-color 0.3s;
+    border-radius: 1rem;
+}
+
+.dropdown-toggle:hover {
+    background-color: gray;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.nav-link-custom {
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: background-color 0.3s;
+    border-radius: 1rem;
+}
+
+.nav-link-custom:hover {
+    background-color: gray;
+}
+
+.nav-link-custom.active {
+    background-color: gray !important;
+}

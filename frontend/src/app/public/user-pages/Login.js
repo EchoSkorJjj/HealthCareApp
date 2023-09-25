@@ -168,7 +168,7 @@ export default function Login() {
     }
 
     return (
-    <Container fluid className="col-lg-5 col-md-10 col-sm-11 mt-5 p-3 border border-primary">
+    <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3">
         <Form.Group as={Row} className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>

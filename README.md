@@ -78,15 +78,15 @@ Guidance on how to use the app effectively.
 
 ## Features
 
-1. **Feature 1**
-    - Description of feature 1
-    - Description of feature 1
-    - Description of feature 1
+1. **Nutrition Information**
+    - Access to a vast food database with detailed nutritional information through the Edamam API.
+    - Search for specific foods and retrieve comprehensive nutrition details.
+    - Create personalized meal plans and track daily nutritional intake.
 
-2. **Feature 2**
-    - Description of feature 2
-    - Description of feature 2
-    - Description of feature 2
+2. **Recipe Analysis**
+    - Utilize the Edamam API to analyze recipes based on their ingredients.
+    - Calculate calorie content, macronutrient breakdown, and other nutritional insights for recipes.
+    - Make informed dietary choices by understanding the nutritional value of your favorite dishes.
 
 3. **Feature 3**
     - Description of feature 3

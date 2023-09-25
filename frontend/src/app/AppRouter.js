@@ -38,13 +38,11 @@ export const AppRouter = () => {
   
     return (
       <Suspense fallback={<div>Loading...</div>}>
+        <div className="d-flex flex-column min-vh-100">
         <Header />
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
             <Route path={HOME_ROUTE} element={<Home />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/contact" element={<ContactUs />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
@@ -68,6 +66,7 @@ export const AppRouter = () => {
           <Route path="*" element={<div>404</div>} />
         </Routes>
         <Footer />
+        </div>
       </Suspense>
     );
   };
