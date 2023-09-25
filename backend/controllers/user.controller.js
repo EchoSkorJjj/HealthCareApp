@@ -276,6 +276,19 @@ const resetPassword = async (req, res) => {
     }
 };
 
+const getRecipes = async (req, res) => {
+    const {q : searchQuery} = req.query;
+    try {
+        const response = await fetch(
+            `https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${process.env.EDAMAM_RECIPE_APP_ID}&app_key=${process.env.EDAMAM_RECIPE_API_KEY}`
+        );
+        const data = await response.json();
+        res.status(200).json(data);
+    }  catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createNewUser,
     loginUser,
@@ -285,4 +298,5 @@ module.exports = {
     updatePassword,
     requestPasswordReset,
     resetPassword,
+    getRecipes,
 };

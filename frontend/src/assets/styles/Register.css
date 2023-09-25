@@ -5,6 +5,11 @@
   font-family:Arial, Helvetica, sans-serif;
 }
 
+/* .register-container {
+  flex-grow: 1;
+  overflow-y: auto;
+} */
+
 .input-icon {
   position: absolute;
   right: 0;

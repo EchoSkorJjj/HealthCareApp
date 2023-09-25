@@ -1,15 +1,8 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useCallback, useEffect, useRef} from "react";
-import Form from 'react-bootstrap/Form';
+import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
 import '../../../assets/styles/Register.css'
 import '../../../assets/styles/Login.css'
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link, useNavigate } from 'react-router-dom';
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
 import { useGoogleLogin } from '@react-oauth/google';
@@ -81,7 +74,7 @@ export default function Login() {
     }, [setIsGithubAuthenticated]);
    
     function initiateGitHubLogin() {
-      const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}`;
+      const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}`;
       window.location.href = githubAuthUrl;
     };  
 
@@ -168,15 +161,15 @@ export default function Login() {
     }
 
     return (
-    <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto">
+    <Container fluid className="col-lg-5 col-md-10 col-sm-11 py-5 mt-auto login-container">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3">
-        <Form.Group as={Row} className="mb-3">
+        <Form.Group className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Username</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Username</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
             <FloatingLabel
                 controlId="floatingInput"
                 label="Username"
@@ -193,18 +186,18 @@ export default function Login() {
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
              </div>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="text-start">
                 Please choose a username.
               </Form.Control.Feedback>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Password</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Password</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
             <FloatingLabel
               controlId="floatingPassword"
               label="Password"
@@ -231,22 +224,22 @@ export default function Login() {
                     </svg>
                 )}
               </div>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a password.
               </Form.Control.Feedback>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3" controlId="formHorizontalCheck">
-            <Col sm={{ span: 4, offset: 2 }}>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column" controlId="formHorizontalCheck">
+            <div className="p-2 flex-fill d-flex justify-content-start">
             <Form.Check label="Remember me" onChange={() => setSignedIn(!keepSignedIn)} />
-            </Col>
-            <Col sm={{ span: 4, offset: 2 }} className="text-end">
+            </div>
+            <div className="p-2 flex-fill d-flex justify-content-sm-end justify-content-start">
             <Link to='/forgotpassword' className="auth-link text-black">Forgot password?
             </Link>
-            </Col>
+            </div>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Col className="text-center d-grid">

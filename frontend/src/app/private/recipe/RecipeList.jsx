@@ -7,24 +7,22 @@ export default function RecipeList({ searchQuery }) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(true); // Declare and initialize showSearchBar state
-  const app_id = process.env.REACT_APP_EDAMAM_RECIPE_APP_ID
-  const app_key = process.env.REACT_APP_EDAMAM_RECIPE_API_KEY
 
   useEffect(() => {
     if (searchQuery) {
-      fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${app_id}&app_key=${app_key}`)
+      fetch(`http://localhost:3500/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.hits) {
-            console.log(data.hits); // Log the hits array to inspect the data
+          if (data.hits) { 
             setRecipes(data.hits);
             setSearchResults(data.hits);
-            setShowSearchBar(false); // Hide the search bar
+            setShowSearchBar(false);
           }
         })
         .catch((error) => console.error('Error fetching recipes:', error));
     }
   }, [searchQuery]);
+  
 
   const handleRecipeClick = (recipe) => {
     setSelectedRecipe(recipe);

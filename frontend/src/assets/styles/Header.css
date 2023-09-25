@@ -8,12 +8,12 @@
 
 .navbar {
     padding-top:0% !important;
+    padding-bottom:0% !important;
 }
 
-.footer-custom {
+.header-custom {
     background-color: #e8e8b8;
     color: white;
-    padding: 1rem 0;
 }
 
 .dropdown-toggle {

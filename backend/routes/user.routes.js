@@ -138,5 +138,7 @@ router.post('/requestPasswordReset', userController.requestPasswordReset);
  */
 router.patch('/resetPassword', userController.resetPassword);
 
+router.get('/getRecipes', userController.getRecipes);
+
 
 module.exports = router;

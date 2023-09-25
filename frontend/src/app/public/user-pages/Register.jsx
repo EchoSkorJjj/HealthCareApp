@@ -1,15 +1,8 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
+import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
 import '../../../assets/styles/Register.css'
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { Link } from 'react-router-dom';
 
 export default function Register() {
@@ -79,15 +72,15 @@ export default function Register() {
     }
 
     return (
-      <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto">
+      <Container fluid className="col-lg-5 col-md-10 col-sm-11 py-5 mt-auto register-container">
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group as={Row} className="mb-3">
+        <Form.Group className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Registration</Form.Label>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Username</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Username</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
             <FloatingLabel
                 controlId="floatingUsername"
                 label="Username"
@@ -104,18 +97,18 @@ export default function Register() {
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
              </div>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="text-start">
                 Please choose a username.
               </Form.Control.Feedback>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Fullname</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Fullname</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
             <FloatingLabel
                 controlId="floatingFullname"
                 label="Fullname"
@@ -132,18 +125,18 @@ export default function Register() {
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
               </div>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a fullname.
               </Form.Control.Feedback>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Email</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Email</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
               <FloatingLabel
                 controlId="floatingEmail"
                 label="Email address"
@@ -160,18 +153,18 @@ export default function Register() {
                       <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
                   </svg>
                 </div>
-                <Form.Control.Feedback type="invalid">
+                <Form.Control.Feedback type="invalid" className="text-start">
                   Please provide a valid email.
                 </Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm={2}>Password</Form.Label>
-          <Col sm={10}>
-          <InputGroup hasValidation>
+        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">Password</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
             <FloatingLabel
               controlId="floatingPassword"
               label="Password"
@@ -198,23 +191,23 @@ export default function Register() {
                     </svg>
                 )}
               </div>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a password.
               </Form.Control.Feedback>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
-          </Col>
+          </div>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Col sm={{ span: 6, offset: 2 }}>
+        <Form.Group className="mb-3">
+          <div className="d-flex justify-content-start">
           <Form.Check
             required
             label="Agree to terms and conditions"
             feedback="You must agree before submitting."
             feedbackType="invalid"
           />
-          </Col>
+          </div>
         </Form.Group>
         <Col className="text-center d-grid">
         <Button size="lg" type="submit">Sign Up</Button>

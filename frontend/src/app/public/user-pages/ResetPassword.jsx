@@ -1,14 +1,7 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useParams } from 'react-router-dom';
+import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
+import '../../../assets/styles/ResetPass.css';
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 export default function ResetPassword() {
@@ -81,10 +74,10 @@ export default function ResetPassword() {
     }
 
     return (
-        <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto">
+        <Container fluid className="col-lg-5 col-md-10 col-sm-11 my-auto resetpass-container">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="mb-3">
-                    <Form.Label className="text-center fw-bold fs-3">Password Reset</Form.Label>
+                    <Form.Label className="text-center fw-bold fs-3 text-primary">Password Reset</Form.Label>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>New Password</Form.Label>

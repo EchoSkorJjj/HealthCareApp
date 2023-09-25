@@ -7,26 +7,26 @@ import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 
 // shared route
-const Header = lazy(() => import('./shared/header/Header'));
-const Home = lazy(() => import('./shared/home/Home'));
-const AboutUs = lazy(() => import('./shared/about/About'));
-const Features = lazy(() => import('./shared/features/Features'));
-const ContactUs = lazy(() => import('./shared/contact/Contact'));
-const Footer = lazy(() => import('./shared/footer/Footer'));
+const Header = lazy(() => import('./shared/header/Header.jsx'));
+const Home = lazy(() => import('./shared/home/Home.jsx'));
+const Footer = lazy(() => import('./shared/footer/Footer.jsx'));
 
 // public route
-const LoginPage = lazy(() => import('./public/user-pages/Login'));
-const RegisterPage = lazy(() => import('./public/user-pages/Register'));
-const ForgotPasswordPage = lazy(() => import('./public/user-pages/ForgotPassword'));
-const ResetPasswordPage = lazy(() => import('./public/user-pages/ResetPassword'));
+const LoginPage = lazy(() => import('./public/user-pages/Login.jsx'));
+const RegisterPage = lazy(() => import('./public/user-pages/Register.jsx'));
+const ForgotPasswordPage = lazy(() => import('./public/user-pages/ForgotPassword.jsx'));
+const ResetPasswordPage = lazy(() => import('./public/user-pages/ResetPassword.jsx'));
 
 // private route
-const HomePage = lazy(() => import('./private/home/Homepage'));
-const DashboardPage = lazy(() => import('./private/dashboard/Dashboard'));
-const AdminDashboardPage = lazy(() => import('./private/dashboard/AdminDashboard'));
-const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer'));
-const SearchBarPage = lazy(() => import('./private/recipe/SearchBar'));
-const RecipeListPage = lazy(() => import('./private/recipe/RecipeList'));
+const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
+const AboutUs = lazy(() => import('./shared/about/About.jsx'));
+const Features = lazy(() => import('./shared/features/Features.jsx'));
+const ContactUs = lazy(() => import('./shared/contact/Contact.jsx'));
+const ProfilePage = lazy(() => import('./private/profile/Profile.jsx'));
+const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
+const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
+const SearchBarPage = lazy(() => import('./private/recipe/SearchBar.jsx'));
+const RecipeListPage = lazy(() => import('./private/recipe/RecipeList.jsx'));
 
 
 export const AppRouter = () => {
@@ -51,7 +51,7 @@ export const AppRouter = () => {
           <Route exact path={ROOT_ROUTE} element={<PrivateRoute/>}>
             <Route path="/homepage" element={<HomePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
             <Route
               path="/recipe"

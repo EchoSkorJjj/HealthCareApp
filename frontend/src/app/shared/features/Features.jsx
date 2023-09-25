@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Features() {
   return (
-    <section className="bg-light py-5 mt-auto">
+    <div className="container bg-light py-5">
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -61,6 +61,6 @@ export default function Features() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

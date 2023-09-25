@@ -4,7 +4,7 @@ import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/fre
 
 export default function Contact() {
   return (
-    <section className="bg-light py-5 mt-auto">
+    <div className="container bg-light py-5">
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -36,17 +36,17 @@ export default function Contact() {
         <div className="row mt-4">
           <div className="col-md-6">
             <h2>Follow Us on Social Media</h2>
-            <div className="social-icons d-flex gap-3">
-              <a href="#" className="mr-3">
+            <div className="social-icons d-flex gap-3 justify-content-center">
+              <a href="#" className="me-3">
                 <FontAwesomeIcon icon={faFacebook} className='fa-2x'/>
               </a>
-              <a href="#" className="mr-3">
+              <a href="#" className="me-3">
                 <FontAwesomeIcon icon={faTwitter} className='fa-2x'/>
               </a>
-              <a href="#" className="mr-3">
+              <a href="#" className="me-3">
                 <FontAwesomeIcon icon={faLinkedin} className='fa-2x'/>
               </a>
-              <a href="#">
+              <a href="#" className="me-3">
                 <FontAwesomeIcon icon={faInstagram} className='fa-2x'/>
               </a>
             </div>
@@ -60,6 +60,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

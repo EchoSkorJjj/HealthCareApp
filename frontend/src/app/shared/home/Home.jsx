@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import About from '../about/About';
-import Features from '../features/Features';
-import Contact from '../contact/Contact';
-import GetStarted from '../getstarted/GetStarted';
+import About from '../about/About.jsx';
+import Features from '../features/Features.jsx';
+import Contact from '../contact/Contact.jsx';
+import GetStarted from '../getstarted/GetStarted.jsx';
 
 export default function Home() {
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function Home() {
       }, []);
 
     return (
-        <div>
+        <div className='container'>
             <GetStarted />
             <section id="about-us-section">
                 <About />

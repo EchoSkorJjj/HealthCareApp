@@ -1,10 +1,9 @@
 import React from 'react';
 import illustration from '../../../assets/images/illustration-hero.svg';
 
-
 export default function About() {
     return (
-        <section className="bg-light py-5 mt-auto">
+        <div className="container bg-light py-5">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-6">
@@ -28,6 +27,6 @@ export default function About() {
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }

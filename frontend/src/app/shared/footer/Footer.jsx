@@ -3,7 +3,7 @@
 
 export default function Footer() {
     return (
-        <footer className='bg-body-tertiary text-center text-lg-start mt-2'>
+        <footer className='container d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto '>
             <div className='container p-4'>
                 <div className='row'>
                     <div className='col-lg-6 col-md-12 mb-4 mb-md-0'>
@@ -50,7 +50,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='text-center p-3' style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+            <div className='text-center p-3 row' style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
                 <a className='text-dark' href='https://mdbootstrap.com/'>MDBootstrap.com</a>
             </div>
         </footer>

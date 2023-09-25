@@ -1,5 +1,4 @@
 import '../../../assets/styles/Header.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown, Container, Offcanvas, Button, Modal} from 'react-bootstrap';  
 import React, { useState, useCallback } from 'react';
@@ -8,6 +7,8 @@ import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from
 import { useAuth } from '../../../features/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import logo from '../../../assets/images/logo.png';
+import profilepic from '../../../assets/images/user.png';
 
 export default function Header() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
@@ -46,7 +47,6 @@ export default function Header() {
         setIsAuthenticated(undefined);
     }, [setIsAuthenticated]);
     
-    
     async function handleLogout() {
         const response = await fetch('http://localhost:3500/api/account/logout', {
             method: 'POST',
@@ -72,11 +72,11 @@ export default function Header() {
     return (
         <>
         <Navbar id="header-navbar" key='lg' expand='lg' className="bg-body-tertiary sticky-top " >
-            <Container fluid className="footer-custom">
+            <Container fluid className="header-custom">
                 <Navbar.Brand href="/home">
                     <img
                     alt=""
-                    src={require('../../../assets/images/logo.png')}
+                    src={logo}
                     width="70"
                     height="70"
                     className="d-inline-block align-top"
@@ -131,7 +131,7 @@ export default function Header() {
                                 <NavDropdown
                                 title={<div>
                                     <img 
-                                    src={require('../../../assets/images/user.png')} 
+                                    src={profilepic} 
                                     alt="Profile Pic"
                                     width="30"
                                     height="30"
