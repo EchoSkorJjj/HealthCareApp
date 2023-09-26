@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../../assets/styles/RecipeCard.css';
+import '../../../assets/styles/private_styles/RecipeCard.css';
 import RecipeDetail from './RecipeDetail';
 
 export default function RecipeList({ searchQuery }) {
@@ -10,7 +10,12 @@ export default function RecipeList({ searchQuery }) {
 
   useEffect(() => {
     if (searchQuery) {
-      fetch(`http://localhost:3500/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`)
+      fetch(`http://localhost:3500/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           if (data.hits) { 

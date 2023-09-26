@@ -289,6 +289,20 @@ const getRecipes = async (req, res) => {
     }
 };
 
+const getNutrition = async (req, res) => {
+    const {q : item} = req.query;
+    console.log(`https://api.edamam.com/api/nutrition-data?app_id=${process.env.EDAMAM_NUTRITION_APP_ID}&app_key=${process.env.EDAMAM_NUTRITION_API_KEY}&nutrition-type=cooking&ingr=${encodeURIComponent(item)}`)
+    try {
+        const response = await fetch(
+            `https://api.edamam.com/api/nutrition-data?app_id=${process.env.EDAMAM_NUTRITION_APP_ID}&app_key=${process.env.EDAMAM_NUTRITION_API_KEY}&nutrition-type=cooking&ingr=${encodeURIComponent(item)}`
+        );
+        const data = await response.json();
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createNewUser,
     loginUser,
@@ -299,4 +313,5 @@ module.exports = {
     requestPasswordReset,
     resetPassword,
     getRecipes,
+    getNutrition,
 };

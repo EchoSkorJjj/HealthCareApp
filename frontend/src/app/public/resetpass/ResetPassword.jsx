@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
-import '../../../assets/styles/ResetPass.css';
+import '../../../assets/styles/public_styles/ResetPass.css';
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 export default function ResetPassword() {

@@ -84,4 +84,7 @@ code {
 
 #root {
   padding-bottom: 0% !important;
+  margin: 0% !important;
+  padding:0% !important;
+  max-width: 100% !important;
 }

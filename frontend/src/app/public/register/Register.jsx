@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
-import '../../../assets/styles/Register.css'
+import '../../../assets/styles/public_styles/Register.css'
 import { Link } from 'react-router-dom';
 
 export default function Register() {
@@ -201,12 +201,13 @@ export default function Register() {
         </Form.Group>
         <Form.Group className="mb-3">
           <div className="d-flex justify-content-start">
-          <Form.Check
+          {/* <Form.Check
             required
             label="Agree to terms and conditions"
             feedback="You must agree before submitting."
             feedbackType="invalid"
-          />
+          /> */}
+          By using HealthPro, you are agreeing to our privacy policy and terms of service.
           </div>
         </Form.Group>
         <Col className="text-center d-grid">

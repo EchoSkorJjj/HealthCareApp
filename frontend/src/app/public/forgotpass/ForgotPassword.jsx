@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../../assets/styles/ForgotPass.css';
+import '../../../assets/styles/public_styles/ForgotPass.css';
 import React, {useState} from "react";
 import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
 import { Link } from 'react-router-dom';

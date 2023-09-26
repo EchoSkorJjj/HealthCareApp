@@ -1,4 +1,4 @@
-import '../../../assets/styles/Header.css';
+import '../../../assets/styles/shared_styles/Header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown, Container, Offcanvas, Button, Modal} from 'react-bootstrap';  
 import React, { useState, useCallback } from 'react';
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import logo from '../../../assets/images/logo.png';
 import profilepic from '../../../assets/images/user.png';
+import DrawOutlineButton from '../../components/button/DrawOutline.jsx'
 
 export default function Header() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
@@ -21,17 +22,6 @@ export default function Header() {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const scrollToSection = (sectionId) => {
-        if (location.pathname.includes('home')) {
-            const element = document.querySelector(sectionId);
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-        } else {
-            window.location.href = `/home${sectionId}`;
-          }
-    };
 
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     
@@ -71,17 +61,17 @@ export default function Header() {
         
     return (
         <>
-        <Navbar id="header-navbar" key='lg' expand='lg' className="bg-body-tertiary sticky-top " >
+        <Navbar id="header-navbar" key='lg' expand='lg' className="bg-body-tertiary sticky-top" >
             <Container fluid className="header-custom">
-                <Navbar.Brand href="/home">
-                    <img
+                <Navbar.Brand href="/home" className='d-flex align-items-center gap-2'>
+                    {/* <img
                     alt=""
                     src={logo}
                     width="70"
                     height="70"
                     className="d-inline-block align-top"
-                    />{' '}
-                    <span className='fs-1'>Logo Name</span>
+                    />{' '} */}
+                    <span className='fs-1 brand-logo'>HealthCarePro</span>
                 </Navbar.Brand>
             
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} onClick={handleShow}/>
@@ -162,20 +152,19 @@ export default function Header() {
                         </>
                         ) : (
                         <>
-                            <div className="p-2 ms-1">
-                                <Nav.Link href="#about-us-section" onClick={() => scrollToSection("#about-us-section")} className="nav-link-custom">About Us</Nav.Link>
+                            <div>
+                                <Nav.Link href="/login">
+                                    <DrawOutlineButton>
+                                        Log In
+                                    </DrawOutlineButton>
+                                </Nav.Link>
                             </div>
-                            <div className="p-2 ms-1">
-                                <Nav.Link href="#features-section" onClick={() => scrollToSection("#features-section")} className="nav-link-custom">Features</Nav.Link>
-                            </div>
-                            <div className="p-2 ms-1">
-                                <Nav.Link href="#contact-us-section" onClick={() => scrollToSection("#contact-us-section")} className="nav-link-custom">Contact Us</Nav.Link>
-                            </div>
-                            <div className="p-2 ms-1">
-                                <Nav.Link href="/login" className={`nav-link-custom ${window.location.pathname === "/login" ? "active" : ""}`}>Login</Nav.Link>
-                            </div>
-                            <div className="p-2 ms-1">
-                                <Nav.Link href="/register" className={`nav-link-custom ${window.location.pathname === "/register" ? "active" : ""}`}>Sign Up</Nav.Link>
+                            <div>
+                                <Nav.Link href="/register">
+                                    <DrawOutlineButton>
+                                        Sign Up
+                                    </DrawOutlineButton>
+                                </Nav.Link>
                             </div>
                         </>
                         )}

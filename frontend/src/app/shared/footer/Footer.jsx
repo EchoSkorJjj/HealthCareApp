@@ -3,7 +3,7 @@
 
 export default function Footer() {
     return (
-        <footer className='container d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto '>
+        <footer className='container-fluid d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto '>
             <div className='container p-4'>
                 <div className='row'>
                     <div className='col-lg-6 col-md-12 mb-4 mb-md-0'>

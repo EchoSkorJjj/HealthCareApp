@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../../assets/styles/NutritionAnalyzer.css';
+import '../../../assets/styles/private_styles/NutritionAnalyzer.css';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,9 +11,10 @@ const App = () => {
 
   const fetchData = async (item) => {
     try {
-      const response = await fetch(
-        `https://api.edamam.com/api/nutrition-data?app_id=${import.meta.env.VITE_EDAMAM_NUTRITION_APP_ID}&app_key=${import.meta.env.VITE_EDAMAM_NUTRITION_API_KEY}&nutrition-type=cooking&ingr=${encodeURIComponent(item)}`
-      );
+      const response = await fetch(`http://localhost:3500/api/account/getNutrition?q=${encodeURIComponent(item)}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -65,7 +66,7 @@ const App = () => {
   const totalNutrition = calculateTotal();
 
   return (
-    <div className='container'>
+    <div className='container nutrition-main'>
       <div className="container bg-light py-5">
         <h1>Nutrition Data Search</h1>
         <div>

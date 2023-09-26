@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useCallback, useEffect, useRef} from "react";
 import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
-import '../../../assets/styles/Register.css'
-import '../../../assets/styles/Login.css'
+import '../../../assets/styles/public_styles/Register.css'
+import '../../../assets/styles/public_styles/Login.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../../../features/localStorage'
 import { useGoogleLogin } from '@react-oauth/google';
@@ -254,11 +254,13 @@ export default function Login() {
           <hr className="my-1" />
         </div>
       </Form>
-      <div className="font-weight-light mt-2 d-flex justify-content-center d-grid gap-2 col-6 mx-auto">
-        <GoogleLoginButton onClick={() => googleAuth()} />
-      </div>
-      <div className="font-weight-light mt-2 d-flex justify-content-center d-grid gap-2 col-6 mx-auto">
-        <GithubLoginButton onClick={initiateGitHubLogin} />
+      <div className='d-flex flex-column'>
+        <div className="font-weight-light mt-2 flex-fill d-flex gap-2">
+          <GoogleLoginButton className="d-flex justify-content-center rounded-pill border border-primary" onClick={() => googleAuth()} />
+        </div>
+        <div className="font-weight-light mt-2 flex-fill d-flex gap-2">
+          <GithubLoginButton className="d-flex justify-content-center rounded-pill" onClick={initiateGitHubLogin} />
+        </div>
       </div>
       </Container>
     )

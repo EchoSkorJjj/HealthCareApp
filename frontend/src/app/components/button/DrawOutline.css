@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.myButton {
+  position: relative;
+  padding: 5px 12px;
+  margin: 10px 0;
+  color: rgba(255, 255, 255, 0.568);
+  font-size: 1.4em;
+  letter-spacing: 2px;
+  font-family: "Roboto";
+  background: linear-gradient(90deg, #4a148c, #7b1fa2);
+  cursor: pointer;
+  display: inline-block;
+  border-width: 2px;
+  transition: background 0.25s, color 0.25s; /* Added transitions for color and background */
+}
+
+.myButton:hover {
+  color: white;
+  background: linear-gradient(90deg, #7b1fa2, #4a148c); /* Change gradient direction */
+}
+
+.myButton span {
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.904);
+}
+
+.myButton span:nth-child(1) {
+  left: 0;
+  bottom: 0;
+  width: 3px; /* Increased border width */
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.25s;
+}
+
+.myButton:hover span:nth-child(1) {
+  transform: scaleY(1);
+  transform-origin: bottom;
+  transition: transform 0.25s;
+}
+
+.myButton span:nth-child(2) {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px; /* Increased border width */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s;
+}
+
+.myButton:hover span:nth-child(2) {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+
+.myButton span:nth-child(3) {
+  right: 0;
+  bottom: 0;
+  width: 3px; /* Increased border width */
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.25s;
+  transition-delay: 0.25s;
+}
+
+.myButton:hover span:nth-child(3) {
+  transform: scaleY(1);
+  transform-origin: bottom;
+  transition: transform 0.25s;
+  transition-delay: 0.25s;
+}
+
+.myButton span:nth-child(4) {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3px; /* Increased border width */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s;
+  transition-delay: 0.25s;
+}
+
+.myButton:hover span:nth-child(4) {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.25s;
+  transition-delay: 0.25s;
+}
+
+  

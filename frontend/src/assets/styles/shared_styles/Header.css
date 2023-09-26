@@ -11,10 +11,15 @@
     padding-bottom:0% !important;
 }
 
+.brand-logo {
+    color: #4a148c;
+}
+
 .header-custom {
-    background-color: #e8e8b8;
+    background-color: #d8bfd8;
     color: white;
 }
+
 
 .dropdown-toggle {
     font-size: 1.2rem !important;

@@ -138,7 +138,8 @@ router.post('/requestPasswordReset', userController.requestPasswordReset);
  */
 router.patch('/resetPassword', userController.resetPassword);
 
-router.get('/getRecipes', userController.getRecipes);
+router.get('/getRecipes', isAuthMiddleware, userController.getRecipes);
+router.get('/getNutrition', isAuthMiddleware, userController.getNutrition);
 
 
 module.exports = router;

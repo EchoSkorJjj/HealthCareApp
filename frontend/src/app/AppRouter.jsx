@@ -12,10 +12,10 @@ const Home = lazy(() => import('./shared/home/Home.jsx'));
 const Footer = lazy(() => import('./shared/footer/Footer.jsx'));
 
 // public route
-const LoginPage = lazy(() => import('./public/user-pages/Login.jsx'));
-const RegisterPage = lazy(() => import('./public/user-pages/Register.jsx'));
-const ForgotPasswordPage = lazy(() => import('./public/user-pages/ForgotPassword.jsx'));
-const ResetPasswordPage = lazy(() => import('./public/user-pages/ResetPassword.jsx'));
+const LoginPage = lazy(() => import('./public/login/Login.jsx'));
+const RegisterPage = lazy(() => import('./public/register/Register.jsx'));
+const ForgotPasswordPage = lazy(() => import('./public/forgotpass/ForgotPassword.jsx'));
+const ResetPasswordPage = lazy(() => import('./public/resetpass/ResetPassword.jsx'));
 
 // private route
 const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
@@ -38,7 +38,7 @@ export const AppRouter = () => {
   
     return (
       <Suspense fallback={<div>Loading...</div>}>
-        <div className="d-flex flex-column min-vh-100">
+        <div className="d-flex flex-column min-vh-100 w-100">
         <Header />
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>

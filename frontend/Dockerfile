@@ -13,11 +13,8 @@ RUN npm install
 # Copy the rest of your application code to the container
 COPY . .
 
-# Build your React application
-RUN npm run dev
-
 # Expose port 3000 to access your frontend
 EXPOSE 3000
 
-# Start your React application
-CMD ["npm", "start"]
+# Start your Vite React application
+CMD ["npm", "run", "dev"]

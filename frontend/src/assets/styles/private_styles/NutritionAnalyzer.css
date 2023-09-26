@@ -1,4 +1,8 @@
 /* NutritionAnalyzer.css */
+.nutrition-main {
+  padding-top: 5rem;
+}
+
 .nutrition-container {
     background-color: #f5f5f5;
     border-radius: 8px;

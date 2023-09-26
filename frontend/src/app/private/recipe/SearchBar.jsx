@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../../assets/styles/private_styles/Searchbar.css';
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
@@ -12,7 +13,7 @@ export default function SearchBar({ onSearch }) {
   };
 
   return (
-    <div className='container'>
+    <div className='container searchbar-container'>
       <div className="container bg-light py-5">
         <div className="text-center m-5">
           <input
