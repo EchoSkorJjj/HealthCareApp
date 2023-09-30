@@ -13,8 +13,8 @@ export default function SearchBar({ onSearch }) {
   };
 
   return (
-    <div className='container searchbar-container'>
-      <div className="container bg-light py-5">
+    <div className='row searchbar-container'>
+      <div className="container-fluid bg-light py-5 d-flex justify-content-center">
         <div className="text-center m-5">
           <input
             type="text"

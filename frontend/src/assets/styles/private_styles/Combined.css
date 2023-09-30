@@ -1,5 +1,4 @@
-.profile-container {
-    padding-top: 5rem;
+.combined-container {
     margin-left: 210px;
     width: calc(100%-210px);
     margin-right: 0px;
@@ -7,13 +6,13 @@
 }
 
 @media screen and (max-width: 1275px) {
-    .profile-container {
+    .combined-container {
         margin-left: 65px;
     }
 }
 
 @media screen and (max-width: 991px) {
-    .profile-container {
+    .combined-container {
         margin-left: 0px;
     }
 }

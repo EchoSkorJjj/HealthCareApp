@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    fullname: {
+    fullName: {
         required: true,
         type: String
     },
@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false // Default value is false for normal users
+    },
+    isEmailVerified: {
+        type: Boolean,
+        default: false
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     },
     },
     {

@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, InputGroup, FloatingLabel, Modal } from "react-bootstrap";
 import '../../../assets/styles/public_styles/Register.css'
+import '../../../assets/styles/public_styles/Login.css'
 import { Link } from 'react-router-dom';
 
 export default function Register() {
@@ -10,9 +11,10 @@ export default function Register() {
 
     const [registerForm, setForm] = useState({
         username: "",
-        fullname: "",
+        fullName: "",
         email: "",
         passwordHash: "",
+        otpToken: "",
     })
     
     const [iconClicked, setIconClicked] = useState({
@@ -32,6 +34,23 @@ export default function Register() {
         });
     }
 
+    async function handleSendOTP() {
+      try {
+        const response = await fetch("http://localhost:3500/request/sendOTP", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: registerForm.email }),
+        });
+        if (response.ok) {
+          window.alert("OTP sent to your email.");
+        }
+      } catch (error) {
+        window.alert(error);
+      }
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
     
@@ -41,12 +60,15 @@ export default function Register() {
           setValidated(true);
           return;
         }
-        
+        if (registerForm.otpToken === "") {
+          window.alert("Please verify your email.");
+          return;
+        }
         // When a post request is sent to the create url, we'll add a new record to the database.
         const newUser = { ...registerForm };
         
         try {
-            const response = await fetch("http://localhost:3500/api/account/register", {
+            const response = await fetch("http://localhost:3500/request/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -55,7 +77,7 @@ export default function Register() {
             });
 
             if (response.ok) {
-              setForm({ username: "", fullname: "", email: "" , passwordHash: ""});
+              setForm({ username: "", fullName: "", email: "" , passwordHash: ""});
               navigate("/login");
             } else {
               try {
@@ -77,7 +99,7 @@ export default function Register() {
         <Form.Group className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Registration</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Username</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -100,12 +122,12 @@ export default function Register() {
               <Form.Control.Feedback type="invalid" className="text-start">
                 Please choose a username.
               </Form.Control.Feedback>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
           </div>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Fullname</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -118,7 +140,7 @@ export default function Register() {
                 type="text"
                 placeholder="Fullname"
                 required
-                onChange={(e) => updateForm({fullname: e.target.value})}
+                onChange={(e) => updateForm({fullName: e.target.value})}
               />
               <div className="input-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
@@ -128,12 +150,12 @@ export default function Register() {
               <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a fullname.
               </Form.Control.Feedback>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
           </div>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Email</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -149,19 +171,45 @@ export default function Register() {
                   onChange={(e) => updateForm({email: e.target.value})}
                 />
                 <div className="input-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
-                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
-                  </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                </svg>
                 </div>
                 <Form.Control.Feedback type="invalid" className="text-start">
                   Please provide a valid email.
                 </Form.Control.Feedback>
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
               </FloatingLabel>
           </InputGroup>
           </div>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
+          <Form.Label className="d-flex justify-content-start align-items-start col-3">OTP</Form.Label>
+          <div className="flex-fill">
+          <InputGroup hasValidation className="d-flex align-items-center">
+              <FloatingLabel
+                controlId="floatingOTP"
+                label="OTP"
+                className="mb-3"
+              >
+                <Form.Control 
+                  type="text" 
+                  placeholder="OTP" 
+                  required
+                  onChange={(e) => updateForm({otpToken: e.target.value})}
+                />
+                <div className="otp-icon text-muted" onClick={handleSendOTP}>
+                  Send OTP
+                </div>
+                <Form.Control.Feedback type="invalid" className="text-start">
+                  Please provide a OTP.
+                </Form.Control.Feedback>
+                <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
+              </FloatingLabel>
+          </InputGroup>
+          </div>
+        </Form.Group>
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Password</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -194,19 +242,13 @@ export default function Register() {
               <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a password.
               </Form.Control.Feedback>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
           </div>
         </Form.Group>
         <Form.Group className="mb-3">
           <div className="d-flex justify-content-start">
-          {/* <Form.Check
-            required
-            label="Agree to terms and conditions"
-            feedback="You must agree before submitting."
-            feedbackType="invalid"
-          /> */}
           By using HealthPro, you are agreeing to our privacy policy and terms of service.
           </div>
         </Form.Group>

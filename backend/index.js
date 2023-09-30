@@ -42,5 +42,6 @@ database.once('connected', () => {
     console.log('Database Connected');
 })
 
+app.use('/request', require('./routes/register.routes'));
 app.use('/api/account', require('./routes/user.routes'));
 app.use('/api', require('./routes/auth.routes'));

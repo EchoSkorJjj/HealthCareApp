@@ -34,7 +34,7 @@ export default function RecipeList({ searchQuery }) {
   };
 
   return (
-    <div className="recipe-list">
+    <div className="recipe-list row">
       {selectedRecipe ? (
         <RecipeDetail recipe={selectedRecipe.recipe} setSelectedRecipe={setSelectedRecipe} />
       ) : (

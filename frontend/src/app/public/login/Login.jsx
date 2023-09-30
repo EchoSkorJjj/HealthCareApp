@@ -48,6 +48,10 @@ export default function Login() {
     const googleAuth = useGoogleLogin({
       onSuccess: async ({ code }) => {
         try {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 0);
+          });
+
           const response = await axios.post('http://localhost:3500/api/auth/google/callback', {
             code,
           }, {
@@ -84,6 +88,9 @@ export default function Login() {
   
       if (code) {
         try {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 0);
+          });
           const response = await fetch('http://localhost:3500/api/auth/github/callback', {
             method: 'POST',
             body: JSON.stringify({ code }),
@@ -129,7 +136,7 @@ export default function Login() {
         }
         
         const loginUser = {...loginForm};
-
+  
         try {
             const response = await fetch("http://localhost:3500/api/account/login", {
               method: "POST",
@@ -166,7 +173,7 @@ export default function Login() {
         <Form.Group className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Username</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -189,12 +196,12 @@ export default function Login() {
               <Form.Control.Feedback type="invalid" className="text-start">
                 Please choose a username.
               </Form.Control.Feedback>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
           </div>
         </Form.Group>
-        <Form.Group className="mb-3 d-flex flex-sm-row flex-column">
+        <Form.Group className="d-flex flex-sm-row flex-column">
           <Form.Label className="d-flex justify-content-start align-items-start col-3">Password</Form.Label>
           <div className="flex-fill">
           <InputGroup hasValidation className="d-flex align-items-center">
@@ -227,7 +234,7 @@ export default function Login() {
               <Form.Control.Feedback type="invalid" className="text-start">
                 Please provide a password.
               </Form.Control.Feedback>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback className="text-start">Looks good!</Form.Control.Feedback>
             </FloatingLabel>
           </InputGroup>
           </div>

@@ -3,15 +3,25 @@
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 3rem;
-    padding-top: 8rem !important;
+    padding-top: 6rem !important;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 2rem;
     align-items: center;
     width: 100%;
     max-width: 72rem;
+}
 
-    @media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
+    .shuffle-hero {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .shuffle-span {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+    .shuffle-h3 {
+        font-size: 3.75rem;
+        line-height: 1;
     }
 }
 
@@ -27,37 +37,13 @@
     line-height: 1rem;
     font-weight: 500;
     color: #6366F1;
-
-    @media (min-width: 768px) {
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-    }
 }
 
 .shuffle-h3 {
     font-size: 2.25rem;
     line-height: 2.5rem;
     font-weight: 600;
-
-    @media (min-width: 768px) {
-        font-size: 3.75rem;
-        line-height: 1;
-    }
 }
-
-/* .shuffle-p {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
-
-    @media (min-width: 768px) {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-        font-size: 1.125rem;
-        line-height: 1.75rem;
-    }
-} */
 
 .shuffle-button {
     padding-top: 0.5rem;

@@ -66,7 +66,7 @@ const App = () => {
   const totalNutrition = calculateTotal();
 
   return (
-    <div className='container nutrition-main'>
+    <div className='container nutrition-main col-lg-9'>
       <div className="container bg-light py-5">
         <h1>Nutrition Data Search</h1>
         <div>

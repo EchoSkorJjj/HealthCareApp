@@ -1,14 +1,9 @@
-.sticky-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000; 
-}
-
 .navbar {
     padding-top:0% !important;
-    padding-bottom:0% !important;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    padding-bottom: 0% !important;
 }
 
 .brand-logo {
@@ -16,10 +11,10 @@
 }
 
 .header-custom {
-    background-color: #d8bfd8;
+    /* background-color: #d8bfd8; */
+    background-color: #f5f5f5;
     color: white;
 }
-
 
 .dropdown-toggle {
     font-size: 1.2rem !important;
@@ -53,4 +48,28 @@
 
 .nav-link-custom.active {
     background-color: gray !important;
+}
+
+.offcanvas-body-closed {
+    width: max-content !important;
+}
+
+.bell-icon {
+    width: 38px;
+    height: 28px;
+}
+
+@media screen and (min-width: 992px) {
+    .search-bar-offcanvas {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .search-bar {
+        display: none;
+    }
+    .search-bar-offcanvas {
+        display: block;
+    }
 }

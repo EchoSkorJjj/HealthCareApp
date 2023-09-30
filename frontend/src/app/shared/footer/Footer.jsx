@@ -1,9 +1,15 @@
 //how do I get the footer to stay at the bottom of the page?
 //https://stackoverflow.com/questions/643879/css-to-make-html-page-footer-stay-at-bottom-of-the-page-with-a-minimum-height-b
+import '../../../assets/styles/shared_styles/Footer.css';
+import { useAuth } from '../../../features/auth';
 
 export default function Footer() {
+    const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
+
     return (
-        <footer className='container-fluid d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto '>
+        <footer className={`${isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? 
+            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1 footer-class' : 
+            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1'}`}>
             <div className='container p-4'>
                 <div className='row'>
                     <div className='col-lg-6 col-md-12 mb-4 mb-md-0'>
@@ -50,7 +56,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='text-center p-3 row' style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+            <div className='text-center p-3 container' style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
                 <a className='text-dark' href='https://mdbootstrap.com/'>MDBootstrap.com</a>
             </div>
         </footer>

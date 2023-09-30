@@ -1,0 +1,16 @@
+.footer-class {
+    margin-left: 197px;
+    margin-right: 0px;
+}
+
+@media screen and (max-width: 1275px) {
+    .footer-class {
+        margin-left: 52px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .footer-class {
+        margin-left: 0px;
+    }
+}

@@ -9,20 +9,6 @@ router.use(isSessionMiddleware);
 
 /**
  * @swagger
- * /register:
- *   post:
- *     summary: Register a new user.
- *     description: Create a new user account.
- *     responses:
- *       200:
- *         description: User registered successfully.
- *       400:
- *         description: Registration failed.
- */
-router.post('/register', userController.createNewUser);
-
-/**
- * @swagger
  * /login:
  *   post:
  *     summary: Log in a user.

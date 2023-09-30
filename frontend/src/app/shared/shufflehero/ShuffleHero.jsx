@@ -13,9 +13,6 @@ const ShuffleHero = () => {
           Let's change it up a bit
         </h3>
         <div className="d-flex justify-content-center gap-2">
-          {/* <button className="shuffle-button">
-            Get Started
-          </button> */}
           <a href="/register" className="shuffle-button">
             Get Started
           </a>

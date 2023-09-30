@@ -31,7 +31,7 @@ async function loginUser(req, res, username, fullname, userEmail, profilePic) {
     const uniqueUsername = await generateUniqueUsername(username);
     const newUser = new User({
         username: uniqueUsername,
-        fullname: fullname,
+        fullName: fullname,
         email: userEmail,
         passwordHash: randomPass,
         isAdmin: false,
@@ -41,7 +41,7 @@ async function loginUser(req, res, username, fullname, userEmail, profilePic) {
     const newProfile = new Profile({
         userId: userToSave._id,
         username: userToSave.username,
-        fullname: userToSave.fullname,
+        fullName: userToSave.fullName,
         profilePicture: profilePic,
     });
     const profileToSave = await newProfile.save();

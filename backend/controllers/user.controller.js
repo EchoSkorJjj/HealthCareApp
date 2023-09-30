@@ -1,99 +1,14 @@
 const User = require('../models/userModel');
-const Profile = require('../models/profileModel');
-const nodemailer = require('nodemailer'); // You'll need to set up nodemailer for sending emails
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
-// Check if password is valid
-function isPasswordValid(password) {
-    if (password.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
-  
-    if (password.length > 20) {
-      return 'Password must be less than 20 characters';
-    }
-  
-    if (!/(?=.*[!@#$%^&*])/.test(password)) {
-      return 'Password must have at least one special character';
-    }
-  
-    if (!/\d/.test(password)) {
-      return 'Password must have at least one number';
-    }
-  
-    if (!/[a-z]/.test(password)) {
-      return 'Password must have at least one lowercase letter';
-    }
-  
-    if (!/[A-Z]/.test(password)) {
-      return 'Password must have at least one uppercase letter';
-    }
-  
-    return null; // Password is valid
-}
-
-// Create a nodemailer transporter using your email service credentials
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'healthportalpro@gmail.com',
-      pass: 'gbemtnsldihqgpqy'
+      user: `${process.env.TRANSPORTER_GMAIL}`,
+      pass: `${process.env.TRANSPORTER_PASSWORD}`
     }
 });
-
-// Function to create a new user
-const createNewUser = async (req, res) => {
-    const { username, fullname, email, passwordHash } = req.body;
-
-    try {
-        // Check if username already exists
-        const existingUsername = await User.findOne({ username });
-        if (existingUsername) {
-            return res.status(400).json({ message: 'Username already exists' });
-        }
-
-        // Check if email already in use
-        const existingEmail = await User.findOne({ email });
-        if (existingEmail) {
-            return res.status(400).json({ message: 'Email already in use' });
-        }
-
-        // Check email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ message: 'Invalid email format' });
-        }
-
-        const passwordError = isPasswordValid(passwordHash);
-        if (passwordError) {
-            return res.status(400).json({ message: passwordError });
-        }
-
-        // Create a new user
-        const user = new User({
-            username,
-            fullname,
-            email,
-            passwordHash,
-            isAdmin: false // Set as false for normal users
-        });
-
-        const userToSave = await user.save();
-
-        // Create a profile for the user
-        const profile = new Profile({
-            userId: userToSave._id,
-            username: userToSave.username,
-            fullname: userToSave.fullname
-        });
-
-        const profileToSave = await profile.save();
-
-        res.status(200).json({ user: userToSave, profile: profileToSave });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
 
 // Function to handle user login
 const loginUser = async (req, res) => {
@@ -226,7 +141,7 @@ const requestPasswordReset = async (req,res) => {
 
         // Email content
         const mailOptions = {
-            from: 'healthportalpro@gmail.com',
+            from: '<donotreply@mail.healthcare>',
             to: email,
             subject: 'Password Reset',
             text: `Click the following link to reset your password: ${resetLink}`
@@ -304,7 +219,6 @@ const getNutrition = async (req, res) => {
 };
 
 module.exports = {
-    createNewUser,
     loginUser,
     logoutUser,
     getAllUsers,

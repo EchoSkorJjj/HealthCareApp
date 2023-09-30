@@ -1,3 +1,5 @@
 .searchbar-container {
-    padding-top: 5rem;
+    display: flex;
+    padding-top: 4rem;
+    justify-content: center;
 }
