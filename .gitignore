@@ -1,16 +1,16 @@
-# Frontend dependencies
-/frontend/node_modules/
-/frontend/.pnp
-/frontend/.pnp.js
-/frontend/coverage
-/frontend/build
+# Client dependencies
+/client/node_modules/
+/client/.pnp
+/client/.pnp.js
+/client/coverage
+/client/build
 
-# Backend dependencies
-/backend/node_modules/
-/backend/.pnp
-/backend/.pnp.js
-/backend/coverage
-/backend/dist
+# Server dependencies
+/server/node_modules/
+/server/.pnp
+/server/.pnp.js
+/server/coverage
+/server/dist
 
 # Misc
 .DS_Store

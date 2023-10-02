@@ -1,18 +1,19 @@
 version: '3.8'
 services:
-  frontend:
+  client:
     build:
-      context: ./frontend  # The path to your frontend Dockerfile and code
+      context: ./client  # The path to your client Dockerfile and code
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
     depends_on:
-      - backend  # Make sure the frontend waits for the backend to be ready
+      server: 
+        condition: service_healthy
 
-  backend:
+  server:
     build:
-      context: ./backend  # Updated path to the backend Dockerfile and code
+      context: ./server  # Updated path to the server Dockerfile and code
     ports:
       - "3500:3500"
     environment:

@@ -1,0 +1,19 @@
+.contact-container {
+    padding-top: 5rem;
+    margin-left: 210px;
+    width: calc(100%-210px);
+    margin-right: 0px;
+    flex-grow: 1;
+}
+
+@media screen and (max-width: 1275px) {
+    .contact-container {
+        margin-left: 65px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .contact-container {
+        margin-left: 0px;
+    }
+}
