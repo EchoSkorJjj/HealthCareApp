@@ -13,7 +13,7 @@ COPY package*.json ./
 # ENV NODE_ENV production
 
 # # Set NODE_ENV to "development" for the server
-ENV NODE_ENV development
+# ENV NODE_ENV development
 
 # Copying all the files in our project
 COPY . .

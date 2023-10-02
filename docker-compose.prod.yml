@@ -1,26 +1,30 @@
 version: '3.8'
 services:
-  client:
-    build:
-      context: ./client  # The path to your client Dockerfile and code
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-    depends_on:
-      server: 
-        condition: service_healthy
-
   server:
     build:
-      context: ./server  # Updated path to the server Dockerfile and code
+      context: ./server
+    image: wad2-server:1.0
     ports:
       - "3500:3500"
     environment:
       NODE_ENV: production
       MONGO_URI: mongodb://mongo:27017/HealthCareDB
+      NODE_OPTIONS: '--trace-warnings'
     depends_on:
       - mongo
+    dns: 
+      - 8.8.8.8
+
+  client:
+    build:
+      context: ./client
+    image: wad2-client:1.0
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - server
 
   mongo:
     image: mongo
