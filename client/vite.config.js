@@ -10,12 +10,12 @@ export default defineConfig({
     },
     host: true, 
     strictPort: true,
-    port: 3000,
+    proxy: true,
   },
-  resolve: {
-    // ...
-    alias: {
-      crypto: 'crypto-browserify',
-    },
-  },
+  // resolve: {
+  //   // ...
+  //   alias: {
+  //     crypto: 'crypto-browserify',
+  //   },
+  // },
 })

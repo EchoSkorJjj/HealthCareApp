@@ -9,8 +9,9 @@ export default function RecipeList({ searchQuery }) {
   const [showSearchBar, setShowSearchBar] = useState(true); // Declare and initialize showSearchBar state
 
   useEffect(() => {
+    const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     if (searchQuery) {
-      fetch(`http://localhost:3500/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
+      fetch(`${baseUrl}/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
         {
           method: 'GET',
           credentials: 'include',

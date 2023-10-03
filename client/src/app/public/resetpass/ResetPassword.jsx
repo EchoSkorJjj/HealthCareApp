@@ -44,7 +44,8 @@ export default function ResetPassword() {
         const resetPass = {...resetPassForm};
 
         try {
-            const response = await fetch("http://localhost:3500/api/account/resetPassword",{
+            const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+            const response = await fetch(`${baseUrl}/api/account/resetPassword`,{
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

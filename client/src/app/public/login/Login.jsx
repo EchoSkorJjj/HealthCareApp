@@ -51,8 +51,8 @@ export default function Login() {
           await new Promise((resolve) => {
             setTimeout(resolve, 0);
           });
-
-          const response = await axios.post('http://localhost:3500/api/auth/google/callback', {
+          const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+          const response = await axios.post(`${baseUrl}/api/auth/google/callback`, {
             code,
           }, {
             withCredentials: true,
@@ -91,7 +91,8 @@ export default function Login() {
           await new Promise((resolve) => {
             setTimeout(resolve, 0);
           });
-          const response = await fetch('http://localhost:3500/api/auth/github/callback', {
+          const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+          const response = await fetch(`${baseUrl}/api/auth/github/callback`, {
             method: 'POST',
             body: JSON.stringify({ code }),
             headers: {
@@ -138,8 +139,9 @@ export default function Login() {
         const loginUser = {...loginForm};
   
         try {
-            const response = await fetch("http://localhost:3500/api/account/login", {
-              method: "POST",
+            const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+            const response = await fetch(`${baseUrl}/api/account/login`, {
+              method: 'POST',
               headers: {
                 "Content-Type": "application/json",
               },

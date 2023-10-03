@@ -28,6 +28,7 @@ const loginUser = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
+        
         // store user information in session, typically a user id
         req.session.user = user._id
         if (rememberMe) {
@@ -37,6 +38,7 @@ const loginUser = async (req, res) => {
             // Set cookie to expire at end of session
             req.session.cookie.expires = false;
         }
+
         res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         res.status(400).json({ message: error.message });

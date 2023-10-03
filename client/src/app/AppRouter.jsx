@@ -58,7 +58,8 @@ export const AppRouter = () => {
     }, [setIsAuthenticated]);
 
     async function handleLogout() {
-        const response = await fetch('http://localhost:3500/api/account/logout', {
+        const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+        const response = await fetch(`${baseUrl}/api/account/logout`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -72,7 +73,6 @@ export const AppRouter = () => {
             if (isAuthenticated) {
             logout();
             }
-            console.log('Logged out successfully');
             navigate('/home')
         } else {
             console.error('Logout failed');

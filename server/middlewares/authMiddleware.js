@@ -1,6 +1,5 @@
 const checkAuthentication = (req, res, next) => {
     // Check if the user is authenticated based on the session
-    
     if (req.session.user) {
       // User is authenticated, call next to continue processing the request
       next();
@@ -10,5 +9,5 @@ const checkAuthentication = (req, res, next) => {
     }
   };
   
-  module.exports = checkAuthentication;
+module.exports = checkAuthentication;
   

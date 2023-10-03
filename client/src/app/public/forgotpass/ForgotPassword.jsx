@@ -30,7 +30,8 @@ export default function ForgotPassword() {
         const passReset = {...emailForm};
 
         try {
-            const response = await fetch("http://localhost:3500/api/account/requestPasswordReset", {
+            const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+            const response = await fetch(`${baseUrl}/api/account/requestPasswordReset`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

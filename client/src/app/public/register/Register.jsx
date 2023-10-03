@@ -36,7 +36,8 @@ export default function Register() {
 
     async function handleSendOTP() {
       try {
-        const response = await fetch("http://localhost:3500/request/sendOTP", {
+        const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+        const response = await fetch(`${baseUrl}/request/sendOTP`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -1,19 +1,17 @@
-# Fetching the minified node image on apline linux
 FROM node:slim
+RUN apt update && apt install curl -y
+
+# Declaring env
+ENV NODE_ENV development
+
+# # Declaring env
+# ENV NODE_ENV production
 
 # Setting up the work directory
 WORKDIR /server-docker
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
-
-# # Install project dependencies (production only)
-# RUN npm install --production
-# # Set NODE_ENV to "production" for the server
-# ENV NODE_ENV production
-
-# # Set NODE_ENV to "development" for the server
-# ENV NODE_ENV development
 
 # Copying all the files in our project
 COPY . .
@@ -22,7 +20,7 @@ COPY . .
 RUN npm install
 
 # Starting our application
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]
 
 # Exposing server port
 EXPOSE 3500
