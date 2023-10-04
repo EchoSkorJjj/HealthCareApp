@@ -19,5 +19,5 @@ COPY . .
 # Start your Vite React application
 CMD ["npm", "run", "dev"]
 
-# Expose port 3000 to access your client
+# Expose port 5173 to access your client
 EXPOSE 5173

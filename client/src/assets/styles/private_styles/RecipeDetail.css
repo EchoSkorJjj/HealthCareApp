@@ -1,0 +1,10 @@
+.recipe-detail a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .recipe-detail a:hover {
+    text-decoration: underline;
+  }

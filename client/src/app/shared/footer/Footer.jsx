@@ -8,7 +8,7 @@ export default function Footer() {
 
     return (
         <footer className={`${isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? 
-            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1 footer-class' : 
+            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1' : 
             'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1'}`}>
             <div className='container p-4'>
                 <div className='row'>

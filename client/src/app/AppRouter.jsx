@@ -80,10 +80,10 @@ export const AppRouter = () => {
     }
 
     return (
-      <div className="container-fluid d-flex flex-column min-vh-100">
+      <div className='container-fluid d-flex flex-column min-vh-100'>
       <Suspense fallback={<div><Loader /></div>}>
         <Header onToggle={handleToggle} handleLogout={handleLogout}/>
-        <div className="row flex-grow-1 d-flex">
+        <div className="row flex-grow-1 d-flex overflow-x-visible">
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
             <Route path={HOME_ROUTE} element={<Home />} />

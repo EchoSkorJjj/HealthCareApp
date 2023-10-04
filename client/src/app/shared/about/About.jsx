@@ -3,7 +3,7 @@ import illustration from '../../../assets/images/illustration-hero.svg';
 
 export default function About() {
     return (
-        <div className="container bg-light py-5">
+        <div className="container bg-light py-5" id="id_aboutus">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-6">

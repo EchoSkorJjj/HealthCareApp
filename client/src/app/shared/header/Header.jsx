@@ -19,8 +19,8 @@ export default function Header({onToggle, handleLogout}) {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
         
     return (
-        <Navbar id="header-navbar" key='lg' expand='lg' className="row bg-body-tertiary" >
-            <Container fluid className="header-custom d-flex">
+        <Navbar id="header-navbar" key='lg' expand='lg' className="bg-body-tertiary fixed-top pt-0" >
+            <Container fluid className="header-custom d-flex align-items-center ">
             {(isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated) && (
                 <button className="d-lg-none border-0 bg-transparent" onClick={onToggle}>
                     <FontAwesomeIcon icon={faListUl} className="me-2 fa-solid fa-2x"/>
@@ -103,7 +103,6 @@ export default function Header({onToggle, handleLogout}) {
                                     alt="Profile Pic"
                                     width="30"
                                     height="30"
-                                    className='me-2'
                                     />
                                     </div>}
                                 id={`offcanvasNavbarDropdown-expand-lg`}

@@ -69,7 +69,8 @@ export default function Register() {
         const newUser = { ...registerForm };
         
         try {
-            const response = await fetch("http://localhost:3500/request/register", {
+            const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+            const response = await fetch(`${baseUrl}/request/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

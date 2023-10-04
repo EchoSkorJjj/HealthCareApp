@@ -14,15 +14,16 @@ export default function SearchBar({ onSearch }) {
 
   return (
     <div className='row searchbar-container'>
-      <div className="container-fluid bg-light py-5 d-flex justify-content-center">
-        <div className="text-center m-5">
+      <div className="container-fluid py-1 d-flex justify-content-center">
+        <div className="text-center m-5 d-flex align-items-center">
           <input
             type="text"
             placeholder="Search for recipes..."
             value={query}
             onChange={handleInputChange}
+            className='search-input me-2'
           />
-          <button onClick={handleSearch}>Search</button>
+          <button className="btn btn-outline-success" onClick={handleSearch}>Search</button>
         </div>
       </div>
     </div>

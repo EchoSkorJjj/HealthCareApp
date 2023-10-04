@@ -40,26 +40,26 @@ export default function RecipeList({ searchQuery }) {
         <RecipeDetail recipe={selectedRecipe.recipe} setSelectedRecipe={setSelectedRecipe} />
       ) : (
         searchResults.map((recipe) => (
-          <li
-            key={recipe.recipe.uri}
-            className="recipe-card"
-          >
-            <h2>{recipe.recipe.label}</h2>
-            <img src={recipe.recipe.image} alt={recipe.recipe.label} />
-            <p>Servings: {recipe.recipe.yield}</p>
-            <p>Calories: {Math.round(recipe.recipe.calories)}</p>
-            {/* Other nutrient properties */}
-            {recipe.recipe.totalNutrients.PROCNT && (
-              <p>Protein: {Math.round(recipe.recipe.totalNutrients.PROCNT.quantity)} g</p>
-            )}
-            {recipe.recipe.totalNutrients.FAT && (
-              <p>Fat: {Math.round(recipe.recipe.totalNutrients.FAT.quantity)} g</p>
-            )}
-            {recipe.recipe.totalCO2Emissions && (
-              <p>Total CO2 Emissions: {Math.round(recipe.recipe.totalCO2Emissions)} </p>
-            )}
-            <button onClick={() => handleRecipeClick(recipe)}>View Recipe</button>
-          </li>
+          <div key={recipe.recipe.uri} className="card recipe-card col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
+            <img src={recipe.recipe.image} alt={recipe.recipe.label} className='card-img-top'/>
+            <div className='card-body'>
+              <h5 className="card-title">{recipe.recipe.label}</h5>
+            </div>
+              <ul className='list-group list-group-flush'>
+                <li className='list-group-item'>Servings: {recipe.recipe.yield}</li>
+                <li className='list-group-item'>Calories: {Math.round(recipe.recipe.calories)}</li>
+                {recipe.recipe.totalNutrients.PROCNT && (
+                  <li className='list-group-item'>Protein: {Math.round(recipe.recipe.totalNutrients.PROCNT.quantity)} g</li>
+                )}
+                {recipe.recipe.totalNutrients.FAT && (
+                  <li className='list-group-item'>Fat: {Math.round(recipe.recipe.totalNutrients.FAT.quantity)} g</li>
+                )}
+                {recipe.recipe.totalCO2Emissions && (
+                  <li className='list-group-item'>Total CO2 Emissions: {Math.round(recipe.recipe.totalCO2Emissions)} </li>
+                )}
+                <button type="button" className="btn btn-secondary" onClick={() => handleRecipeClick(recipe)}>View Recipe</button>
+              </ul>
+          </div>
         ))
       )}
     </div>

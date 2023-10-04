@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Features() {
   return (
-    <div className="container bg-light py-5">
+    <div className="container bg-light py-5" id="id_features">
       <div className="container">
         <div className="row">
           <div className="col-12">

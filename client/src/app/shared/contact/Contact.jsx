@@ -7,7 +7,7 @@ import { useAuth } from '../../../features/auth';
 export default function Contact() {
   const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
   return (
-    <div className={`${isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? 
+    <div id="id_contact" className={`${isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? 
       'contact-container container col-lg-9 bg-light' :
       'container bg-light py-5'}`}>
       <div className="container">

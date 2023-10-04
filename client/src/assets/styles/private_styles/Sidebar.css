@@ -4,11 +4,18 @@
     position: fixed;
     height: 100%;
   }
+.sidebar-content {
+  display: flex;
+  justify-content: center;
+}
 
 .sidebar-item {
   width:max-content;
   padding: 6px;
   border-radius: 1rem;
+  display: flex;
+  flex: row;
+  align-items: center;
 }
 
 .sidebar-item:hover {
@@ -19,6 +26,9 @@
   width:max-content;
   padding: 6px;
   border-radius: 1rem;
+  display: flex;
+  flex: row;
+  align-items: center;
 }
 
 .logout-button:hover {

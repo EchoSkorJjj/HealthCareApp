@@ -11,7 +11,8 @@ const App = () => {
 
   const fetchData = async (item) => {
     try {
-      const response = await fetch(`http://localhost:3500/api/account/getNutrition?q=${encodeURIComponent(item)}`, {
+      const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+      const response = await fetch(`${baseUrl}/api/account/getNutrition?q=${encodeURIComponent(item)}`, {
         method: 'GET',
         credentials: 'include',
       });

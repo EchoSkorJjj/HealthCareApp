@@ -3,3 +3,12 @@
     padding-top: 4rem;
     justify-content: center;
 }
+
+.search-input {
+    height: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    box-sizing: border-box;
+}

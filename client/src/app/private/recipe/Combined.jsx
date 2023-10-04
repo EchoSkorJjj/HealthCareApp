@@ -10,7 +10,7 @@ export default function Combined() {
       setSearchQuery(query);
     };
     return (
-        <div className="col-lg-9 container-fluid combined-container">
+        <div className="col-lg-9 container combined-container">
             <SearchBar onSearch={handleSearch}/>
             <RecipeList searchQuery={searchQuery}/>
         </div>
