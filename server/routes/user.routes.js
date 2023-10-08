@@ -7,35 +7,7 @@ const isAuthMiddleware = require('../middlewares/authMiddleware');
 
 router.use(isSessionMiddleware);
 
-/**
- * @swagger
- * /login:
- *   post:
- *     summary: Log in a user.
- *     description: Authenticate and log in a user.
- *     responses:
- *       200:
- *         description: User logged in successfully.
- *       401:
- *         description: Authentication failed.
- */
-router.post('/login', userController.loginUser);
-
-/**
- * @swagger
- * /logout:
- *   get:
- *     summary: Log out a user.
- *     description: Log out the currently authenticated user.
- *     responses:
- *       200:
- *         description: User logged out successfully.
- */
-router.post('/logout', userController.logoutUser);
-
 router.get('/check-auth', isAuthMiddleware);  
-
-
 
 /**
  * @swagger
@@ -126,6 +98,9 @@ router.patch('/resetPassword', userController.resetPassword);
 
 router.get('/getRecipes', isAuthMiddleware, userController.getRecipes);
 router.get('/getNutrition', isAuthMiddleware, userController.getNutrition);
+router.get('/getRecipeRating', isAuthMiddleware, userController.getRecipeRating);
+router.post('/saveRecipe', isAuthMiddleware, userController.saveRecipe);
+router.patch('/saveReview', isAuthMiddleware, userController.saveReview);
 
 
 module.exports = router;

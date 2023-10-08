@@ -30,6 +30,10 @@ const profileSchema = new mongoose.Schema({
         type: String, 
         default: "" 
     },
+    recipeBook: {
+        type: Array,
+        default: []
+    },
     friends: [
         {
             type: mongoose.Schema.Types.ObjectId,

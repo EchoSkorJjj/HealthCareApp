@@ -1,4 +1,7 @@
 const User = require('../models/userModel');
+const Profile = require('../models/profileModel');
+const Recipe = require('../models/recipeModel');
+const RecipeReview = require('../models/recipeReviewModel');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
@@ -9,55 +12,6 @@ const transporter = nodemailer.createTransport({
       pass: `${process.env.TRANSPORTER_PASSWORD}`
     }
 });
-
-// Function to handle user login
-const loginUser = async (req, res) => {
-    const { usernameOrEmail, password, rememberMe} = req.body; 
-    try {
-        // Find user by username or email
-        const user = await User.findOne({
-            $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
-        });
-
-        if (!user) {
-            return res.status(401).json({ message: 'User not found' });
-        }
-
-        // Compare passwords
-        const passwordMatch = await user.comparePassword(password);
-        if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid password' });
-        }
-        
-        // store user information in session, typically a user id
-        req.session.user = user._id
-        if (rememberMe) {
-            // Set cookie to expire in 30 days
-            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
-        } else {
-            // Set cookie to expire at end of session
-            req.session.cookie.expires = false;
-        }
-
-        res.status(200).json({ message: 'Login successful' });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
-const logoutUser = async (req, res) => {
-    try {
-        req.session.destroy(function (err) {
-          if (err) {
-            console.log('Error destroying session:', err);
-          }
-          res.clearCookie('sid', {expires: new Date(1), path:'/'});
-          res.status(200).json({ message: 'Logout successful' });
-        });
-      } catch (error) {
-        res.status(500).json({ message: 'Error logging out' });
-      }
-};
   
 // Function to get all users (requires admin privileges)
 const getAllUsers = async (req, res) => {
@@ -200,6 +154,28 @@ const getRecipes = async (req, res) => {
             `https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${process.env.EDAMAM_RECIPE_APP_ID}&app_key=${process.env.EDAMAM_RECIPE_API_KEY}`
         );
         const data = await response.json();
+        for (let i = 0; i < data.hits.length; i++) {
+            const recipeInfo = data.hits[i].recipe;
+            const uri = recipeInfo.uri;
+            const regex = /recipe_([A-Za-z0-9]+)/;
+            const match = uri.match(regex);
+            const recipeId = match[1];
+            const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+            if (!recipeExist) {
+                const newRecipe = new Recipe({
+                    recipeId: recipeId,
+                    label: recipeInfo.label,
+                    image: recipeInfo.image,
+                    ingredientLines: recipeInfo.ingredientLines,
+                    source: recipeInfo.source,
+                    totalCO2Emissions: recipeInfo.totalCO2Emissions,
+                    totalNutrients: recipeInfo.totalNutrients,
+                    yield: recipeInfo.yield,
+                    url: recipeInfo.url,
+                });
+                await newRecipe.save();
+            }
+        }
         res.status(200).json(data);
     }  catch (error) {
         res.status(400).json({ message: error.message });
@@ -219,9 +195,108 @@ const getNutrition = async (req, res) => {
     }
 };
 
+const getRecipeRating = async (req, res) => {
+    const {q : uri} = req.query;
+    try {
+        const regex = /recipe_([A-Za-z0-9]+)/;
+        const match = uri.match(regex);
+        const recipeId = match[1];
+        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        if (recipeExist) {
+            overallRating = recipeExist.overallRating;
+            numRating = recipeExist.numRating;
+            const userId = req.session.user;
+            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeId: recipeId });
+            if (recipeReview) {
+                userRating = recipeReview.rating;
+                userReview = recipeReview.review;
+            } else {
+                userRating = 0;
+                userReview = '';
+            }
+            res.status(200).json({overallRating, numRating, userRating, userReview});
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const saveRecipe = async (req,res) => {
+    const { q: uri } = req.query;
+    try {
+        const regex = /recipe_([A-Za-z0-9]+)/;
+        const match = uri.match(regex);
+        const recipeId = match[1];
+        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        if (recipeExist) {
+            const userId = req.session.user;
+            const profile = await Profile.findOne({ userId: userId });
+            if (profile) {
+                const recipeBook = profile.recipeBook;
+                if (recipeBook.includes(recipeId)) {
+                    res.status(200).json({ message: 'Recipe already saved' });
+                } else {
+                    recipeBook.push(recipeId);
+                    profile.recipeBook = recipeBook;
+                    await profile.save();
+                    res.status(200).json({ message: 'Recipe saved successfully' });
+                }
+            }
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const saveReview = async (req, res) => {
+    const { q: uri } = req.query;
+    const { rating, review } = req.body;
+    try {
+        const regex = /recipe_([A-Za-z0-9]+)/;
+        const match = uri.match(regex);
+        const recipeId = match[1];
+        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        if (recipeExist) {
+            const userId = req.session.user;
+            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeId: recipeId });
+            const recipeInfo = await Recipe.findOne({ recipeId: recipeId });
+            const date = new Date();
+            if (recipeReview) {
+                let totalrating = recipeInfo.numRating * recipeInfo.overallRating;
+                totalrating -= recipeReview.rating;
+                totalrating += rating;
+                recipeInfo.overallRating = totalrating / recipeInfo.numRating;
+                recipeReview.date = date;
+                recipeReview.rating = rating;
+                recipeReview.review = review;
+                await recipeReview.save();
+                await recipeInfo.save();
+            } else {
+                const newRecipeReview = new RecipeReview({
+                    userId: userId,
+                    recipeId: recipeId,
+                    rating: rating,
+                    review: review,
+                    date: date,
+                });
+                await newRecipeReview.save();
+
+                let totalrating = recipeInfo.numRating * recipeInfo.overallRating;
+                totalrating += rating;
+                recipeInfo.numRating += 1;
+                recipeInfo.overallRating = totalrating / recipeInfo.numRating;
+                await recipeInfo.save();
+            }
+            res.status(200).json({ message: 'Review saved successfully' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+
 module.exports = {
-    loginUser,
-    logoutUser,
     getAllUsers,
     deleteUser,
     updatePassword,
@@ -229,4 +304,7 @@ module.exports = {
     resetPassword,
     getRecipes,
     getNutrition,
+    getRecipeRating,
+    saveRecipe,
+    saveReview,
 };
