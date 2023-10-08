@@ -8,7 +8,7 @@ import ShuffleHero from '../shufflehero/ShuffleHero.jsx';
 export default function Home() {
 
     return (
-        <div className='container-fluid px-0 mx-0'>
+        <div className='container-fluid px-0 mx-0 fadein-style'>
             <ShuffleHero />
             <About />
             <Features />

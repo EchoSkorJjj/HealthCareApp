@@ -14,8 +14,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5 
-    # dns: 
-    #   - 8.8.8.8
+    dns: 
+      - 8.8.8.8
 
   client:
     build:
@@ -26,6 +26,9 @@ services:
     depends_on:
       server:
         condition: service_healthy
+    # volumes:
+    #   - ./client:/client-docker/src
+    # command: npm run dev
 
   nginx:
     build:

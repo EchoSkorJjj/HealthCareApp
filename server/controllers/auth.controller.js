@@ -22,7 +22,7 @@ async function generateUniqueUsername(fullName) {
     }
   }
 
-async function loginUser(req, res, username, fullname, userEmail, profilePic) {
+async function authLogin(req, res, username, fullname, userEmail, profilePic) {
   const user = await User.findOne({
     email: userEmail
   });
@@ -35,6 +35,7 @@ async function loginUser(req, res, username, fullname, userEmail, profilePic) {
         email: userEmail,
         passwordHash: randomPass,
         isAdmin: false,
+        isEmailVerified: true,
     });
     const userToSave = await newUser.save();
 
@@ -77,7 +78,7 @@ const handleGoogleCallback = async (req, res) => {
     // const newAccessToken = await refreshAccessToken(userAuth.refresh_token);
     // data = await getUserData(newAccessToken);
     data = await getGoogleUserData(userAuth.access_token)
-    loginUser(req, res, data.name, data.given_name, data.email, data.picture);
+    authLogin(req, res, data.name, data.given_name, data.email, data.picture);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'OAuth callback failed' });
@@ -155,14 +156,65 @@ const handleGithubCallback = async (req, res) => {
     const { login, avatar_url, name } = combinedData.basicInfo;
     const primaryEmail = combinedData.emailInfo.find((email) => email.primary)?.email;
 
-    loginUser(req, res, login, name, primaryEmail, avatar_url);
+    authLogin(req, res, login, name, primaryEmail, avatar_url);
   } catch (error) {
     console.error('GitHub OAuth callback error:', error);
     return res.status(500).json({ error: 'GitHub OAuth callback failed' });
   }
 }
 
+// Function to handle user login
+const loginUser = async (req, res) => {
+    const { usernameOrEmail, password, rememberMe} = req.body; 
+    try {
+        // Find user by username or email
+        const user = await User.findOne({
+            $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+        });
+
+        if (!user) {
+            return res.status(401).json({ message: 'User not found' });
+        }
+
+        // Compare passwords
+        const passwordMatch = await user.comparePassword(password);
+        if (!passwordMatch) {
+            return res.status(401).json({ message: 'Invalid password' });
+        }
+        
+        // store user information in session, typically a user id
+        req.session.user = user._id
+        if (rememberMe) {
+            // Set cookie to expire in 30 days
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+        } else {
+            // Set cookie to expire at end of session
+            req.session.cookie.expires = false;
+        }
+
+        res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const logoutUser = async (req, res) => {
+    try {
+        req.session.destroy(function (err) {
+          if (err) {
+            console.log('Error destroying session:', err);
+          }
+          res.clearCookie('sid', {expires: new Date(1), path:'/'});
+          res.status(200).json({ message: 'Logout successful' });
+        });
+      } catch (error) {
+        res.status(500).json({ message: 'Error logging out' });
+      }
+};
+
 module.exports = {
     handleGoogleCallback,
     handleGithubCallback,
+    loginUser,
+    logoutUser,
 };

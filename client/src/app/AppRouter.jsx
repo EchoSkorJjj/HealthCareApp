@@ -59,7 +59,7 @@ export const AppRouter = () => {
 
     async function handleLogout() {
         const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-        const response = await fetch(`${baseUrl}/api/account/logout`, {
+        const response = await fetch(`${baseUrl}/api/auth/logout`, {
             method: 'POST',
             credentials: 'include',
         });

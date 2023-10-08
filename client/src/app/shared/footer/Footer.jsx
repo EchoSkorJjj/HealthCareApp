@@ -1,15 +1,10 @@
 //how do I get the footer to stay at the bottom of the page?
 //https://stackoverflow.com/questions/643879/css-to-make-html-page-footer-stay-at-bottom-of-the-page-with-a-minimum-height-b
 import '../../../assets/styles/shared_styles/Footer.css';
-import { useAuth } from '../../../features/auth';
 
 export default function Footer() {
-    const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
-
     return (
-        <footer className={`${isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? 
-            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1' : 
-            'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1'}`}>
+        <footer className={'row d-flex flex-column bg-body-tertiary text-center text-lg-start mt-auto z-1 fadein-style'}>
             <div className='container p-4'>
                 <div className='row'>
                     <div className='col-lg-6 col-md-12 mb-4 mb-md-0'>

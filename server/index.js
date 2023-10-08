@@ -23,21 +23,6 @@ app.use(
     swaggerUi.setup(swaggerSpecs)
 );
 
-// app.use((req, res, next) => {
-//     // Allow requests from "https://localhost"
-//     res.header('Access-Control-Allow-Origin', 'https://localhost');
-    
-//     // Allow credentials (e.g., cookies) to be sent in cross-origin requests
-//     res.header('Access-Control-Allow-Credentials', 'true');
-  
-//     // Other CORS headers if needed
-//     // res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     // res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-//     // Continue to the next middleware or route
-//     next();
-//   });
-
 app.use(express.urlencoded({ extended: true }));
 //serving public file
 app.use(express.static(__dirname));

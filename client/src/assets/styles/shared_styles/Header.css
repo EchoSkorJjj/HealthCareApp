@@ -24,6 +24,12 @@
     color: white;
 }
 
+.notification-button {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
 .dropdown-toggle {
     font-size: 1.2rem !important;
     font-weight: bold !important;
@@ -80,5 +86,12 @@
     }
     .search-bar-offcanvas {
         display: block;
+    }
+    .profile-dropdown {
+        padding-left: 6px;
+    }
+    
+    .profile-icon {
+        padding-left: 3px;
     }
 }

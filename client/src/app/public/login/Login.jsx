@@ -140,7 +140,7 @@ export default function Login() {
   
         try {
             const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-            const response = await fetch(`${baseUrl}/api/account/login`, {
+            const response = await fetch(`${baseUrl}/api/auth/login`, {
               method: 'POST',
               headers: {
                 "Content-Type": "application/json",
@@ -170,7 +170,7 @@ export default function Login() {
     }
 
     return (
-    <Container fluid className="col-lg-5 col-md-10 col-sm-11 py-5 mt-auto login-container">
+    <Container fluid className="col-lg-5 col-md-10 col-sm-11 py-5 mt-auto login-container fadein-style">
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="p-3">
         <Form.Group className="mb-3">
           <Form.Label className="text-center fw-bold fs-3 text-primary">Log In</Form.Label>
