@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import RecipeList from './RecipeList';
 import SearchBar from './SearchBar';
+import RecipeList from './RecipeList';
 import '../../../assets/styles/private_styles/Combined.css';
 
 export default function Combined() {
@@ -9,6 +9,7 @@ export default function Combined() {
     const handleSearch = (query) => {
       setSearchQuery(query);
     };
+
     return (
         <div className="col-lg-9 container combined-container">
             <SearchBar onSearch={handleSearch}/>

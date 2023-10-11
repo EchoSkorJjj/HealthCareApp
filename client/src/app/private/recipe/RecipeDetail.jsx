@@ -53,6 +53,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
 
   async function handleSubmitReview(e) {
     e.preventDefault();
+    setShow(false);
     const submitReview = {...reviewForm}
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
@@ -69,6 +70,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
 
         if (response.ok) {
           window.alert('Review submitted successfully!');
+          handleGetReview();
         } else {
           const data = await response.json();
           window.alert(data.message);
@@ -77,10 +79,10 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
       window.alert('Error submitting review:', error);
     }
   }
-  
-  useEffect(() => {
+
+  async function handleGetReview() {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-    if (recipe.uri) {
+    try {
       fetch(`${baseUrl}/api/account/getRecipeRating?q=${encodeURIComponent(recipe.uri)}`,
         {
           method: 'GET',
@@ -98,7 +100,13 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
             }
           })
         .catch((error) => console.error('Error fetching recipes:', error));
+    } catch (error) {
+      window.alert('Error getting review:', error);
     }
+  }
+  
+  useEffect(() => {
+    handleGetReview();
   }, [])
 
   return (
@@ -210,6 +218,11 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
                     <span className="ml-2">{Math.round(recipe.totalNutrients.CHOLE.quantity / recipe.yield)}{recipe.totalNutrients.CHOLE.unit}</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+            <div className='row mt-3'>
+              <div className="col-auto">
+                <span>View Reviews</span>
               </div>
             </div>
           </div>

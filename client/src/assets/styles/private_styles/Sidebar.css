@@ -1,5 +1,5 @@
 .sidebar {
-    background-color: #f5f5f5;
+    background-color: rgb(250, 248, 248);
     padding-top: 5rem;
     position: fixed;
     height: 100%;
@@ -8,6 +8,8 @@
   display: flex;
   justify-content: start;
   padding-left: 1rem;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .sidebar-item {
@@ -19,8 +21,8 @@
   align-items: center;
 }
 
-.sidebar-item:hover {
-  background-color: #a24fd2;
+.sidebar-content:hover {
+  background-color: #3fd8e0;
 }
 
 .logout-button {
@@ -34,13 +36,12 @@
   align-items: center;
 }
 
-.logout-button:hover {
-  background-color: #a24fd2 !important;
-}
-
 @media screen and (min-width: 1276px) {
   .sidebar {
     width: 210px;
+  }
+  .sidebar-content {
+    margin-bottom: 15px;
   }
 }
 

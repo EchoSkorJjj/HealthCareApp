@@ -9,6 +9,7 @@ import { PublicRoute } from './PublicRoute';
 import { useNavigate, useLocation } from 'react-router-dom'
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../features/localStorage'
 import { useAuth } from '../features/auth';
+import useProfileStore from '../features/store/ProfileStore';
 
 // shared route
 const Header = lazy(() => import('./shared/header/Header.jsx'));
@@ -33,7 +34,6 @@ const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
 const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
 const CombinedPage = lazy(() => import('./private/recipe/Combined.jsx'));
 
-
 export const AppRouter = () => {
     const [show, setShow] = useState(false);
     const handleToggle = useCallback(() => setShow(!show));
@@ -44,6 +44,7 @@ export const AppRouter = () => {
     const [, setIsGithubAuthenticated] = useLocalStorage(GITHUB_AUTH_KEY);
     const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const resetProfileData = useProfileStore((state) => state.setProfileData);
 
     const googleLogout = useCallback(() => {
       setIsGoogleAuthenticated(undefined);
@@ -64,6 +65,7 @@ export const AppRouter = () => {
             credentials: 'include',
         });
         if (response.ok) {
+            resetProfileData();
             if (isGoogleAuthenticated) {  
             googleLogout();
             } 

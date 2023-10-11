@@ -3,21 +3,21 @@ import '../../../assets/styles/private_styles/RecipeCard.css';
 import RecipeDetail from './RecipeDetail';
 import {Tilt} from 'react-tilt';
 import {motion} from 'framer-motion';
+import Loader from '../../shared/loader/Loader.jsx';
 
 export default function RecipeList({ searchQuery }) {
-  const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [showSearchBar, setShowSearchBar] = useState(true);
+  const [loading, setLoading] = useState(false);
   const fadeInAnimation = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
   
-  
   useEffect(() => {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     if (searchQuery) {
+      setLoading(true);
       fetch(`${baseUrl}/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
         {
           method: 'GET',
@@ -27,14 +27,14 @@ export default function RecipeList({ searchQuery }) {
         .then((response) => response.json())
         .then((data) => {
           if (data.hits) { 
-            setRecipes(data.hits);
+            setLoading(false);
             setSearchResults(data.hits);
-            setShowSearchBar(false);
           }
         })
         .catch((error) => console.error('Error fetching recipes:', error));
     }
   }, [searchQuery]);
+  
   
 
   const handleRecipeClick = (recipe) => {
@@ -42,6 +42,7 @@ export default function RecipeList({ searchQuery }) {
   };
 
   return (
+    loading ? <Loader /> :
     <div className="recipe-list row">
       {selectedRecipe ? (
         <RecipeDetail recipe={selectedRecipe.recipe} setSelectedRecipe={setSelectedRecipe} />

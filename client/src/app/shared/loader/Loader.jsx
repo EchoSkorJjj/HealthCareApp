@@ -4,7 +4,7 @@ import '../../../assets/styles/shared_styles/Loader.css'
 
 export default function loader() {
     return (
-        <div className="loader">
+        <div className="loader z-index-2">
             <ProgressBar
             height="100"
             width="150"
