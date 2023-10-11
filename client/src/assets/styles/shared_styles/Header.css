@@ -31,21 +31,28 @@
 }
 
 .dropdown-toggle {
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
     font-weight: bold !important;
     border: none !important;
     box-shadow: none !important;
     transition: background-color 0.3s;
     border-radius: 1rem;
     background-color: transparent !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .dropdown-toggle:hover {
     background-color: gray;
 }
 
-.dropdown-toggle::after {
-    display: none !important;
+.profile-icon {
+    margin-right: 2px;
+}
+
+.profile-icon img {
+    margin-right: 3px;
 }
 
 .nav-link-custom {
@@ -86,9 +93,6 @@
     }
     .search-bar-offcanvas {
         display: block;
-    }
-    .profile-dropdown {
-        padding-left: 6px;
     }
     
     .profile-icon {

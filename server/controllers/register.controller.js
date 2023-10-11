@@ -121,7 +121,8 @@ const createNewUser = async (req, res) => {
         const profile = new Profile({
             userId: userToSave._id,
             username: userToSave.username,
-            fullName: userToSave.fullName
+            fullName: userToSave.fullName,
+            email: email,
         });
 
         const profileToSave = await profile.save();

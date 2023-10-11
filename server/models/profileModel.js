@@ -14,9 +14,13 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     age: {
         type: Number,
-        default: ""
+        default: 0
     },
     gender: {
         type: String,

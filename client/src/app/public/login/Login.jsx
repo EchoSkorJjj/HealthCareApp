@@ -8,12 +8,14 @@ import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+import useProfileStore from '../../../features/store/ProfileStore';
 
 export default function Login() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
     const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
     const [, setIsGithubAuthenticated] = useLocalStorage(GITHUB_AUTH_KEY);
-    
+    const setProfileData = useProfileStore((state) => state.setProfileData)
+
     const navigate = useNavigate();
 
     const [iconClicked, setIconClicked] = useState({
@@ -41,6 +43,17 @@ export default function Login() {
         });
     }
 
+    function saveProfileData(profileData) {
+      setProfileData({
+        username: profileData.username, 
+        fullname: profileData.fullName, 
+        age: profileData.age, 
+        gender: profileData.gender, 
+        email: profileData.email,
+        profilePicture: profileData.profilePicture
+      })
+    }
+
     const googleLogin = useCallback(() => {
       setIsGoogleAuthenticated(true);
     }, [setIsGoogleAuthenticated]);
@@ -48,9 +61,6 @@ export default function Login() {
     const googleAuth = useGoogleLogin({
       onSuccess: async ({ code }) => {
         try {
-          await new Promise((resolve) => {
-            setTimeout(resolve, 0);
-          });
           const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
           const response = await axios.post(`${baseUrl}/api/auth/google/callback`, {
             code,
@@ -58,10 +68,19 @@ export default function Login() {
             withCredentials: true,
           });
           if (response.status === 200) {
+            const dataResponse = response.data
+            const profileData = dataResponse.profile;
+            saveProfileData(profileData);
             googleLogin();
             navigate("/homepage");
           } else {
-            window.alert("Unexpected response status:", response.status);
+            try {
+              const errorResponse = await response.json();
+              const errorMessage = errorResponse.message; 
+              window.alert(`Login failed: ${errorMessage}`);
+            } catch (error) {
+              window.alert("An error occurred while logging in."); 
+            }
           }
         } catch (error) {
           window.alert("Error:", error);
@@ -88,9 +107,6 @@ export default function Login() {
   
       if (code) {
         try {
-          await new Promise((resolve) => {
-            setTimeout(resolve, 0);
-          });
           const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
           const response = await fetch(`${baseUrl}/api/auth/github/callback`, {
             method: 'POST',
@@ -102,10 +118,19 @@ export default function Login() {
           });
   
           if (response.ok) {
+            const dataResponse = response.data
+            const profileData = dataResponse.profile;
+            saveProfileData(profileData);
             githubLogin();
             navigate("/homepage");
           } else {
-            console.error('Error during GitHub token exchange:', response);
+            try {
+              const errorResponse = await response.json();
+              const errorMessage = errorResponse.message; 
+              window.alert(`Login failed: ${errorMessage}`);
+            } catch (error) {
+              window.alert("An error occurred while logging in."); 
+            }
           }
         } catch (error) {
           console.error('Error during GitHub token exchange:', error);
@@ -152,6 +177,9 @@ export default function Login() {
             });
 
             if (response.ok) {
+              const dataResponse = await response.json();
+              const profileData = dataResponse.profile;
+              saveProfileData(profileData);
               login();
               setForm({ usernameOrEmail: "", password: "" });
               navigate("/homepage");

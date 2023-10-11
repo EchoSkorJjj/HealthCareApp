@@ -44,16 +44,21 @@ async function authLogin(req, res, username, fullname, userEmail, profilePic) {
         username: userToSave.username,
         fullName: userToSave.fullName,
         profilePicture: profilePic,
+        email: userEmail,
     });
     const profileToSave = await newProfile.save();
 
+    const profile = await Profile.findOne({userId: userToSave._id})
     req.session.user = userToSave._id
     req.session.cookie.expires = false;
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({ profile: profile });
   } else {
+    const profile = await Profile.findOne({userId: user._id})
+    profile.profilePicture = profilePic;
+    const profileToSave = await profile.save();
     req.session.user = user._id
     req.session.cookie.expires = false;
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({ profile: profile });
   }
 }
   
@@ -191,8 +196,8 @@ const loginUser = async (req, res) => {
             // Set cookie to expire at end of session
             req.session.cookie.expires = false;
         }
-
-        res.status(200).json({ message: 'Login successful' });
+        const profile = await Profile.findOne({userId: user._id})
+        res.status(200).json({ profile: profile });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

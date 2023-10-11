@@ -148,39 +148,62 @@ const resetPassword = async (req, res) => {
 };
 
 const getRecipes = async (req, res) => {
-    const {q : searchQuery} = req.query;
+    const { q: searchQuery } = req.query;
+  
     try {
-        const response = await fetch(
-            `https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${process.env.EDAMAM_RECIPE_APP_ID}&app_key=${process.env.EDAMAM_RECIPE_API_KEY}`
-        );
-        const data = await response.json();
-        for (let i = 0; i < data.hits.length; i++) {
-            const recipeInfo = data.hits[i].recipe;
-            const uri = recipeInfo.uri;
-            const regex = /recipe_([A-Za-z0-9]+)/;
-            const match = uri.match(regex);
-            const recipeId = match[1];
-            const recipeExist = await Recipe.findOne({ recipeId: recipeId });
-            if (!recipeExist) {
-                const newRecipe = new Recipe({
-                    recipeId: recipeId,
-                    label: recipeInfo.label,
-                    image: recipeInfo.image,
-                    ingredientLines: recipeInfo.ingredientLines,
-                    source: recipeInfo.source,
-                    totalCO2Emissions: recipeInfo.totalCO2Emissions,
-                    totalNutrients: recipeInfo.totalNutrients,
-                    yield: recipeInfo.yield,
-                    url: recipeInfo.url,
-                });
-                await newRecipe.save();
-            }
+      const response = await fetch(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${process.env.EDAMAM_RECIPE_APP_ID}&app_key=${process.env.EDAMAM_RECIPE_API_KEY}`
+      );
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch recipes from the external API');
+      }
+  
+      const data = await response.json();
+  
+      const recipesToInsert = [];
+  
+      for (const hit of data.hits) {
+        const recipeInfo = hit.recipe;
+        const uri = recipeInfo.uri;
+        const regex = /recipe_([A-Za-z0-9]+)/;
+        const match = uri.match(regex);
+  
+        if (!match) {
+          continue; // Skip recipes with invalid URIs
         }
-        res.status(200).json(data);
-    }  catch (error) {
-        res.status(400).json({ message: error.message });
+  
+        const recipeId = match[1];
+  
+        // Check if the recipe already exists in your database
+        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+  
+        if (!recipeExist) {
+          recipesToInsert.push({
+            recipeId: recipeId,
+            label: recipeInfo.label,
+            image: recipeInfo.image,
+            ingredientLines: recipeInfo.ingredientLines,
+            source: recipeInfo.source,
+            totalCO2Emissions: recipeInfo.totalCO2Emissions,
+            totalNutrients: recipeInfo.totalNutrients,
+            yield: recipeInfo.yield,
+            url: recipeInfo.url,
+          });
+        }
+      }
+  
+      if (recipesToInsert.length > 0) {
+        await Recipe.insertMany(recipesToInsert);
+      }
+  
+      res.status(200).json(data);
+    } catch (error) {
+      console.error('Error fetching and inserting recipes:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-};
+  };
+  
 
 const getNutrition = async (req, res) => {
     const {q : item} = req.query;

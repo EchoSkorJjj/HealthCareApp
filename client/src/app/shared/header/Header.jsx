@@ -1,7 +1,7 @@
 import '../../../assets/styles/shared_styles/Header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown, Container, Offcanvas, Button, Modal, Form} from 'react-bootstrap';  
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '../../../features/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faRightFromBracket, faEllipsis, faListUl, faBell } from '@fortawesome/free-solid-svg-icons'
@@ -10,10 +10,14 @@ import profilepic from '../../../assets/images/user.png';
 import DrawOutlineButton from '../../components/button/DrawOutline.jsx'
 import NotificationTray from '../../components/notification/NotificationTray.jsx'
 import { motion, AnimatePresence} from 'framer-motion'
+import useProfileStore  from '../../../features/store/ProfileStore';
 
 export default function Header({onToggle, handleLogout}) {
     const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
+    
+    const profileData = useProfileStore((state) => state.profileStore)
 
+    
     const initialNotifications = [
         "User #20 left you a like!",
         "User #45 sent you a friend request",
@@ -115,19 +119,20 @@ export default function Header({onToggle, handleLogout}) {
                                         <FontAwesomeIcon icon={faBell} className="bell-icon "/>
                                     </button>
                                 </motion.div>   
-                                <div className="p-1 me-4 d-flex">
+                                <div className="p-1 me-4">
                                     <NavDropdown
                                     title={<div className='profile-icon'>
                                         <img 
-                                        src={profilepic} 
+                                        src={profileData.profilePicture || profilepic} 
                                         alt="Profile Pic"
                                         width="30"
                                         height="30"
+                                        className='rounded-circle'
                                         />
+                                        {profileData.username}
                                         </div>}
                                     id={`offcanvasNavbarDropdown-expand-lg`}
                                     align="end"
-                                    className='profile-dropdown'
                                     >
                                         <NavDropdown.Item href="/profile"><FontAwesomeIcon icon={faUser} className="me-2"/>Profile</NavDropdown.Item>
                                         <NavDropdown.Item href="/settings"><FontAwesomeIcon icon={faGear} className="me-2"/>Settings</NavDropdown.Item>
