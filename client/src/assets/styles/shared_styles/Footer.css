@@ -8,3 +8,8 @@
         margin-left: 52px;
     }
 }
+
+.footer-link {
+    text-decoration: none;
+    color: white;
+}

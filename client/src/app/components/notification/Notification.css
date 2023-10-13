@@ -4,8 +4,8 @@
     background-color: white;
     position: fixed;
     width: 24rem;
-    top: 4.5rem;
-    right: 2rem;
+    top: 6rem;
+    right: calc(100vw - 95vw);
     color: rgb(65, 65, 81);
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -44,7 +44,7 @@
         position: fixed;
         width: 18rem;
         top: 11rem;
-        right: 5rem;
+        right: 5.5rem;
         color: rgb(65, 65, 81);
         font-size: 0.8rem;
         line-height: 1.25rem;

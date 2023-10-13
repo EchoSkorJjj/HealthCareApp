@@ -55,7 +55,7 @@ router.delete('/delete/:username', isAdminMiddleware, userController.deleteUser)
  * /updatePassword:
  *   patch:
  *     summary: Update a user's password.
- *     description: Update a user's password. This route requires user token (cookies).
+ *     description: Update a user's password. This route requires session token.
  *     security:
  *       - sessionAuth: []
  *     responses:
@@ -101,6 +101,8 @@ router.get('/getNutrition', isAuthMiddleware, userController.getNutrition);
 router.get('/getRecipeRating', isAuthMiddleware, userController.getRecipeRating);
 router.post('/saveRecipe', isAuthMiddleware, userController.saveRecipe);
 router.patch('/saveReview', isAuthMiddleware, userController.saveReview);
+
+router.patch('/updateSetting', isAuthMiddleware, userController.updateSetting);
 
 
 module.exports = router;

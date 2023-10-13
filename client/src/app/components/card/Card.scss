@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+$light_green:#effffa;
+$dark_green:#14da8f;
+$black:#000000;
+$white:#fff;
+.dflex{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+}
+
+.service_container{
+    display:block;
+    width:80%;
+    margin:80px auto 0 auto;
+    .title_wrapper{
+      overflow: hidden;
+      .service_title{
+        display:block;
+        text-align: center;
+        color:$dark_green;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 20px;
+        font-weight: 600;
+        overflow: hidden;
+      }    
+    }
+    h2{
+       font-size:2.2vw;
+       font-weight: 600;
+       color:$black;
+       text-align: center;
+       text-transform: capitalize;
+       margin-top:20px;
+       line-height: 1.5;
+       overflow: hidden; 
+    }
+  }
+  
+  .service_card{
+    @extend .dflex;
+    flex-wrap: wrap;
+    grid-gap:1vw;
+    justify-content: flex-start;
+    margin:60px 0;
+    .card{
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width:calc(96% / 4);
+      border:1px solid #f0f0f0;
+      border-radius: 8px;
+      background-color: $white;
+      padding:2.8vw 3.4vw;
+      height:16.67vw;
+      position:relative;
+      top:0;
+      transition:all .3s ease-in-out;
+      &:hover{
+        box-shadow: rgba(0,0,0,0.45) 0px 25px 20px -20px;
+        cursor:pointer;
+        top:-5px;
+      }
+      &.dark{
+        background-color:$black;
+        color:$white;
+        .line{
+          position: absolute;
+          top:0;
+          right:3.8vw;
+          width:4.5vw;
+        }
+        h2{
+          color:$white;
+          text-align: left;
+        }
+        a{
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      .service_icon{
+        width:3.02vw;
+        height:3.02vw;
+        display:inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $dark_green;
+        color:$white;
+        border-radius: 8px;
+      }
+      h3{
+        font-size:1.15vw;
+        font-weight: 600;
+        color:$black;
+        text-transform: capitalize;
+      }
+      a{
+        display: inline-flex;
+        justify-content: flex-start;
+        font-size: .94vw;
+        color:$dark_green;
+        text-decoration: none;
+        align-items: center;
+        span{
+          margin-right:8px;
+        }
+        svg{
+          margin-top:3px;
+        }
+      }
+    }
+  }
+
+@media screen and (max-width: 1147px) {
+    .service_container {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .service_title {
+        font-size: 16px!important;
+    }
+
+    .service_container h2 {
+        font-size: 20px!important;
+    }
+
+    .service_card {
+        display: flex;
+        flex-wrap: wrap; /* Allow cards to wrap to the next line */
+        justify-content: space-between; /* Create space between the cards */
+        width: 100%; /* Set the width to 100% to make the cards stack vertically */
+        margin: 0 auto; /* Center-align the cards within the container */
+        padding: 2% 3.4vw; /* Adjust padding as needed for better spacing */
+
+        .card {
+            width: calc(48% - 1%); /* Set the width to 48% with 1% spacing between cards */
+            margin-bottom: 20px; /* Add some space between cards */
+            height:23vw;
+            h3 {
+                font-size: 16px!important;
+            }
+            a {
+                font-size: 12px !important;
+                svg{
+                    margin-top:3px;
+                    width:2.02vw;
+                    height:2.02vw;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .service_card {
+        flex-direction: column;
+        .card {
+            width: 80% !important;
+            height:30vw;
+        }
+    }
+}

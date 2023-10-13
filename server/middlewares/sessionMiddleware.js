@@ -38,6 +38,6 @@ const developmentSessionMiddleware = session({
 });
 
 // const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
-const sessionMiddleware = productionSessionMiddleware;
+const sessionMiddleware = developmentSessionMiddleware;
 
 module.exports = sessionMiddleware;

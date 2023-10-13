@@ -1,7 +1,8 @@
-import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from '../features/auth'
-import { AppRouter } from './AppRouter'
-import './App.css'
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '../features/auth';
+import { AppRouter } from './AppRouter';
+import './App.css';
+import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
