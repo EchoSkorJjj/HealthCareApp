@@ -317,6 +317,46 @@ const saveReview = async (req, res) => {
     }
 }
 
+const updateSetting = async (req, res) => {
+    const { username, fullname,email, age, gender, bio, profilePicture } = req.body;
+    try {
+        const user = await User.findOne({
+            email: email
+          });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.username != username) {
+            const userExist = await User.findOne({ username: username });
+
+            if (userExist) {
+                return res.status(400).json({ message: 'Username is already taken' });
+            }
+        }
+        user.username = username;
+        user.fullName = fullname;
+        const userToSave = await user.save();
+
+        const userprofile = await Profile.findOne({userId: userToSave._id});
+        if (userprofile) {
+            userprofile.username = username;
+            userprofile.fullName = fullname;
+            userprofile.age = age;  
+            userprofile.gender = gender;
+            userprofile.bio = bio;
+            userprofile.profilePicture = profilePicture;
+            await userprofile.save();
+        }
+
+        res.status(200).json({ profile: userprofile });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -330,4 +370,5 @@ module.exports = {
     getRecipeRating,
     saveRecipe,
     saveReview,
+    updateSetting,
 };

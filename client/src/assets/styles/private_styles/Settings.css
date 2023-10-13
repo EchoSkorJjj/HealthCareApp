@@ -1,5 +1,5 @@
 .settings-container {
-    padding-top: 5rem;
+    padding-top: 108px;
     margin-left: 210px;
     width: calc(100%-210px);
     margin-right: 0px;
@@ -16,4 +16,8 @@
     .settings-container {
         margin-left: 0px;
     }
+}
+
+.setting-header {
+    background: none !important;
 }

@@ -54,7 +54,9 @@ async function authLogin(req, res, username, fullname, userEmail, profilePic) {
     res.status(200).json({ profile: profile });
   } else {
     const profile = await Profile.findOne({userId: user._id})
-    profile.profilePicture = profilePic;
+    if (!profile.profilePicture) {
+      profile.profilePicture = profilePic;
+    }
     const profileToSave = await profile.save();
     req.session.user = user._id
     req.session.cookie.expires = false;
