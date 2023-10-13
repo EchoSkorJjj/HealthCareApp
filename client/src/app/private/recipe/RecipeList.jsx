@@ -13,6 +13,15 @@ export default function RecipeList({ searchQuery }) {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
+
+  const hoverEffect = {
+    whileHover:{
+        scale:1.1
+    },
+    whileTap:{
+        scale:1.1
+    },
+  }
   
   useEffect(() => {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
@@ -56,7 +65,7 @@ export default function RecipeList({ searchQuery }) {
             transition={{ duration: 1, delay: index * 0.3 }}
             className="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4"
           >
-            <Tilt options={{ max: 0 }} className="card recipe-card mx-0">
+            <motion.div className="card recipe-card mx-0"  variants={hoverEffect} whileHover="whileHover">
               <img src={recipe.recipe.image} alt={recipe.recipe.label} className="card-img-top" loading="lazy"/>
               <div className='card-body'>
                 <h5 className="card-title card-list-title">{recipe.recipe.label}</h5>
@@ -80,7 +89,7 @@ export default function RecipeList({ searchQuery }) {
                   <button type="button" className="btn btn-secondary" onClick={() => handleRecipeClick(recipe)}>View Recipe</button>
                 </ul>
               </div>
-            </Tilt>
+            </motion.div>
           </motion.div>
         ))
       )}

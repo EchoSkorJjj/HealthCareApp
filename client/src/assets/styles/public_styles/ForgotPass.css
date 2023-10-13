@@ -1,4 +1,10 @@
 .forgotpass-container {
-  flex-grow: 1;
-  overflow-y: auto;
+  padding-top: 5rem !important;
+}
+
+.email-icon {
+  position: absolute;
+  right: 0;
+  padding-right: 30px;
+  transform: translateY(-57px);
 }

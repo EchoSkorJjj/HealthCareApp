@@ -48,6 +48,7 @@ export default function Login() {
         username: profileData.username, 
         fullname: profileData.fullName, 
         age: profileData.age, 
+        bio: profileData.bio,
         gender: profileData.gender, 
         email: profileData.email,
         profilePicture: profileData.profilePicture
