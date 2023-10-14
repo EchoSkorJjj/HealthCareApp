@@ -116,10 +116,10 @@ Guidance on how to use the app effectively.
     - Calculate calorie content, macronutrient breakdown, and other nutritional insights for recipes.
     - Make informed dietary choices by understanding the nutritional value of your favorite dishes.
 
-3. **Feature 3**
-    - Description of feature 3
-    - Description of feature 3
-    - Description of feature 3
+3. **Smart Exercise Assistant**
+    - Use Tenserflow library to track the right posture for exercise
+    - Also provides counter for user to keep track of exercise currently being done
+    - Ensures users are doing the exercise correctly
 
 4. **Feature 4**
     - Description of feature 4
