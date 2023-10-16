@@ -1,5 +1,5 @@
-import axios from "axios";
-import react, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
+import '../../../assets/styles/private_styles/RecipeBook.css';
 
 export default function RecipeBook() {
     const [recipes, setRecipes] = useState([]);
@@ -7,25 +7,42 @@ export default function RecipeBook() {
     useEffect(() => {
         const fetchRecipes = async () => {
             const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-            const response = await axios.get(`${baseUrl}/api/account/getRecipeBook`);
-            setRecipes(response.data);
+            try {
+                fetch(`${baseUrl}/api/account/getRecipeBook`, {
+                    method: 'GET',
+                    credentials: 'include',
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.recipeList) {
+                        setRecipes(data.recipeList);
+                    }
+                })
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchRecipes();
     }, []);
     
     return (
-        <div>
-        <h1>Recipe Book</h1>
-        <ul>
-            {/* {recipes.map((recipe) => (
-            <li key={recipe.id}>
-                <h2>{recipe.name}</h2>
-                <p>{recipe.description}</p>
-                <p>{recipe.ingredients}</p>
-                <p>{recipe.instructions}</p>
-            </li>
-            ))} */}
-        </ul>
+        <div className='container book-container col-lg-9 bg-light'>
+            <div className="container py-5">
+                <div className="row">
+                    <h1>Recipe Book</h1>
+                </div>
+                <ul className='list-group'>
+                    {recipes.map((recipe) => (
+                    <li className='list-group-item d-flex justify-content-between align-items-start text-start' key={recipe.recipeId}>
+                        <div className="ms-2 me-auto">
+                            <div className="fw-bold">{recipe.label}</div>
+                            <p>{recipe.yield}</p>
+                            <p>{recipe.ingredientLines}</p>
+                        </div>                        
+                    </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }

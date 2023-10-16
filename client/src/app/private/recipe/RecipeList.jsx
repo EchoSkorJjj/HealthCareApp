@@ -4,11 +4,20 @@ import RecipeDetail from './RecipeDetail';
 import {Tilt} from 'react-tilt';
 import {motion} from 'framer-motion';
 import Loader from '../../shared/loader/Loader.jsx';
+import useRecipeStore from '../../../features/store/RecipeStore';
 
 export default function RecipeList({ searchQuery }) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const searchName = useRecipeStore((state) => state.searchName);
+  const recipeResults = useRecipeStore((state) => state.recipeResults);
+  const setSearchName = useRecipeStore((state) => state.setSearchName);
+  const resetSearchName = useRecipeStore((state) => state.resetSearchName);
+  const setRecipeResults = useRecipeStore((state) => state.setRecipeResults);
+  const resetRecipeResults = useRecipeStore((state) => state.resetRecipeResults);
+
   const fadeInAnimation = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -22,10 +31,22 @@ export default function RecipeList({ searchQuery }) {
         scale:1.1
     },
   }
-  
+
   useEffect(() => {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     if (searchQuery) {
+      if (searchName == '') {
+        setSearchName(searchQuery);
+      }
+      else if (searchName == searchQuery) {
+        setSearchResults([...recipeResults]);
+        return;
+      } else if (searchName != searchQuery) {
+        resetSearchName();
+        resetRecipeResults();
+        setSearchName(searchQuery);
+      }
+
       setLoading(true);
       fetch(`${baseUrl}/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
         {
@@ -38,9 +59,15 @@ export default function RecipeList({ searchQuery }) {
           if (data.hits) { 
             setLoading(false);
             setSearchResults(data.hits);
+            setRecipeResults(data.hits);
           }
         })
         .catch((error) => console.error('Error fetching recipes:', error));
+    }
+    else {
+      if (searchName != '') {
+        setSearchResults([...recipeResults]);
+      }
     }
   }, [searchQuery]);
   
@@ -83,7 +110,7 @@ export default function RecipeList({ searchQuery }) {
                   {recipe.recipe.totalCO2Emissions && (
                     <li className='list-group-item'>
                       <div>Total CO2 Emissions:</div>
-                      <div>{Math.round(recipe.recipe.totalCO2Emissions)}</div>
+                      <div>{!isNaN(recipe.recipe.totalCO2Emissions) ? Math.round(recipe.recipe.totalCO2Emissions) : 0}</div>
                     </li>
                   )}
                   <button type="button" className="btn btn-secondary" onClick={() => handleRecipeClick(recipe)}>View Recipe</button>

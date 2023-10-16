@@ -9,11 +9,14 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
     numRating: 0,
   })
 
-  const [reviewForm, setReview] = useState({
+  const [reviewForm, setReviewForm] = useState({
     rating: 0,
     review: '',
     hasReview: false,
   })
+
+  const [reviews, setReviews] = useState([]);
+
   const [show, setShow] = useState(false);
 
   const handleCloseReview = () => setShow(false);
@@ -25,8 +28,8 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
     });
   }
 
-  function updateReview(value) {
-    return setReview((prev) => {
+  function updateReviewForm(value) {
+    return setReviewForm((prev) => {
         return {...prev, ...value};
     });
   }
@@ -93,10 +96,11 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
         .then((data) => {
             updateRating({overallRating: data.overallRating})
             updateRating({numRating: data.numRating})
+            setReviews(data.reviews)
             if (data.userRating != 0) {
-              updateReview({rating: data.userRating})
-              updateReview({review: data.userReview})
-              updateReview({hasReview: true})
+              updateReviewForm({rating: data.userRating})
+              updateReviewForm({review: data.userReview})
+              updateReviewForm({hasReview: true})
             }
           })
         .catch((error) => console.error('Error fetching recipes:', error));
@@ -140,7 +144,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
                       className="mb-3"
                     >
                       <Form.Label>Description</Form.Label>
-                      <Form.Control as="textarea" rows={3} value={reviewForm.review} onChange={(e) => updateReview({ review: e.target.value })}/>
+                      <Form.Control as="textarea" rows={3} value={reviewForm.review} onChange={(e) => updateReviewForm({ review: e.target.value })}/>
                     </Form.Group>
                   </Form>
                 </Modal.Body>
@@ -162,14 +166,14 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
               </div>
             </div>
             <div className='row mb-4'>
-              <div className="col-lg-auto">
+              <div className="col-lg-auto d-flex align-items-center justify-content-center flex-sm-row flex-column ">
                 <Rating
                   transition={true}
                   allowFractionChange={true}
                   readonly={true}
                   initialValue={rating.overallRating}
-                />
-                <span className="ml-2">{rating.numRating} ratings</span>
+                /> 
+                <span className='ms-2 d-sm-inline-block d-block'>{rating.numRating} ratings</span>
               </div>
             </div>
             <div className='row mt-3'>
@@ -221,14 +225,39 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
               </div>
             </div>
             <div className='row mt-3'>
+              <div className="col-lg-auto">
+                <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
+              </div>
               <div className="col-auto">
-                <span>View Reviews</span>
+                <div className="modal fade" id="reviewModal" aria-labelledby="reviewModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="reviewModalLabel">User Reviews</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        <ul className="list-group">
+                          {reviews.map((review, index) => (
+                            <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
+                              <div className="ms-2 me-auto">
+                                <div className="fw-bold text-start">{review.username}</div>
+                                <p>{review.review}</p> 
+                              </div>
+                              <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className='row container d-flex justify-content-center mt-5'>
-          <div className='col-6'>
+          <div className='col-md-6 col-sm-9 col-12'>
             <h2>Ingredients</h2>
             <ul className='list-group list-group-flush'>
               {recipe.ingredientLines.map((ingredient, index) => (
