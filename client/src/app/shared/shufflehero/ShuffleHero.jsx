@@ -6,12 +6,12 @@ import {IoMailOutline, IoChevronForwardCircle, IoStar} from 'react-icons/io5';
 import {IconContext} from "react-icons";
 
 const ShuffleHero = () => {
-  let easeing = [0.6,-0.05,0.01,0.99];
+  let easing = "easeInOut";
 
   const stagger = {
     animate:{
         transition:{
-        delayChildren:0.4,
+        delayChildren:0.3,
         staggerChildren:0.2,
         staggerDirection:1
         }
@@ -23,7 +23,7 @@ const ShuffleHero = () => {
         y:-60,
         opacity:0,
         transition:{
-        duration:0.6, ease:easeing
+        duration:0.6, ease:easing
         }
     },
     animate:{
@@ -32,63 +32,79 @@ const ShuffleHero = () => {
         transition:{
         duration:0.6,
         delay:0.5,
-        ease:easeing
+        ease:easing
         }
     }
   };
 
-  const transition = {duration:1.4,ease:[0.6,0.01,-0.05,0.9]};
+  const transition = {duration:0.5,ease:[0.6, 0.01, 0, 0.9]};
 
-    const firstName = {
-        initial:{
-            y:-20,
+  const stagger2 = {
+    hidden: {},
+    show:{
+        transition:{
+            delayChildren:0.05,
+            staggerChildren:0.1,
+        }
+    }
+  }
+
+    const firstname ={
+        hidden: {
+          y: -20,
+          opacity: 0,
         },
-        animate:{
-            y:0,
-            transition:{
-            delayChildren:0.4,
+        show: {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          transition:{
+            delayChildren:0.1,
             staggerChildren:0.04,
             staggerDirection:-1
-            }
-        }
-    }
-
-    const lastName = {
-        initial:{
-            y:-20,
+            },
         },
-        animate:{
-            y:0,
-            transition:{
-            delayChildren:0.4,
-            staggerChildren:0.04,
-            staggerDirection:1
-            }
-        }
-    }
+    };
+
+    const lastname ={
+      hidden: {
+        y: -20,
+        opacity: 0,
+      },
+      show: {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        transition:{
+          delayChildren:0.1,
+          staggerChildren:0.04,
+          staggerDirection:1
+          },
+      },
+    };
 
     const letter = {
-        initial:{
-            y:400,
-        },
-        animate:{
-            y:0,
-            transition:{duration:1, ...transition}
-        }
+      hidden: {
+          y:400,
+      },
+      show:{
+          y:0,
+          transition:{duration:0.5, ...transition}
+      }
     };
 
     const btnGroup={
         initial:{
             y:-60,
             opacity:0,
-            transition:{duration:0.6, ease:easeing}
+            transition:{duration:0.6, ease:easing}
         },
         animate:{
             y:0,
             opacity:1,
             animation:{
             duration:0.6,
-            ease:easeing
+            ease:easing
             }
         }
     };
@@ -96,64 +112,67 @@ const ShuffleHero = () => {
         initial:{
             y:60,
             opacity:0,
-            transition:{duration:0.8, ease:easeing}
+            transition:{duration:0.8, ease:easing}
         },
         animate:{
             y:0,
             opacity:1,
             animation:{
             duration:0.6,
-            ease:easeing
+            ease:easing
             }
         }
     };
 
   return (
     <motion.div initial='initial' animate='animate'>
-      <motion.div className="content_wrapper row" initial={{opacity:0,scale:0}} animate={{opacity:1, scale:1}} transition={{duration:0.3, ease:easeing}}>
-        <div className="left_content_wrapper col-lg-6 col-12">
-          <motion.h2>
-              <motion.span variants={firstName} initial="initial" animate="animate" className='first'>
-                  <motion.span variants={letter}>Y</motion.span>
-                  <motion.span variants={letter}>o</motion.span>
-                  <motion.span variants={letter}>u</motion.span>
-                  <motion.span variants={letter}>r</motion.span>
-                  <motion.span variants={letter} className="second">P</motion.span>
-                  <motion.span variants={letter}>a</motion.span>
-                  <motion.span variants={letter}>t</motion.span>
-                  <motion.span variants={letter}>h</motion.span>
-                  <motion.span variants={letter} className="second">t</motion.span>
-                  <motion.span variants={letter}>o</motion.span>
-                  <motion.span variants={letter} className="second">W</motion.span>
-                  <motion.span variants={letter}>e</motion.span>
-                  <motion.span variants={letter}>l</motion.span>
-                  <motion.span variants={letter}>l</motion.span>
-                  <motion.span variants={letter}>n</motion.span>
-                  <motion.span variants={letter}>e</motion.span>
-                  <motion.span variants={letter}>s</motion.span>
-                  <motion.span variants={letter}>s,</motion.span>
-              </motion.span>
-              <motion.span variants={lastName} initial="initial" animate="animate" className='last'>
-                  <motion.span variants={letter}>E</motion.span>
-                  <motion.span variants={letter}>v</motion.span>
-                  <motion.span variants={letter}>e</motion.span>
-                  <motion.span variants={letter}>r</motion.span>
-                  <motion.span variants={letter}>y</motion.span>
-                  <motion.span variants={letter} className="second">S</motion.span>
-                  <motion.span variants={letter}>t</motion.span>
-                  <motion.span variants={letter}>e</motion.span>
-                  <motion.span variants={letter}>p</motion.span>
-                  <motion.span variants={letter} className="second">o</motion.span>
-                  <motion.span variants={letter}>f</motion.span>
-                  <motion.span variants={letter} className="second">t</motion.span>
-                  <motion.span variants={letter}>h</motion.span>
-                  <motion.span variants={letter}>e</motion.span>
-                  <motion.span variants={letter} className="second">W</motion.span>
-                  <motion.span variants={letter}>a</motion.span>
-                  <motion.span variants={letter}>y.</motion.span>
-              </motion.span>
-          </motion.h2>
-
+      <motion.div className="content_wrapper row" initial={{opacity:0,scale:0}} animate={{opacity:1, scale:1}} transition={{duration:0.3, ease:easing}}>
+        <motion.div className="left_content_wrapper col-lg-6 col-12" >
+          <motion.h2 
+          variants={stagger2} 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.25 }} >
+            <motion.span variants={firstname} className='first'>
+                <motion.span variants={letter}>Y</motion.span>
+                <motion.span variants={letter}>o</motion.span>
+                <motion.span variants={letter}>u</motion.span>
+                <motion.span variants={letter}>r</motion.span>
+                <motion.span variants={letter} className="second">P</motion.span>
+                <motion.span variants={letter}>a</motion.span>
+                <motion.span variants={letter}>t</motion.span>
+                <motion.span variants={letter}>h</motion.span>
+                <motion.span variants={letter} className="second">t</motion.span>
+                <motion.span variants={letter}>o</motion.span>
+                <motion.span variants={letter} className="second">W</motion.span>
+                <motion.span variants={letter}>e</motion.span>
+                <motion.span variants={letter}>l</motion.span>
+                <motion.span variants={letter}>l</motion.span>
+                <motion.span variants={letter}>n</motion.span>
+                <motion.span variants={letter}>e</motion.span>
+                <motion.span variants={letter}>s</motion.span>
+                <motion.span variants={letter}>s,</motion.span>
+            </motion.span>
+            <motion.span variants={lastname} className='last'>
+                <motion.span variants={letter} className="second">E</motion.span>
+                <motion.span variants={letter}>v</motion.span>
+                <motion.span variants={letter}>e</motion.span>
+                <motion.span variants={letter}>r</motion.span>
+                <motion.span variants={letter}>y</motion.span>
+                <motion.span variants={letter} className="second">S</motion.span>
+                <motion.span variants={letter}>t</motion.span>
+                <motion.span variants={letter}>e</motion.span>
+                <motion.span variants={letter}>p</motion.span>
+                <motion.span variants={letter} className="second">o</motion.span>
+                <motion.span variants={letter}>f</motion.span>
+                <motion.span variants={letter} className="second">t</motion.span>
+                <motion.span variants={letter}>h</motion.span>
+                <motion.span variants={letter}>e</motion.span>
+                <motion.span variants={letter} className="second">W</motion.span>
+                <motion.span variants={letter}>a</motion.span>
+                <motion.span variants={letter}>y.</motion.span>
+            </motion.span>
+        </motion.h2>
           <motion.p variants={fadeInUp}>In the embrace of nature's beauty, where the sun touches the horizon. </motion.p>
 
           <motion.div className="btn_group gap-3" variants={stagger}>
@@ -178,10 +197,10 @@ const ShuffleHero = () => {
               </IconContext.Provider>
               <motion.p className="more_review" variants={star}>More then 50+ people taking services</motion.p>
           </motion.div>
-          </div>
-          <motion.div className="shuffle-hero col-lg-6 col-12">  
-          <ShuffleGrid initial={{x:200, opacity:0}} animate={{x:0, opacity:1}} transition={{duration:.5, delay:0.8}}/>
-          </motion.div>
+        </motion.div>
+        <motion.div className="shuffle-hero col-lg-6 col-12">  
+        <ShuffleGrid initial={{x:200, opacity:0}} animate={{x:0, opacity:1}} transition={{duration:.5, delay:1.5}}/>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

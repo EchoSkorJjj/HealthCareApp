@@ -149,7 +149,6 @@ const resetPassword = async (req, res) => {
 
 const getRecipes = async (req, res) => {
     const { q: searchQuery } = req.query;
-  
     try {
       const response = await fetch(
         `https://api.edamam.com/api/recipes/v2?type=public&q=${searchQuery}&app_id=${process.env.EDAMAM_RECIPE_APP_ID}&app_key=${process.env.EDAMAM_RECIPE_API_KEY}`
@@ -177,6 +176,11 @@ const getRecipes = async (req, res) => {
   
         // Check if the recipe already exists in your database
         const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        let totalEmissions = 0;
+
+        if(!isNaN(recipeInfo.totalCO2Emissions)) {
+        totalEmissions = recipeInfo.totalCO2Emissions;
+        } 
   
         if (!recipeExist) {
           recipesToInsert.push({
@@ -185,7 +189,7 @@ const getRecipes = async (req, res) => {
             image: recipeInfo.image,
             ingredientLines: recipeInfo.ingredientLines,
             source: recipeInfo.source,
-            totalCO2Emissions: recipeInfo.totalCO2Emissions,
+            totalCO2Emissions: totalEmissions,
             totalNutrients: recipeInfo.totalNutrients,
             yield: recipeInfo.yield,
             url: recipeInfo.url,
@@ -237,7 +241,8 @@ const getRecipeRating = async (req, res) => {
                 userRating = 0;
                 userReview = '';
             }
-            res.status(200).json({overallRating, numRating, userRating, userReview});
+            const reviews = await RecipeReview.find({ recipeId: recipeId });
+            res.status(200).json({overallRating, numRating, userRating, userReview, reviews});
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -283,6 +288,7 @@ const saveReview = async (req, res) => {
             const userId = req.session.user;
             const recipeReview = await RecipeReview.findOne({ userId: userId, recipeId: recipeId });
             const recipeInfo = await Recipe.findOne({ recipeId: recipeId });
+            const user = await User.findById(userId);
             const date = new Date();
             if (recipeReview) {
                 let totalrating = recipeInfo.numRating * recipeInfo.overallRating;
@@ -301,6 +307,7 @@ const saveReview = async (req, res) => {
                     rating: rating,
                     review: review,
                     date: date,
+                    username: user.username,
                 });
                 await newRecipeReview.save();
 
@@ -312,6 +319,22 @@ const saveReview = async (req, res) => {
             }
             res.status(200).json({ message: 'Review saved successfully' });
         }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const getRecipeBook = async (req, res) => {
+    try {
+        const recipeList = [];
+        const userId = req.session.user;
+        const profile = await Profile.findOne({ userId: userId });
+        const savedRecipe = profile.recipeBook;
+        for (const recipe of savedRecipe) {
+            const recipeInfo = await Recipe.findOne({ recipeId: recipe });
+            recipeList.push(recipeInfo);
+        }
+        res.status(200).json({ recipeList: recipeList});
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -350,6 +373,14 @@ const updateSetting = async (req, res) => {
             await userprofile.save();
         }
 
+        const userReviews = await RecipeReview.find({userId: userToSave._id});
+        if (userReviews) {
+            for (const review of userReviews) {
+                review.username = username;
+                await review.save();
+            }
+        }
+
         res.status(200).json({ profile: userprofile });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -370,5 +401,6 @@ module.exports = {
     getRecipeRating,
     saveRecipe,
     saveReview,
+    getRecipeBook,
     updateSetting,
 };

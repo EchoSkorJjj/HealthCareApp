@@ -1,0 +1,73 @@
+.world-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    
+    /* background: linear-gradient(
+    97.86deg,
+    #a509ff 0%,
+    #34acc7 53.65%,
+    #a134c7 100%
+  ); */
+    background: #effffa;
+}
+
+.map-image {
+    width: 90% !important;
+    height: 90% !important;
+    padding-bottom: 5rem;
+}
+
+.text-container {
+    padding-top: 5rem;
+}
+
+.world-text {
+    color: #000000;
+}
+
+.sg-container {
+    padding-right: calc(100% - 74%);
+    padding-bottom: calc(100% - 77%);
+}
+
+.ukraine-container {
+    padding-right: calc(100% - 51%);
+    padding-bottom: calc(100% - 65%);
+}
+
+.usa-container {
+    padding-left: calc(100% - 86%);
+    padding-bottom: calc(100% - 68%);
+}
+
+.img-flag {
+    width: 3rem;
+    height: 3rem;
+}
+
+@media screen and (max-width: 991px) {
+    .img-flag {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    .world-text {
+        font-size: 1.4rem !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .world-container {
+        height: 50dvh;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .world-container {
+        height: 40dvh;
+    }
+    .world-text {
+        font-size: 1rem !important;
+    }
+}

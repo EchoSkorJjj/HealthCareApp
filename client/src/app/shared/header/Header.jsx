@@ -41,7 +41,7 @@ export default function Header({onToggle, handleLogout}) {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
     
-    let easing = [0.6,-0.05,0.01,0.99];
+    let easing = "easeInOut";
 
     const stagger = {
         animate:{

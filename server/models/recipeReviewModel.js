@@ -10,6 +10,10 @@ const recipeReviewSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    username: {
+        required: true,
+        type: String,
+    },
     review: {
         type: String,
         default: "",

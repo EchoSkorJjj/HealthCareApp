@@ -119,7 +119,7 @@ export default function Login() {
           });
   
           if (response.ok) {
-            const dataResponse = response.data
+            const dataResponse = await response.json();
             const profileData = dataResponse.profile;
             saveProfileData(profileData);
             githubLogin();

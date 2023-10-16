@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, {useState} from "react";
-import { faHome, faWrench, faUser, faEnvelope, faGear, faRightFromBracket, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faWrench, faUser, faBook, faGear, faRightFromBracket, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import '../../../assets/styles/private_styles/Sidebar.css'
 import {Offcanvas, Nav, Modal, Button } from "react-bootstrap";
@@ -13,7 +13,7 @@ export default function Sidebar({show, handleClose, handleLogout}) {
         handleLogout();
       };
 
-    let easing = [0.6,-0.05,0.01,0.99];
+    let easing = "easeInOut";
 
     const stagger = {
         animate:{
@@ -60,11 +60,11 @@ export default function Sidebar({show, handleClose, handleLogout}) {
                 <motion.a href="/recipe" className='sidebar-content' variants={component}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="fa-1x" /><span className='sidebar-text ps-2'>Search Recipe</span>
                 </motion.a>
+                <motion.a href="/recipebook" className='sidebar-content' variants={component}>
+                    <FontAwesomeIcon icon={faBook} className="fa-1x" /><span className='sidebar-text ps-2'>Recipe Book</span>
+                </motion.a>
                 <motion.a href="/services" className='sidebar-content' variants={component}>                   
                     <FontAwesomeIcon icon={faWrench} className="fa-1x" /><span className='sidebar-text ps-2'>Services</span>
-                </motion.a>
-                <motion.a href="/contact" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faEnvelope} className="fa-1x" /><span className='sidebar-text ps-2'>Contact</span>
                 </motion.a>
                 <motion.a href="/profile" className='sidebar-content' variants={component}>
                     <FontAwesomeIcon icon={faUser} className="fa-1x"/><span className='sidebar-text ps-2'>Profile</span>

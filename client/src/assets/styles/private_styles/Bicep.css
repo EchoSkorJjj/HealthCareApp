@@ -1,3 +1,25 @@
+.bicep-container {
+  margin-top: 108px;
+  margin-left: 210px;
+  width: calc(100%-210px);
+  margin-right: 0px;
+  flex-grow: 1;
+  height: 92dvh;
+}
+
+@media screen and (max-width: 1275px) {
+  .bicep-container {
+      margin-left: 65px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .bicep-container {
+      margin-left: 0px;
+  }
+}
+
+
 canvas {
   /* border: 5px solid #f58220; */
   border-radius: 15px;

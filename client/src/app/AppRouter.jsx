@@ -25,7 +25,6 @@ const ResetPasswordPage = lazy(() => import('./public/resetpass/ResetPassword.js
 
 // private route
 const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
-const ContactUsPage = lazy(() => import('./shared/contact/Contact.jsx'));
 const SidebarPage = lazy(() => import('./private/sidebar/Sidebar.jsx'));
 const ServicesPage = lazy(() => import('./private/services/Services.jsx'));
 const ProfilePage = lazy(() => import('./private/profile/Profile.jsx'));
@@ -33,6 +32,7 @@ const SettingsPage = lazy(() => import('./private/settings/Settings.jsx'));
 const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
 const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
 const CombinedPage = lazy(() => import('./private/recipe/Combined.jsx'));
+const RecipeBookPage = lazy(() => import('./private/recipebook/RecipeBook.jsx'));
 
 export const AppRouter = () => {
     const [show, setShow] = useState(false);
@@ -102,7 +102,7 @@ export const AppRouter = () => {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
             <Route path="/recipe" element={<CombinedPage />}/>
-            <Route path="/contact" element={<ContactUsPage />} />
+            <Route path="/recipebook" element={<RecipeBookPage />} />
           </Route>
           <Route path="*" element={<div>404</div>} />
         </Routes>

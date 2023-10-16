@@ -23,6 +23,7 @@ $white:#fff;
     border-radius: 16px;
     padding:3%;
     margin-top: 6.4rem;
+    height: 92dvh;
     .left_content_wrapper{
       width:48%;
       h2{
@@ -125,15 +126,21 @@ $white:#fff;
 @media screen and (max-width: 991px) {
   .content_wrapper{
     flex-direction: column;
+    height: auto !important;
   }
   .left_content_wrapper {
     width: 100% !important;
     p {
-      font-size: 16px!important;
+      font-size: 16px !important;
+    }
+    h2 {
+      font-size: 20px !important;
     }
   }
   .shuffle-hero {
     width: 100% !important;
+    padding-left: 0%;
+    padding-right: 0%;
   }
 }
 
@@ -150,21 +157,3 @@ $white:#fff;
     gap: 0.25rem; 
     height: 450px;
 }
-
-// .btn-link {
-//     text-decoration: none;
-//     background-color:$white;
-//     color:$black;
-//     border:1px solid $black;
-// }
-
-// .btn-link:hover {
-//   background-color:$white;
-//   color:$black;
-//   border:1px solid $black;
-// }
-
-// .btn-register {
-//   text-decoration: none;
-//   color: white;
-// }
