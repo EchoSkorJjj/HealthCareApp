@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import '../../../assets/styles/private_styles/RecipeDetail.css';
 import { Rating } from 'react-simple-star-rating';
 import {Modal, Form, Button} from 'react-bootstrap';
+import Loader from '../../shared/loader/Loader.jsx';
 
 export default function RecipeDetail({ recipe, setSelectedRecipe }) {
+  const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState({
     overallRating: 0,
     numRating: 0,
@@ -102,6 +104,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
               updateReviewForm({review: data.userReview})
               updateReviewForm({hasReview: true})
             }
+            setLoading(false);
           })
         .catch((error) => console.error('Error fetching recipes:', error));
     } catch (error) {
@@ -110,10 +113,12 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   }
   
   useEffect(() => {
+    setLoading(true);
     handleGetReview();
   }, [])
 
   return (
+    loading ? <Loader /> :
     <div className="recipe-detail">
       <div className='d-flex justify-content-center gap-3 pb-5'>
         <button type="button" className="btn btn-outline-primary" onClick={() => setSelectedRecipe(null)}>Return Back</button>

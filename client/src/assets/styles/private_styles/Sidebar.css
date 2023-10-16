@@ -4,6 +4,10 @@
     position: fixed;
     height: 100%;
   }
+
+.sidebar-container {
+  width: 100% !important;
+}
 .sidebar-content {
   display: flex;
   justify-content: start;
@@ -13,11 +17,22 @@
   border-radius: 0.6rem;
   text-decoration: none;
   color: black;
-  height: 3rem;
+  height: 3.7rem;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar-content:hover {
   background-color: #3fd8e0;
+}
+
+.sidebar-text {
+  font-size: 1rem;
+  padding-left: 0.2rem;
+}
+
+.button-text {
+  font-size: 1rem;
+  padding-left: 0.4rem;
 }
 
 .logout-button {
@@ -30,8 +45,8 @@
   display: flex;
   flex: row;
   align-items: center;
-  height: 3rem;
-  width: 100%;
+  height: 3.7rem;
+  width: 11.6rem;
   background: linear-gradient(90deg, #14da8f, #1dd39c, #2af0b3);
 }
 
@@ -39,13 +54,16 @@
   .sidebar {
     width: 210px;
   }
-  .sidebar-content {
+  /* .sidebar-content {
     margin-bottom: 15px;
-  }
+  } */
 }
 
 @media screen and (max-width: 1275px) {
   .sidebar-text {
+    display: none;
+  }
+  .button-text {
     display: none;
   }
   .sidebar {
@@ -53,12 +71,16 @@
   }
   .logout-button {
     border: none;
+    margin-left: 2px !important;
+    width: 2.5rem;
+    height: 2.5rem;
   }
   .sidebar-content {
     justify-content: center;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: 100%;
+    margin-left: 2px !important;
+    padding-left: 0.3rem;
+    height: 2.5rem;
+    margin-bottom: 0.5rem;
   }
   .sidebar-container {
     padding: 0;
@@ -68,17 +90,24 @@
 @media screen and (max-width: 991px) {
   .sidebar-text {
     display: block;
+    font-size: 1rem;
+  } 
+  .button-text {
+    display: block;
   }
   .sidebar-content {
-    margin-bottom: 15px;
-    width: 25%;
+    width: 50%;
+  }
+  .sidebar-icon {
+    display: flex;
+    justify-content: center;
   }
   .sidebar-body {
     display: flex;
-    align-items: center;
+    justify-content: start;
   }
   .logout-button {
-    width: 25%;
+    width: 50%;
     justify-content: center;
   }
 }

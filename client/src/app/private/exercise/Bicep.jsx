@@ -248,7 +248,7 @@ function Bicep() {
   }, []);
 
   return (
-
+    <>
       <div className="bicep-container py-5">
         <div className="row d-flex justify-content-center">
           <div className="col-lg-6 col-md-8 col-sm-10 col-xs-12 text-center">
@@ -267,16 +267,16 @@ function Bicep() {
           <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 text-center">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title count" id='rightHandCount'></h5>
-                <p className="card-text">Right Hand Count</p>
+                <h5 className="card-title count" id='leftHandCount'></h5>
+                <p className="card-text">Left Hand Count</p>
               </div>
             </div>
           </div>
           <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 text-center">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title count" id='leftHandCount'></h5>
-                <p className="card-text">Left Hand Count</p>
+                <h5 className="card-title count" id='rightHandCount'></h5>
+                <p className="card-text">Right Hand Count</p>
               </div>
             </div>
           </div>
@@ -285,12 +285,12 @@ function Bicep() {
         <div className="row justify-content-center mt-4">
           <lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_i5o0xxk6.json" background="transparent" speed="1" style={{ width: '200px', height: '200px' }} loop autoPlay></lottie-player>
         </div>
-        {/* <div id="overlay">
-          <div id="overlaytext">Overlay Text</div>
-          <div className="dot-elastic"></div>
-        </div> */}
       </div>
-
+      <div id="overlay">
+        <div id="overlaytext">Overlay Text</div>
+        <div className="dot-elastic"></div>
+      </div>
+    </>
   );
 }
 

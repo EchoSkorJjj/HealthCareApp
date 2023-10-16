@@ -4,6 +4,16 @@
     width: calc(100%-210px);
     margin-right: 0px;
     flex-grow: 1;
+    height: 100dvh;
+}
+
+.image-container {
+    width: 200px !important;
+}
+
+.recipe-image {
+    width: 200px !important;
+    height: 200px !important;
 }
 
 @media screen and (max-width: 1275px) {

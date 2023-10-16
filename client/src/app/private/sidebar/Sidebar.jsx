@@ -43,40 +43,70 @@ export default function Sidebar({show, handleClose, handleLogout}) {
     return (
         <motion.div initial='initial' animate='animate' className="sidebar d-none d-lg-block" >
             <motion.div className='container d-flex justify-content-start w-100 sidebar-container' variants={stagger}>
-            <Offcanvas show={show} onHide={handleClose} responsive="lg" className="w-100">
+            <Offcanvas show={show} onHide={handleClose} responsive="lg" >
                 <Offcanvas.Header closeButton>
                 <Offcanvas.Title>Menu Panel</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body className='d-flex flex-column sidebar-body'>
-                <motion.a href="/homepage" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faHome} className="fa-1x" /><span className='sidebar-text ps-2'>Home Page</span>
+                <motion.a href="/homepage" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faHome} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Home Page</span>
                 </motion.a>
-                <motion.a href="/dashboard" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faTableColumns} className="fa-1x" /><span className='sidebar-text ps-2'>Dashboard</span>
+                <motion.a href="/dashboard" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faTableColumns} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Dashboard</span>
                 </motion.a>
-                <motion.a href="/trainer" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faPerson} className="fa-1x" /><span className='sidebar-text ps-2'>Trainer</span>
+                <motion.a href="/trainer" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faPerson} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Trainer</span>
                 </motion.a>
-                <motion.a href="/nutrition" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faSearchengin} className="fa-1x" /><span className='sidebar-text ps-2'>Nutrition Info</span>
+                <motion.a href="/nutrition" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faSearchengin} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Nutrition Info</span>
                 </motion.a>
-                <motion.a href="/recipe" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="fa-1x" /><span className='sidebar-text ps-2'>Search Recipe</span>
+                <motion.a href="/recipe" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Search Recipe</span>
                 </motion.a>
-                <motion.a href="/recipebook" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faBook} className="fa-1x" /><span className='sidebar-text ps-2'>Recipe Book</span>
+                <motion.a href="/recipebook" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faBook} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Recipe Book</span>
                 </motion.a>
-                <motion.a href="/services" className='sidebar-content' variants={component}>                   
-                    <FontAwesomeIcon icon={faWrench} className="fa-1x" /><span className='sidebar-text ps-2'>Services</span>
+                <motion.a href="/services" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>                 
+                        <FontAwesomeIcon icon={faWrench} className="fa-1x" />
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Services</span>
                 </motion.a>
-                <motion.a href="/profile" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faUser} className="fa-1x"/><span className='sidebar-text ps-2'>Profile</span>
+                <motion.a href="/profile" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faUser} className="fa-1x"/>
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Profile</span>
                 </motion.a>
-                <motion.a href="/settings" className='sidebar-content' variants={component}>
-                    <FontAwesomeIcon icon={faGear} className="fa-1x"/><span className='sidebar-text ps-2'>Settings</span>
+                <motion.a href="/settings" className='sidebar-content row' variants={component}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faGear} className="fa-1x"/>
+                    </div>
+                    <span className='sidebar-text col-10 text-start'>Settings</span>
                 </motion.a>
-                <motion.button className='logout-button' variants={component} onClick={() => setShowLogoutModal(true)}>
-                    <FontAwesomeIcon icon={faRightFromBracket} className="fa-1x"/><span className='sidebar-text ps-2'>Log Out</span>
+                <motion.button className='logout-button row' variants={component} onClick={() => setShowLogoutModal(true)}>
+                    <div className='col-2 px-0 sidebar-icon'>
+                        <FontAwesomeIcon icon={faRightFromBracket} className="fa-1x"/>
+                    </div>
+                    <span className='button-text col-10 text-start'>Log Out</span>
                 </motion.button>
                 <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
                     <Modal.Header closeButton>
