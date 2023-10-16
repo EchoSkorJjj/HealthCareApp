@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, {useState} from "react";
-import { faHome, faWrench, faUser, faBook, faGear, faRightFromBracket, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faWrench, faUser, faPerson , faBook, faGear, faRightFromBracket, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 import '../../../assets/styles/private_styles/Sidebar.css'
 import {Offcanvas, Nav, Modal, Button } from "react-bootstrap";
@@ -53,6 +53,9 @@ export default function Sidebar({show, handleClose, handleLogout}) {
                 </motion.a>
                 <motion.a href="/dashboard" className='sidebar-content' variants={component}>
                     <FontAwesomeIcon icon={faTableColumns} className="fa-1x" /><span className='sidebar-text ps-2'>Dashboard</span>
+                </motion.a>
+                <motion.a href="/trainer" className='sidebar-content' variants={component}>
+                    <FontAwesomeIcon icon={faPerson} className="fa-1x" /><span className='sidebar-text ps-2'>Trainer</span>
                 </motion.a>
                 <motion.a href="/nutrition" className='sidebar-content' variants={component}>
                     <FontAwesomeIcon icon={faSearchengin} className="fa-1x" /><span className='sidebar-text ps-2'>Nutrition Info</span>

@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../features/localStorage'
 import { useAuth } from '../features/auth';
 import useProfileStore from '../features/store/ProfileStore';
+import useRecipeStore from '../features/store/RecipeStore';
 
 // shared route
 const Header = lazy(() => import('./shared/header/Header.jsx'));
@@ -33,6 +34,7 @@ const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
 const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
 const CombinedPage = lazy(() => import('./private/recipe/Combined.jsx'));
 const RecipeBookPage = lazy(() => import('./private/recipebook/RecipeBook.jsx'));
+const TrainerPage = lazy(() => import('./private/exercise/Trainer.jsx'));
 
 export const AppRouter = () => {
     const [show, setShow] = useState(false);
@@ -45,6 +47,8 @@ export const AppRouter = () => {
     const { isAuthenticated, isGoogleAuthenticated, isGithubAuthenticated } = useAuth();
     const navigate = useNavigate();
     const resetProfileData = useProfileStore((state) => state.setProfileData);
+    const resetSearchName = useRecipeStore((state) => state.resetSearchName);
+    const resetRecipeResults = useRecipeStore((state) => state.resetRecipeResults);
 
     const googleLogout = useCallback(() => {
       setIsGoogleAuthenticated(undefined);
@@ -66,6 +70,8 @@ export const AppRouter = () => {
         });
         if (response.ok) {
             resetProfileData();
+            resetSearchName();
+            resetRecipeResults();
             if (isGoogleAuthenticated) {  
             googleLogout();
             } 
@@ -103,6 +109,7 @@ export const AppRouter = () => {
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
             <Route path="/recipe" element={<CombinedPage />}/>
             <Route path="/recipebook" element={<RecipeBookPage />} />
+            <Route path="/trainer" element={<TrainerPage />} />
           </Route>
           <Route path="*" element={<div>404</div>} />
         </Routes>

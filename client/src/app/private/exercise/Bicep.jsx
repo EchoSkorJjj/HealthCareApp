@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@tensorflow/tfjs'; // Import TensorFlow.js
 import '@tensorflow/tfjs-backend-webgl'; // Import TensorFlow.js WebGL backend
 import '@tensorflow/tfjs-converter'; // Import TensorFlow.js model converter
@@ -8,6 +8,37 @@ import * as poseDetection from '@tensorflow-models/pose-detection'; // Import Po
 import '../../../assets/styles/private_styles/Bicep.css';
 
 function Bicep() {
+  const [fps, setFps] = useState(0);
+
+  useEffect(() => {
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+
+    const updateFPS = () => {
+      const currentTime = performance.now();
+      const deltaTime = currentTime - lastFrameTime;
+
+      frameCount++;
+      if (deltaTime >= 1000) {
+        // Calculate FPS based on the number of frames rendered in one second
+        const currentFps = (frameCount * 1000) / deltaTime;
+        setFps(currentFps);
+
+        // Reset frame count and last frame time for the next second
+        frameCount = 0;
+        lastFrameTime = currentTime;
+      }
+
+      requestAnimationFrame(updateFPS);
+    };
+
+    requestAnimationFrame(updateFPS);
+
+    return () => {
+      // Cleanup
+      cancelAnimationFrame(updateFPS);
+    };
+  }, []);
 
   useEffect(() => {
     const runPoseDetection = async () => {
@@ -197,8 +228,6 @@ function Bicep() {
         document.getElementById("overlay").style.display = "none";
       }
 
-      setupCamera();
-
       video.addEventListener("loadeddata", async () => {
         detector = await poseDetection.createDetector(
           poseDetection.SupportedModels.MoveNet,
@@ -219,17 +248,20 @@ function Bicep() {
   }, []);
 
   return (
-    <div className="container bicep-container bg-light col-lg-9">
-      <div className="container py-5">
-      <div className="row justify-content-center">
-      <div className="col-lg-6 col-md-8 col-sm-10 col-xs-12 text-center">
-        <h6 id="loadingText">Model is loading... Please wait..</h6>
-        <div id="videoContainer" className="mx-auto d-block">
-          <video id="video" autoPlay playsInline></video>
-          <canvas id="canvas" className="overlayCanvas" style={{ position: 'absolute', top: 0, left: 0 }}></canvas>
+
+      <div className="bicep-container py-5">
+        <div className="row d-flex justify-content-center">
+          <div className="col-lg-6 col-md-8 col-sm-10 col-xs-12 text-center">
+            <div className="fps-counter">
+              <span>FPS: {fps.toFixed(2)}</span>
+            </div>
+            <h6 id="loadingText">Model is loading... Please wait..</h6>
+            <div id="videoContainer" className="mx-auto d-flex justify-content-center">
+              <video id="video" autoPlay playsInline></video>
+              <canvas id="canvas" className="overlayCanvas "></canvas>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
 
         <div className="row justify-content-center mt-4">
           <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 text-center">
@@ -253,13 +285,12 @@ function Bicep() {
         <div className="row justify-content-center mt-4">
           <lottie-player src="https://assets8.lottiefiles.com/private_files/lf30_i5o0xxk6.json" background="transparent" speed="1" style={{ width: '200px', height: '200px' }} loop autoPlay></lottie-player>
         </div>
+        {/* <div id="overlay">
+          <div id="overlaytext">Overlay Text</div>
+          <div className="dot-elastic"></div>
+        </div> */}
       </div>
 
-      <div id="overlay">
-        <div id="overlaytext">Overlay Text</div>
-        <div className="dot-elastic"></div>
-      </div>
-    </div>
   );
 }
 

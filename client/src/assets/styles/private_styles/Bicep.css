@@ -1,24 +1,6 @@
 .bicep-container {
-  margin-top: 108px;
-  margin-left: 210px;
-  width: calc(100%-210px);
-  margin-right: 0px;
-  flex-grow: 1;
-  height: 92dvh;
+  padding-top: 100px;
 }
-
-@media screen and (max-width: 1275px) {
-  .bicep-container {
-      margin-left: 65px;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .bicep-container {
-      margin-left: 0px;
-  }
-}
-
 
 canvas {
   /* border: 5px solid #f58220; */
@@ -216,20 +198,24 @@ lottie-player{
 
 #canvas {
   position: absolute;
-  top: 0;
-  left: 0;
   pointer-events: none; /* This allows clicks to pass through the canvas to the video */
 }
 
 .overlayCanvas {
   /* overlay the canvas over the video */
   position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
   border: 10px solid;
   border-radius: 15px;
-  margin-left: 114px;
-  display: block;
 
   /* centre the canvas */
+}
+
+@media screen and (max-width: 500px) {
+  .overlayCanvas {
+    width: 80%
+    }
+  #video {
+    width: 80%;
+  }
 }
