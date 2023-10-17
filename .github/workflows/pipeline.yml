@@ -1,0 +1,44 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  EDAMAM_NUTRITION_API_KEY: ${{ secrets.EDAMAM_NUTRITION_API_KEY }}
+  EDAMAM_NUTRITION_APP_ID: ${{ secrets.EDAMAM_NUTRITION_APP_ID }}
+  EDAMAM_RECIPE_API_KEY: ${{ secrets.EDAMAM_RECIPE_API_KEY }}
+  EDAMAM_RECIPE_APP_ID: ${{ secrets.EDAMAM_RECIPE_APP_ID }}
+  GIT_CLIENT_ID: ${{ secrets.GIT_CLIENT_ID }}
+  GIT_CLIENT_SECRET: ${{ secrets.GIT_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  JWT_RESET_SECRET: ${{ secrets.JWT_RESET_SECRET }}
+  MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
+  OTP_SECRET: ${{ secrets.OTP_SECRET }}
+  TRANSPORTER_GMAIL: ${{ secrets.TRANSPORTER_GMAIL }}
+  TRANSPORTER_PASSWORD: ${{ secrets.TRANSPORTER_PASSWORD }}
+  VITE_DEVELOPMENT_SERVER: ${{ secrets.VITE_DEVELOPMENT_SERVER }}
+  VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
+  VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+  VITE_HTTPS_SERVER: ${{ secrets.VITE_HTTPS_SERVER }}
+  VITE_NODE_ENV: ${{ secrets.VITE_NODE_ENV }}
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
