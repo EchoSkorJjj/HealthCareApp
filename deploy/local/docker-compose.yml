@@ -4,11 +4,26 @@ services:
     build:
       context: ../../server
     image: wad2-server:server-latest
-    ports:
-      - "3500:3500"
+    # ports:
+    #   - "3500:3500"
     depends_on:
       mongo:
         condition: service_healthy
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+      - EDAMAM_NUTRITION_API_KEY=$EDAMAM_NUTRITION_API_KEY
+      - EDAMAM_NUTRITION_APP_ID=$EDAMAM_NUTRITION_APP_ID
+      - EDAMAM_RECIPE_API_KEY=$EDAMAM_RECIPE_API_KEY
+      - EDAMAM_RECIPE_APP_ID=$EDAMAM_RECIPE_APP_ID
+      - GIT_CLIENT_ID=$GIT_CLIENT_ID
+      - GIT_CLIENT_SECRET=$GIT_CLIENT_SECRET
+      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - JWT_RESET_SECRET=$JWT_RESET_SECRET
+      - MY_SECRET_KEY=$MY_SECRET_KEY
+      - OTP_SECRET=$OTP_SECRET
+      - TRANSPORTER_GMAIL=$TRANSPORTER_GMAIL
+      - TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
     healthcheck:
       test: curl --fail http://localhost:3500/healthcheck || exit 1
       interval: 5s
