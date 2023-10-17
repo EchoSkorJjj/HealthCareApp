@@ -113,7 +113,7 @@ jobs:
           context: ./client
           push: true
           tags: |
-            wad2-client:client-${{github.run_number}}
+            ghcr.io/wad2-client:client-${{github.run_number}}
             
       - name: Build and Push Server Docker Image
         uses: docker/build-push-action@v2
@@ -121,7 +121,7 @@ jobs:
           context: ./server
           push: true
           tags: |
-            wad2-server:server-${{github.run_number}}
+            ghcr.io/wad2-server:server-${{github.run_number}}
             
       - name: Build and Push Nginx Docker Image
         uses: docker/build-push-action@v2
@@ -129,5 +129,5 @@ jobs:
           context: ./config
           push: true
           tags: |
-            wad2-nginx:nginx-${{github.run_number}}
-            wad2-nginx:nginx-latest
+            ghcr.io/wad2-nginx:nginx-${{github.run_number}}
+            ghcr.io/wad2-nginx:nginx-latest
