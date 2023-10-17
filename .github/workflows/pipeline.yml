@@ -39,7 +39,7 @@ jobs:
       
       # Install dependencies and run tests for the client application
       - name: Install and Test Client
-        working-directory: ../../client
+        working-directory: ./client
         run: |
           npm install
           export VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
@@ -51,7 +51,7 @@ jobs:
           
       # Install dependencies and run tests for the server application
       - name: Install and Test Server
-        working-directory: ../../server
+        working-directory: ./server
         run: |
           npm install
           export DATABASE_URL=$DATABASE_URL
@@ -72,21 +72,21 @@ jobs:
 
       # Build a Docker image for the client application
       - name: Build Client Docker Image
-        working-directory: ../../client
+        working-directory: ./client
         # Build image with tag rakeshpotnuru/productivity-app:client
         run: |
           docker build -t wad2-client:client-${{github.run_number}} .
 
       # Build a Docker image for the server application
       - name: Build Server Docker Image
-        working-directory: ../../server
+        working-directory: ./server
           # Build image with tag rakeshpotnuru/productivity-app:server
         run: |
           docker build -t wad2-server:server-${{github.run_number}} .
 
       # Build a Docker image for the NGINX reverse proxy
       - name: Build NGINX Docker Image
-        working-directory: ../../config
+        working-directory: ./config
         # Build image with tag rakeshpotnuru/productivity-app:nginx
         run: |
           docker build -t wad2-nginx:nginx-${{github.run_number}} -t wad2-nginx:nginx-latest .
