@@ -17,6 +17,7 @@ deploy:
   cloudrun:
     projectid: PROJECT_ID
     region: LOCATION
+  
 
 # verify:
 # - name: verification-dev-test
