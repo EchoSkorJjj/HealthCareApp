@@ -144,8 +144,8 @@ const handleGithubCallback = async (req, res) => {
   try {
     const response = await axios.post('https://github.com/login/oauth/access_token', null, {
       params: {
-        client_id: process.env.GITHUB_CLIENT_ID,
-        client_secret: process.env.GITHUB_CLIENT_SECRET,
+        client_id: process.env.GIT_CLIENT_ID,
+        client_secret: process.env.GIT_CLIENT_SECRET,
         code: code,
       },
       headers: {

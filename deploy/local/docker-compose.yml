@@ -3,7 +3,7 @@ services:
   server:
     build:
       context: ../../server
-    image: wad2-server:1.0
+    image: wad2-server:server-latest
     ports:
       - "3500:3500"
     depends_on:
@@ -20,23 +20,31 @@ services:
   client:
     build:
       context: ../../client
-    image: wad2-client:1.0
+    image: wad2-client:client-latest
     ports:
       - "5173:5173"
     depends_on:
       server:
         condition: service_healthy
+    environment:
+      - VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
+      - VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
+      - VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+      - VITE_HTTPS_SERVER=$VITE_HTTPS_SERVER
+      - VITE_NODE_ENV=$VITE_NODE_EN
     # volumes:
     #   - ./client:/client-docker/src
     # command: npm run dev
 
   nginx:
+    image: wad2-nginx:nginx-latest
+    restart: always
     build:
       context: ../../config
       dockerfile: Dockerfile
     ports:
       - 80:80
-      - 443:443
+      # - 443:443
     depends_on:
       server:
         condition: service_healthy
