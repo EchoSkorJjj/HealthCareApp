@@ -2,14 +2,14 @@
 apiVersion: skaffold/v4beta6
 kind: Config
 metadata:
-  name: hctest-experimental-pipeline
+  name: hc-pipeline
 profiles:
-  - name: hctest-staging
+  - name: hc-staging
     manifests:
       rawYaml:
         - run-staging.yaml
 
-  - name: hctest-prod
+  - name: hc-prod
     manifests:
       rawYaml:
         - run-prod.yaml
@@ -18,10 +18,10 @@ deploy:
     projectid: PROJECT_ID
     region: LOCATION
 
-verify:
-- name: verification-dev-test
-  container:
-    name: test
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "echo 'Hello, world!'"]
+# verify:
+# - name: verification-dev-test
+#   container:
+#     name: test
+#     image: ubuntu
+#     command: ["/bin/sh"]
+#     args: ["-c", "echo 'Hello, world!'"]
