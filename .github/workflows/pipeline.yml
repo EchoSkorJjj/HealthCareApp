@@ -101,10 +101,9 @@ jobs:
       # Push the Docker images to Docker Hub
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push wad2-client:client-${{github.run_number}}
-          docker push wad2-server:server-${{github.run_number}}
-          docker push wad2-nginx:nginx-${{github.run_number}}
-          docker push wad2-client:client-latest
-          docker push wad2-server:server-latest
-          docker push wad2-nginx:nginx-latest
-
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-client:client-${{github.run_number}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-server:server-${{github.run_number}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-${{github.run_number}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-client:client-latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-server:server-latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-latest
