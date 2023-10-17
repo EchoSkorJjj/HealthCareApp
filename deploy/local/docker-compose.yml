@@ -18,11 +18,11 @@ services:
       - 8.8.8.8
 
   client:
-    build:
-      context: ../../client
+    # build:
+    #   context: ../../client
     image: wad2-client:client-latest
-    ports:
-      - "5173:5173"
+    # ports:
+    #   - "5173:5173"
     depends_on:
       server:
         condition: service_healthy
@@ -39,9 +39,9 @@ services:
   nginx:
     image: wad2-nginx:nginx-latest
     restart: always
-    build:
-      context: ../../config
-      dockerfile: Dockerfile
+    # build:
+    #   context: ../../config
+    #   dockerfile: Dockerfile
     ports:
       - 80:80
       # - 443:443
