@@ -33,12 +33,67 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      # Checkout the code from the GitHub repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Install dependencies and run tests for the client application
+      - name: Install and Test Client
+        working-directory: ./client
+        run: |
+          npm install
+          export VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
+          export VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
+          export VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+          export VITE_HTTPS_SERVER=$VITE_HTTPS_SERVER
+          export VITE_NODE_ENV=$VITE_NODE_ENV
+          npm run test
+          
+      # Install dependencies and run tests for the server application
+      - name: Install and Test Server
+        working-directory: ./server
+        run: |
+          npm install
+          export DATABASE_URL=$DATABASE_URL
+          export EDAMAM_NUTRITION_API_KEY=$EDAMAM_NUTRITION_API_KEY
+          export EDAMAM_NUTRITION_APP_ID=$EDAMAM_NUTRITION_APP_ID
+          export EDAMAM_RECIPE_API_KEY=$EDAMAM_RECIPE_API_KEY
+          export EDAMAM_RECIPE_APP_ID=$EDAMAM_RECIPE_APP_ID
+          export GIT_CLIENT_ID=$GIT_CLIENT_ID
+          export GIT_CLIENT_SECRET=$GIT_CLIENT_SECRET
+          export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+          export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+          export JWT_RESET_SECRET=$JWT_RESET_SECRET
+          export MY_SECRET_KEY=$MY_SECRET_KEY
+          export OTP_SECRET=$OTP_SECRET
+          export TRANSPORTER_GMAIL=$TRANSPORTER_GMAIL
+          export TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
+          npm run test
+
+      # Build a Docker image for the client application
+      - name: Build Client Docker Image
+        working-directory: ../../client
+        # Build image with tag rakeshpotnuru/productivity-app:client
+        run: |
+          docker build -t wad2-client:client-${{github.run_number}} .
+
+      # Build a Docker image for the server application
+      - name: Build Server Docker Image
+        working-directory: ../../server
+          # Build image with tag rakeshpotnuru/productivity-app:server
+        run: |
+          docker build -t wad2-server:server-${{github.run_number}} .
+
+      # Login to Docker Hub using credentials from repository secrets
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Push the Docker images to Docker Hub
+      - name: Push Docker Images to Docker Hub
+        run: |
+          docker push wad2-client:client-${{github.run_number}}
+          docker push wad2-server:server-${{github.run_number}}
+
