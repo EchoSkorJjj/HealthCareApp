@@ -2,7 +2,7 @@ version: '3.8'
 services:
   server:
     build:
-      context: ./server
+      context: ../../server
     image: wad2-server:1.0
     ports:
       - "3500:3500"
@@ -19,7 +19,7 @@ services:
 
   client:
     build:
-      context: ./client
+      context: ../../client
     image: wad2-client:1.0
     ports:
       - "5173:5173"
@@ -32,8 +32,8 @@ services:
 
   nginx:
     build:
-      context: ./config
-      dockerfile: Dockerfile.nginx
+      context: ../../config
+      dockerfile: Dockerfile
     ports:
       - 80:80
       - 443:443

@@ -1,0 +1,23 @@
+# Service to deploy staging app
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: deploy-hctest-staging
+spec:
+  template:
+    spec:
+      containers:
+        - image: 'LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/hc:COMMIT_SHA'
+          ports:
+            - name: http1
+              containerPort: 3000
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 1000m
+          startupProbe:
+            timeoutSeconds: 240
+            periodSeconds: 240
+            failureThreshold: 1
+            tcpSocket:
+              port: 3000

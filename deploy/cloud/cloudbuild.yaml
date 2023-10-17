@@ -1,0 +1,55 @@
+steps:
+  # Build and tag using commit sha (client side)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-client:$COMMIT_SHA', '../../client']
+  # Build and tag using commit sha (server side)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-server:$COMMIT_SHA', '../../server']
+  # Build and tag using commit sha (nginx only)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-nginx:$COMMIT_SHA', '../../config']
+# Build and tag using commit sha (mongoDB only)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-mongoDB:$COMMIT_SHA', '../../config']
+
+
+  # Push the container image (client side)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-client:$COMMIT_SHA']
+  # Push the container image (server side)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-server:$COMMIT_SHA']
+  # Push the container image (nginx only)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-nginx:$COMMIT_SHA']
+  # Push the container image (mongoDB only)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-mongoDB:$COMMIT_SHA']
+
+  # Substitute environment variables in the service.yaml file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        sed -i "s|LOCATION|${LOCATION}|g; s|REPOSITORY|${_REPOSITORY}|g; s|PROJECT_ID|${PROJECT_ID}|g; s|COMMIT_SHA|${COMMIT_SHA}|g" skaffold.yaml
+        sed -i "s|LOCATION|${LOCATION}|g; s|REPOSITORY|${_REPOSITORY}|g; s|PROJECT_ID|${PROJECT_ID}|g; s|COMMIT_SHA|${COMMIT_SHA}|g" run-staging.yaml
+        sed -i "s|LOCATION|${LOCATION}|g; s|REPOSITORY|${_REPOSITORY}|g; s|PROJECT_ID|${PROJECT_ID}|g; s|COMMIT_SHA|${COMMIT_SHA}|g" run-prod.yaml
+
+  # Create release in Google Cloud Deploy
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      [
+        "deploy", "releases", "create", "rel-$COMMIT_SHA",
+        "--project", "$PROJECT_ID",
+        "--region", "$LOCATION",
+        "--delivery-pipeline", "hc-pipeline",
+        "--images", "client-image=$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-client:$COMMIT_SHA,
+                     server-image=$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-server:$COMMIT_SHA,
+                     nginx-image=$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-nginx:$COMMIT_SHA,
+                     mongoDB-image=$LOCATION-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/wad2-mongoDB:$COMMIT_SHA",
+      ]
+
+substitutions:
+  _REPOSITORY: 'hc-artifact-registry'

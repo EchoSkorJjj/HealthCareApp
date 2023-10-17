@@ -1,0 +1,27 @@
+# Used to identify Cloud Run service definition to deploy sample app
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: hctest-experimental-pipeline
+profiles:
+  - name: hctest-staging
+    manifests:
+      rawYaml:
+        - run-staging.yaml
+
+  - name: hctest-prod
+    manifests:
+      rawYaml:
+        - run-prod.yaml
+deploy:
+  cloudrun:
+    projectid: PROJECT_ID
+    region: LOCATION
+
+verify:
+- name: verification-dev-test
+  container:
+    name: test
+    image: ubuntu
+    command: ["/bin/sh"]
+    args: ["-c", "echo 'Hello, world!'"]
