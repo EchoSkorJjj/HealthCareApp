@@ -29,10 +29,13 @@ app.use(express.static(__dirname));
 
 app.use(express.json());
 
-app.listen(3500, () => {
-    console.log('Server started at port 3500')
-})
-
+// app.listen(3500, () => {
+//     console.log('Server started at port 3500')
+// })
+const server = app.listen(3500, () => {
+    console.log('Server started at port 3500');      
+});
+ 
 mongoose.connect(mongoString);
 const database = mongoose.connection
 
@@ -50,3 +53,5 @@ app.use('/healthcheck', (req,res, next) => {
     res.status(200).send('Welcome to HealthCare API');
     next();
 })
+
+module.exports = {app, server};
