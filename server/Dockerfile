@@ -1,4 +1,5 @@
 FROM node:slim
+
 RUN apt update && apt install curl -y
 
 # Declaring env
@@ -8,10 +9,10 @@ ENV NODE_ENV development
 # ENV NODE_ENV production
 
 # Setting up the work directory
-WORKDIR /server-docker
+WORKDIR /app
 
 # Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# COPY package*.json ./
 
 # Copying all the files in our project
 COPY . .

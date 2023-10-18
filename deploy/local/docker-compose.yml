@@ -4,26 +4,11 @@ services:
     build:
       context: ../../server
     image: wad2-server:server-latest
-    # ports:
-    #   - "3500:3500"
+    ports:
+      - "3500:3500"
     depends_on:
       mongo:
         condition: service_healthy
-    environment:
-      - DATABASE_URL=$DATABASE_URL
-      - EDAMAM_NUTRITION_API_KEY=$EDAMAM_NUTRITION_API_KEY
-      - EDAMAM_NUTRITION_APP_ID=$EDAMAM_NUTRITION_APP_ID
-      - EDAMAM_RECIPE_API_KEY=$EDAMAM_RECIPE_API_KEY
-      - EDAMAM_RECIPE_APP_ID=$EDAMAM_RECIPE_APP_ID
-      - GIT_CLIENT_ID=$GIT_CLIENT_ID
-      - GIT_CLIENT_SECRET=$GIT_CLIENT_SECRET
-      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
-      - JWT_RESET_SECRET=$JWT_RESET_SECRET
-      - MY_SECRET_KEY=$MY_SECRET_KEY
-      - OTP_SECRET=$OTP_SECRET
-      - TRANSPORTER_GMAIL=$TRANSPORTER_GMAIL
-      - TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
     healthcheck:
       test: curl --fail http://localhost:3500/healthcheck || exit 1
       interval: 5s
@@ -31,22 +16,38 @@ services:
       retries: 5 
     dns: 
       - 8.8.8.8
+    # environment:
+    #   - DATABASE_URL=$DATABASE_URL
+    #   - EDAMAM_NUTRITION_API_KEY=$EDAMAM_NUTRITION_API_KEY
+    #   - EDAMAM_NUTRITION_APP_ID=$EDAMAM_NUTRITION_APP_ID
+    #   - EDAMAM_RECIPE_API_KEY=$EDAMAM_RECIPE_API_KEY
+    #   - EDAMAM_RECIPE_APP_ID=$EDAMAM_RECIPE_APP_ID
+    #   - GIT_CLIENT_ID=$GIT_CLIENT_ID
+    #   - GIT_CLIENT_SECRET=$GIT_CLIENT_SECRET
+    #   - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+    #   - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+    #   - JWT_RESET_SECRET=$JWT_RESET_SECRET
+    #   - MY_SECRET_KEY=$MY_SECRET_KEY
+    #   - OTP_SECRET=$OTP_SECRET
+    #   - TRANSPORTER_GMAIL=$TRANSPORTER_GMAIL
+    #   - TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
+    # command: ["tail", "-f", "/dev/null"]
 
   client:
-    # build:
-    #   context: ../../client
+    build:
+      context: ../../client
     image: wad2-client:client-latest
-    # ports:
-    #   - "5173:5173"
+    ports:
+      - "5173:5173"
     depends_on:
       server:
         condition: service_healthy
-    environment:
-      - VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
-      - VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
-      - VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
-      - VITE_HTTPS_SERVER=$VITE_HTTPS_SERVER
-      - VITE_NODE_ENV=$VITE_NODE_EN
+    # environment:
+    #   - VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
+    #   - VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
+    #   - VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+    #   - VITE_HTTPS_SERVER=$VITE_HTTPS_SERVER
+    #   - VITE_NODE_ENV=$VITE_NODE_EN
     # volumes:
     #   - ./client:/client-docker/src
     # command: npm run dev
@@ -54,12 +55,12 @@ services:
   nginx:
     image: wad2-nginx:nginx-latest
     restart: always
-    # build:
-    #   context: ../../config
-    #   dockerfile: Dockerfile
+    build:
+      context: ../../config
+      dockerfile: Dockerfile
     ports:
       - 80:80
-      # - 443:443
+      - 443:443
     depends_on:
       server:
         condition: service_healthy
@@ -75,7 +76,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    dns: 
+      - 8.8.8.8
     # sudo systemctl stop apache2
-
-
-      

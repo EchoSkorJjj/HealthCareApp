@@ -1,8 +1,8 @@
 up:
-	docker-compose -f docker-compose.yml up
+	docker-compose -f ./deploy/local/docker-compose.yml up
 
 build:
-	docker-compose -f docker-compose.yml build
+	docker-compose -f ./deploy/local/docker-compose.yml build
 
 # Command to start the development environment
 dev:

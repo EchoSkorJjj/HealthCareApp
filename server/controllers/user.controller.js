@@ -4,7 +4,6 @@ const Recipe = require('../models/recipeModel');
 const RecipeReview = require('../models/recipeReviewModel');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { encode, decode } = require('64');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -190,7 +189,8 @@ const getRecipes = async (req, res) => {
         const imageResponse = await fetch(recipeInfo.image);
         const imageBuffer = await imageResponse.arrayBuffer();
         const imageBuffed = Buffer.from(imageBuffer);
-        const encodedImage = encode(imageBuffed);
+        const imageBase64 = imageBuffed.toString('base64');
+
   
         return {
           recipeId: recipeId,

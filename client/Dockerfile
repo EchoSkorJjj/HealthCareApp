@@ -5,7 +5,10 @@ FROM node:slim
 ENV NODE_ENV development
 
 # Set the working directory in the container (change to /react-docker if desired)
-WORKDIR /client-docker
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+# ENV PATH /app/node_modules/.bin:$PATH
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
