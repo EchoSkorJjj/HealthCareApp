@@ -1,28 +1,29 @@
 const mongoose = require("mongoose");
 const session = require('supertest-session');
 
-const {app, server} = require("../index");
+const {app, server, database} = require("../index");
 const request = require("supertest")(app);
-
 require("dotenv").config();
 
 var testSession = null;
 var loginResponse = null;
 
 testSession = session(app);
-/* Connecting to the database before each test. */
-beforeEach(async () => {
-  await mongoose.connect(process.env.DATABASE_URL);
-});
+// /* Connecting to the database before each test. */
+// beforeEach(async () => {
+//   await mongoose.connect(process.env.DATABASE_URL);
+// });
 
-/* Closing database connection after each test. */
-afterEach(async () => {
-  await mongoose.connection.close();
-});
+// /* Closing database connection after each test. */
+// afterEach(async () => {
+//   await mongoose.connection.close();
+// });
 
 afterAll(async () => {
   await testSession.destroy();
+  database.close();
   server.close();
+
 });
  
 describe('Login and Protected Endpoints', () => {

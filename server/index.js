@@ -36,7 +36,7 @@ const server = app.listen(3500, () => {
     console.log('Server started at port 3500');      
 });
  
-mongoose.connect(mongoString);
+const connection = mongoose.connect(mongoString);
 const database = mongoose.connection
 
 database.on('error', (error) => {
@@ -54,4 +54,4 @@ app.use('/healthcheck', (req,res, next) => {
     next();
 })
 
-module.exports = {app, server};
+module.exports = {app, server, database};
