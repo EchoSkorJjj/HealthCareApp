@@ -27,6 +27,12 @@ afterAll(async () => {
 });
  
 describe('Login and Protected Endpoints', () => {
+  it('should fail since it is making unauthenticated requests', async () => {
+    const getRecipeResponse = await testSession
+      .get('/api/account/getRecipes')
+      .query({ q: 'chicken rice' })
+      .expect(401);
+  });
 
   it('should successfully login and store session data', async () => {
     loginResponse = await testSession
@@ -35,13 +41,20 @@ describe('Login and Protected Endpoints', () => {
     .expect(200) 
   });
 
-  it('should successfully logout and remove session data', async () => {
-    const sessionCookie = loginResponse.headers['set-cookie'][0];
-    const logoutResponse = await testSession
-      .post('/api/auth/logout')
-      .set('Cookie', sessionCookie)
+  it('should successfully get recipes from edamam Api since it is sending session cookie', async () => {
+    const getRecipeResponse = await testSession
+      .get('/api/account/getRecipes')
+      .query({ q: 'chicken rice' })
       .expect(200);
   });
+
+  it('should successfully logout and remove session data', async () => {
+    const logoutResponse = await testSession
+      .post('/api/auth/logout')
+      .expect(200);
+  });
+
+
 });
   // it('should get recipes with an authenticated session', async () => {
   //   const response = await agent
