@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Bicep from './Bicep';
+import PushUp from './PushUp';
 import '../../../assets/styles/private_styles/Trainer.css';
 
 export default function Trainer() {
@@ -11,7 +12,7 @@ export default function Trainer() {
           return <Bicep />;
         
         case 'pushUp':
-          return null;
+          return <PushUp />;
           
         default:
           return null;
