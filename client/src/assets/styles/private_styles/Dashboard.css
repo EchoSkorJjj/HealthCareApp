@@ -1,7 +1,7 @@
 .dashboard-container {
     padding-top: 108px;
     margin-left: 210px;
-    width: calc(100%-210px);
+    width: calc(100% - 210px);
     margin-right: 0px;
     flex-grow: 1;
 }

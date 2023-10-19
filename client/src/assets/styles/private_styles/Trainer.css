@@ -1,10 +1,10 @@
 .trainer-container {
     margin-top: 108px;
     margin-left: 210px;
-    width: calc(100%-210px);
+    width: calc(100% - 210px);
     margin-right: 0px;
     flex-grow: 1;
-    height: 92dvh;
+    /* height: 92dvh; */
   }
   
   @media screen and (max-width: 1275px) {
