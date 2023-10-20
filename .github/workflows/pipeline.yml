@@ -70,38 +70,6 @@ jobs:
           export TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
           npm run test
 
-      # # Login to Docker Hub using credentials from repository secrets
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # - name: Build and Push Client Docker Image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./client
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_USERNAME }}/wad2-client:client-${{github.run_number}}
-            
-      # - name: Build and Push Server Docker Image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./server
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_USERNAME }}/wad2-server:server-${{github.run_number}}
-            
-      # - name: Build and Push Nginx Docker Image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./config
-      #     push: true
-      #     tags: |
-      #       ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-${{github.run_number}}
-      #       ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-latest
-
       # Configure AWS credentials from your GitHub secrets.
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -139,6 +107,40 @@ jobs:
         with:
           context: ./config
           push: true
-          tags: |
-            030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}}
-            030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-latest
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}}
+
+      # # Build, tag, and push SERVER image to Amazon ECR
+      # - name: Build, tag, and push SERVER image to Amazon ECR
+      #   id: build-server-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp/server # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./server/Dockerfile .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "server-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Build, tag, and push CLIENT image to Amazon ECR
+      # - name: Build, tag, and push CLIENT image to Amazon ECR
+      #   id: build-client-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp/client # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./client/Dockerfile .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "client-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Build, tag, and push NGINX image to Amazon ECR
+      # - name: Build, tag, and push NGINX image to Amazon ECR
+      #   id: build-nginx-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp/nginx # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./nginx/Dockerfile .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "nginx-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
