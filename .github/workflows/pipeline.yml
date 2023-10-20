@@ -83,64 +83,105 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      # Build a Docker image for the client application and push to ECR
-      - name: Build and Push Client Docker Image
-        id: build-client-image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./client
-          push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-client:client-${{github.run_number}}
-
-      # Build a Docker image for the server application and push to ECR
-      - name: Build and Push Server Docker Image
-        id: build-server-image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./server
-          push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-server:server-${{github.run_number}}
-
-      - name: Build and Push NGINX Docker Image
-        id: build-nginx-image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./config
-          push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-nginx:nginx-${{github.run_number}}
-
-      # # Build, tag, and push SERVER image to Amazon ECR
-      # - name: Build, tag, and push SERVER image to Amazon ECR
-      #   id: build-server-image
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: healthcareapp/server # specify your repository name here
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./server/Dockerfile .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      #     echo "server-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
-
-      # # Build, tag, and push CLIENT image to Amazon ECR
-      # - name: Build, tag, and push CLIENT image to Amazon ECR
+      # # Build a Docker image for the client application and push to ECR
+      # - name: Build and Push Client Docker Image
       #   id: build-client-image
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: healthcareapp/client # specify your repository name here
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./client/Dockerfile .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      #     echo "client-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./client
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-client:client-${{github.run_number}}
 
-      # # Build, tag, and push NGINX image to Amazon ECR
-      # - name: Build, tag, and push NGINX image to Amazon ECR
+      # # Build a Docker image for the server application and push to ECR
+      # - name: Build and Push Server Docker Image
+      #   id: build-server-image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./server
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-server:server-${{github.run_number}}
+
+      # - name: Build and Push NGINX Docker Image
       #   id: build-nginx-image
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: healthcareapp/nginx # specify your repository name here
-      #     IMAGE_TAG: ${{ github.sha }}
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./config
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-nginx:nginx-${{github.run_number}}
+
+      # Build, tag, and push SERVER image to Amazon ECR
+      - name: Build, tag, and push SERVER image to Amazon ECR
+        id: build-server-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: healthcareapp-server # specify your repository name here
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./server/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "server-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # Build, tag, and push CLIENT image to Amazon ECR
+      - name: Build, tag, and push CLIENT image to Amazon ECR
+        id: build-client-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: healthcareapp-client # specify your repository name here
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./client/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "client-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # Build, tag, and push NGINX image to Amazon ECR
+      - name: Build, tag, and push NGINX image to Amazon ECR
+        id: build-nginx-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: healthcareapp-nginx # specify your repository name here
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./nginx/Dockerfile .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "nginx-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Download the current task definition from AWS
+      # - name: Download Server Task Definition
+      #   id: download-server-task-def
       #   run: |
-      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./nginx/Dockerfile .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      #     echo "nginx-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+      #     aws ecs describe-task-definition --task-definition server-task > server-task-definition.json
+
+      # - name: Download Client Task Definition
+      #   id: download-client-task-def
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition client-task > client-task-definition.json
+          
+      # - name: Download Nginx Task Definition
+      #   id: download-nginx-task-def
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition nginx-task > nginx-task-definition.json
+      
+      # # Update Task Definition 
+      # - name: Update server task definition
+      #   id: update-server-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: server-task-definition.json
+      #     container-name: server-container
+      #     image: ${{ steps.build-server-image.outputs.image }}
+      
+      # - name: Update client task definition
+      #   id: update-client-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: client-task-definition.json
+      #     container-name: client-container
+      #     image: ${{ steps.build-client-image.outputs.image }}
+      
+      # - name: Update NGINX task definition
+      #   id: update-nginx-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: nginx-task-definition.json
+      #     container-name: nginx-container
+      #     image: ${{ steps.build-nginx-image.outputs.image }}
