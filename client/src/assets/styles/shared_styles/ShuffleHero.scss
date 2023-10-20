@@ -71,6 +71,7 @@ $white:#fff;
       }
       .review_container{
         margin-top:50px;
+        margin-bottom: 50px !important;
         p.total_review{
           font-weight: 600;
           font-size: 20px;
@@ -108,7 +109,7 @@ $white:#fff;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 3rem;
-    padding-top: 4rem !important;
+    padding-top: 2rem !important;
     grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
     gap: 2rem;
     align-items: center;
@@ -127,6 +128,9 @@ $white:#fff;
   .content_wrapper{
     flex-direction: column;
     height: auto !important;
+  }
+  .review_container {
+    margin-bottom: 2rem !important;
   }
   .left_content_wrapper {
     width: 100% !important;
