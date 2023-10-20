@@ -90,7 +90,7 @@ jobs:
         with:
           context: ./client
           push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:client-${{github.run_number}}
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-client:client-${{github.run_number}}
 
       # Build a Docker image for the server application and push to ECR
       - name: Build and Push Server Docker Image
@@ -99,7 +99,7 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:server-${{github.run_number}}
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-server:server-${{github.run_number}}
 
       - name: Build and Push NGINX Docker Image
         id: build-nginx-image
@@ -107,7 +107,7 @@ jobs:
         with:
           context: ./config
           push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}}
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-nginx:nginx-${{github.run_number}}
 
       # # Build, tag, and push SERVER image to Amazon ECR
       # - name: Build, tag, and push SERVER image to Amazon ECR
