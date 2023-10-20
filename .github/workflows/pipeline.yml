@@ -70,27 +70,6 @@ jobs:
           export TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
           npm run test
 
-      # # Build a Docker image for the client application
-      # - name: Build Client Docker Image
-      #   working-directory: ./client
-      #   # Build image with tag rakeshpotnuru/productivity-app:client
-      #   run: |
-      #     docker build -t wad2-client:client-${{github.run_number}} .
-
-      # # Build a Docker image for the server application
-      # - name: Build Server Docker Image
-      #   working-directory: ./server
-      #     # Build image with tag rakeshpotnuru/productivity-app:server
-      #   run: |
-      #     docker build -t wad2-server:server-${{github.run_number}} .
-
-      # # Build a Docker image for the NGINX reverse proxy
-      # - name: Build NGINX Docker Image
-      #   working-directory: ./config
-      #   # Build image with tag rakeshpotnuru/productivity-app:nginx
-      #   run: |
-      #     docker build -t wad2-nginx:nginx-${{github.run_number}} -t wad2-nginx:nginx-latest .
-
       # Login to Docker Hub using credentials from repository secrets
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -98,15 +77,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Push the Docker images to Docker Hub
-      # - name: Push Docker Images to Docker Hub
-      #   run: |
-      #     docker push wad2-client:client-${{github.run_number}}
-      #     docker push wad2-server:server-${{github.run_number}}
-      #     docker push wad2-nginx:nginx-${{github.run_number}}
-      #     docker push wad2-client:client-latest
-      #     docker push wad2-server:server-latest
-      #     docker push wad2-nginx:nginx-latest
       - name: Build and Push Client Docker Image
         uses: docker/build-push-action@v2
         with:
@@ -131,3 +101,39 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-${{github.run_number}}
             ${{ secrets.DOCKER_USERNAME }}/wad2-nginx:nginx-latest
+
+      # Authenticate with AWS ECR
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ap-southeast-1 # Updated with your ECR region
+
+      # Build a Docker image for the client application and push to ECR
+      - name: Build and Push Client Docker Image
+        id: build-client-image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./client
+          push: true
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:client-${{github.run_number}}
+
+      # Build a Docker image for the server application and push to ECR
+      - name: Build and Push Server Docker Image
+        id: build-server-image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./server
+          push: true
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:server-${{github.run_number}}
+
+      # Build a Docker image for the NGINX reverse proxy and push to ECR
+      - name: Build and Push NGINX Docker Image
+        id: build-nginx-image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./config
+          push: true
+          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}};030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-latest
