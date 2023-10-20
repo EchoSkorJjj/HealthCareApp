@@ -189,7 +189,7 @@ const getRecipes = async (req, res) => {
         const imageResponse = await fetch(recipeInfo.image);
         const imageBuffer = await imageResponse.arrayBuffer();
         const imageBuffed = Buffer.from(imageBuffer);
-        const imageBase64 = imageBuffed.toString('base64');
+        const encodedImage = imageBuffed.toString('base64');
 
   
         return {

@@ -5,12 +5,12 @@ export default function Home() {
     return (
         <div className='col-lg-9 container bg-light homepage-container'>
             <div className="container w-100 h-100">
-                {/* <iframe 
-                    src="https://gamma.app/embed/8d5y8dufonetzj3" 
-                    className='homepage-iframe'
-                    allow="fullscreen" 
-                    title="Homepage for healthcare and well being application">
-                </iframe> */}
+                <div className="row h-100 align-items-center justify-content-center text-center">
+                    <div className="col-lg-8">
+                        <h1 className="font-weight-light">Welcome to the Health Care App</h1>
+                        <p className="lead text-muted">This is a application which helps you to manage your diet, track your daily calories and much more</p>
+                    </div>
+                </div>
             </div>
         </div>
     )

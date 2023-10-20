@@ -4,6 +4,7 @@ import Contact from '../contact/Contact.jsx';
 import ShuffleHero from '../shufflehero/ShuffleHero.jsx';
 import Card from '../../components/card/Card';
 import World from '../world/World.jsx';
+import Review from '../review/Review.jsx';
 
 export default function Home() {
 
@@ -11,9 +12,11 @@ export default function Home() {
         <div className='container-fluid px-0 mx-0 fadein-style'>
             <ShuffleHero />
             <About />
-            <Card />
+            <Card />       
             <World />
-            <Contact />
+            <Review />
+            {/* <Contact /> */}
+            
         </div>
     )
 }

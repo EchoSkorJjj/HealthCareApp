@@ -27,9 +27,45 @@
     color: #000000;
 }
 
+.geo-location-icon {
+    position: relative;
+    cursor: pointer;
+    width: 3rem; /* or whatever your desired size is */
+    height: 3rem; /* or whatever your desired size is */
+}
+
+.geo-location-icon:hover .img-flag {
+    transform: scale(1.1); /* Slightly increase size on hover */
+}
+
+.hover-info {
+    position: absolute;
+    right: calc(100% + 0.5rem); /* Adjust as needed for proper positioning */
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.geo-location-icon:hover .hover-info {
+    opacity: 1;
+}
+
+/* Update these styles according to your specific design requirements */
+.hover-info span {
+    background-color: white; /* or another color */
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* or another box-shadow */
+    font-size: 0.9rem; /* or another font-size */
+}
+
 .sg-container {
     padding-right: calc(100% - 74%);
     padding-bottom: calc(100% - 77%);
+    z-index: 3;
 }
 
 .ukraine-container {
@@ -47,6 +83,34 @@
     height: 3rem;
 }
 
+@media screen and (max-width: 1500px) {
+    .img-flag {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .img-flag {
+        width: 2rem;
+        height: 2rem;
+    }
+    .sg-container {
+        padding-right: calc(100% - 75%);
+        padding-bottom: calc(100% - 75%);
+    }
+    
+    .ukraine-container {
+        padding-right: calc(100% - 52%);
+        padding-bottom: calc(100% - 64%);
+    }
+    
+    .usa-container {
+        padding-left: calc(100% - 86%);
+        padding-bottom: calc(100% - 67%);
+    }
+}
+
 @media screen and (max-width: 991px) {
     .img-flag {
         width: 1.5rem;
@@ -55,11 +119,39 @@
     .world-text {
         font-size: 1.4rem !important;
     }
+    .sg-container {
+        padding-right: calc(100% - 75%);
+        padding-bottom: calc(100% - 75%);
+    }
+    
+    .ukraine-container {
+        padding-right: calc(100% - 52%);
+        padding-bottom: calc(100% - 63%);
+    }
+    
+    .usa-container {
+        padding-left: calc(100% - 86%);
+        padding-bottom: calc(100% - 66%);
+    }
 }
 
 @media screen and (max-width: 800px) {
     .world-container {
         height: 50dvh;
+    }
+    .sg-container {
+        padding-right: calc(100% - 76%);
+        padding-bottom: calc(100% - 72%);
+    }
+    
+    .ukraine-container {
+        padding-right: calc(100% - 54%);
+        padding-bottom: calc(100% - 60%);
+    }
+    
+    .usa-container {
+        padding-left: calc(100% - 86%);
+        padding-bottom: calc(100% - 63%);
     }
 }
 
@@ -69,5 +161,19 @@
     }
     .world-text {
         font-size: 1rem !important;
+    }
+    .sg-container {
+        padding-right: calc(100% - 77%);
+        padding-bottom: calc(100% - 69%);
+    }
+    
+    .ukraine-container {
+        padding-right: calc(100% - 55%);
+        padding-bottom: calc(100% - 58%);
+    }
+    
+    .usa-container {
+        padding-left: calc(100% - 88%);
+        padding-bottom: calc(100% - 62%);
     }
 }

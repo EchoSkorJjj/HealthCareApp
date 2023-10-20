@@ -199,7 +199,7 @@ const ShuffleHero = () => {
           </motion.div>
         </motion.div>
         <motion.div className="shuffle-hero col-lg-6 col-12">  
-        <ShuffleGrid initial={{x:200, opacity:0}} animate={{x:0, opacity:1}} transition={{duration:.5, delay:1.5}}/>
+          <ShuffleGrid initial={{x:200, opacity:0}} animate={{x:0, opacity:1}} transition={{duration:.5, delay:1.5}}/>
         </motion.div>
       </motion.div>
     </motion.div>

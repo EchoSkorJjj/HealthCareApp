@@ -2,7 +2,7 @@ import '../../../assets/styles/shared_styles/Header.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Nav, Navbar, NavDropdown, Container, Offcanvas, Button, Modal, Form} from 'react-bootstrap';  
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useAuth } from '../../../features/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faRightFromBracket, faEllipsis, faListUl, faBell } from '@fortawesome/free-solid-svg-icons'
@@ -28,10 +28,28 @@ export default function Header({onToggle, handleLogout}) {
     const [showNotifications, setShowNotifications] = useState(false);
     const [notificationContent, setNotificationContent] = useState(initialNotifications);
 
+    const notificationContainerRef = React.useRef(null);
+
+    useEffect(() => {
+        // Function to check if clicked outside of element
+        function handleClickOutside(event) {
+          if (notificationContainerRef.current && !notificationContainerRef.current.contains(event.target)) {
+            setShowNotifications(false);
+          }
+        }
+    
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
+
     const handleDeleteNotification = (content) => {
-    setNotificationContent(
-        notificationContent.filter((item) => item !== content)
-    );
+        setNotificationContent(
+            notificationContent.filter((item) => item !== content)
+        );
     };
     
     const [show, setShow] = useState(false);
@@ -102,20 +120,31 @@ export default function Header({onToggle, handleLogout}) {
                                 <Button variant="outline-success">Search</Button>
                             </Form>
                         </div>
-                        <motion.div 
-                            whileHover={window.innerWidth >= 992 ? {
-                                rotateZ: [0, -20, 20, -20, 20, -20, 20, 0],
-                                transition: { duration: 0.5 },
-                                } : []}
-                            className="p-1 d-flex align-items-center pt-1">
-                            <button className="bg-transparent notification-button d-flex"
-                                onClick={() => {
-                                    setShowNotifications(!showNotifications);
-                                }}
-                                >
-                                <FontAwesomeIcon icon={faBell} className="bell-icon "/>
-                            </button>
-                        </motion.div>   
+                        <div ref={notificationContainerRef}>
+                            <motion.div 
+                                whileHover={window.innerWidth >= 992 ? {
+                                    rotateZ: [0, -20, 20, -20, 20, -20, 20, 0],
+                                    transition: { duration: 0.5 },
+                                    } : []}
+                                className="p-1 d-flex align-items-center pt-1">
+                                <button className="bg-transparent notification-button d-flex"
+                                    onClick={() => {
+                                        setShowNotifications(!showNotifications);
+                                    }}
+                                    
+                                    >
+                                    <FontAwesomeIcon icon={faBell} className="bell-icon "/>
+                                </button>
+                            </motion.div>
+                            <AnimatePresence>
+                            {showNotifications ? (
+                                <NotificationTray
+                                notificationContent={notificationContent}
+                                handleDeleteNotification={handleDeleteNotification}
+                                ></NotificationTray>
+                            ) : null}
+                            </AnimatePresence>
+                        </div>   
                         <div className="p-1 me-4">
                             <NavDropdown
                             title={<div className='profile-icon'>
@@ -150,14 +179,7 @@ export default function Header({onToggle, handleLogout}) {
                                 </Modal>
                             </NavDropdown>
                         </div>
-                        <AnimatePresence>
-                        {showNotifications ? (
-                            <NotificationTray
-                            notificationContent={notificationContent}
-                            handleDeleteNotification={handleDeleteNotification}
-                            ></NotificationTray>
-                        ) : null}
-                        </AnimatePresence>
+                        
                     </>
                     ) : (
                     <>
