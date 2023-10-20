@@ -133,11 +133,12 @@ jobs:
           push: true
           tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:server-${{github.run_number}}
 
-      # Build a Docker image for the NGINX reverse proxy and push to ECR
       - name: Build and Push NGINX Docker Image
         id: build-nginx-image
         uses: docker/build-push-action@v2
         with:
           context: ./config
           push: true
-          tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}};030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-latest
+          tags: |
+            030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-${{github.run_number}}
+            030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp:nginx-latest
