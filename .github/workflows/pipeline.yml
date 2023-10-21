@@ -145,43 +145,43 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "nginx-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
-      # # Download the current task definition from AWS
-      # - name: Download Server Task Definition
-      #   id: download-server-task-def
-      #   run: |
-      #     aws ecs describe-task-definition --task-definition server-task > server-task-definition.json
+      # Download the current task definition from AWS
+      - name: Download Server Task Definition
+        id: download-server-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition server-task-definition --query taskDefinition > server-task-definition.json
 
-      # - name: Download Client Task Definition
-      #   id: download-client-task-def
-      #   run: |
-      #     aws ecs describe-task-definition --task-definition client-task > client-task-definition.json
+      - name: Download Client Task Definition
+        id: download-client-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition client-task-definition --query taskDefinition > client-task-definition.json
           
-      # - name: Download Nginx Task Definition
-      #   id: download-nginx-task-def
-      #   run: |
-      #     aws ecs describe-task-definition --task-definition nginx-task > nginx-task-definition.json
+      - name: Download Nginx Task Definition
+        id: download-nginx-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition nginx-task-definition --query taskDefinition > nginx-task-definition.json
       
-      # # Update Task Definition 
-      # - name: Update server task definition
-      #   id: update-server-task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: server-task-definition.json
-      #     container-name: server-container
-      #     image: ${{ steps.build-server-image.outputs.image }}
+      # Update Task Definition 
+      - name: Update server task definition
+        id: update-server-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: server-task-definition.json
+          container-name: server-container
+          image: ${{ steps.build-server-image.outputs.image }}
       
-      # - name: Update client task definition
-      #   id: update-client-task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: client-task-definition.json
-      #     container-name: client-container
-      #     image: ${{ steps.build-client-image.outputs.image }}
+      - name: Update client task definition
+        id: update-client-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: client-task-definition.json
+          container-name: client-container
+          image: ${{ steps.build-client-image.outputs.image }}
       
-      # - name: Update NGINX task definition
-      #   id: update-nginx-task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: nginx-task-definition.json
-      #     container-name: nginx-container
-      #     image: ${{ steps.build-nginx-image.outputs.image }}
+      - name: Update NGINX task definition
+        id: update-nginx-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: nginx-task-definition.json
+          container-name: nginx-container
+          image: ${{ steps.build-nginx-image.outputs.image }}
