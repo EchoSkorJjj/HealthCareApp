@@ -149,17 +149,17 @@ jobs:
       - name: Download Server Task Definition
         id: download-server-task-def
         run: |
-          aws ecs describe-task-definition --task-definition server-task-definition --query taskDefinition > server-task-definition.json
+          aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/server-task-definition:2 --query taskDefinition > server-task-definition.json
 
       - name: Download Client Task Definition
         id: download-client-task-def
         run: |
-          aws ecs describe-task-definition --task-definition client-task-definition --query taskDefinition > client-task-definition.json
+          aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/client-task-definition:1 --query taskDefinition > client-task-definition.json
           
       - name: Download Nginx Task Definition
         id: download-nginx-task-def
         run: |
-          aws ecs describe-task-definition --task-definition nginx-task-definition --query taskDefinition > nginx-task-definition.json
+          aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/nginx-task-definition:1 --query taskDefinition > nginx-task-definition.json
       
       # Update Task Definition 
       - name: Update server task definition
@@ -168,15 +168,15 @@ jobs:
         with:
           task-definition: server-task-definition.json
           container-name: server-container
-          image: ${{ steps.build-server-image.outputs.image }}
-      
+          image: ${{ env.server-image }}
+
       - name: Update client task definition
         id: update-client-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: client-task-definition.json
           container-name: client-container
-          image: ${{ steps.build-client-image.outputs.image }}
+          image: ${{ env.client-image }}
       
       - name: Update NGINX task definition
         id: update-nginx-task-def
@@ -184,4 +184,4 @@ jobs:
         with:
           task-definition: nginx-task-definition.json
           container-name: nginx-container
-          image: ${{ steps.build-nginx-image.outputs.image }}
+          image: ${{ env.nginx-image }}
