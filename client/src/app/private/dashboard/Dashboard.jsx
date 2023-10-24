@@ -1,13 +1,266 @@
-import {react} from 'react';
-import '../../../assets/styles/private_styles/Dashboard.css'
+import React, { useEffect, useState, useRef } from 'react';
+import '../../../assets/styles/private_styles/Dashboard.css';
+import BarChartUi from '../../components/barchart/BarChart';
+import Cards from '../../components/cards/Cards';
+import CircularBar from '../../components/circularbar/CircularBar';
+import HeatMap from '../../components/heatmap/HeatMap';
+import useFitnessStore from '../../../features/store/FitnessStore';
+import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 export default function Dashboard() {
+    const navigate = useNavigate();
+    const initialFetch = useRef(false);
+    const setAccessToken = useFitnessStore((state) => state.setAccessToken);
+    const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
+    const [authCode, setAuthCode] = useState(false);
+
+    const [totalSteps, setTotalSteps] = useState(0);
+    const [dailySteps, setDailySteps] = useState([]);
+    const [weekOffset, setWeekOffset] = useState(0);
+    const [totalDistance, setTotalDistance] = useState(0);
+    const [dailyDistance, setDailyDistance] = useState([]);
+    const [totalCalories, setTotalCalories] = useState(0);
+    const [dailyCalories, setDailyCalories] = useState([]);
+    const [monthlySteps, setMonthlySteps] = useState([]);
+
+    const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+
+    const handleAuth = async () => {
+        const response = await fetch(`${baseUrl}/api/auth/getAuthUrl`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+        const data = await response.json();
+        const authUrl = data.authUrl;
+        window.location.href = authUrl;
+    };
+
+    const fetchAccessToken = async (authCode) => {
+        try {
+            const response = await fetch(`${baseUrl}/api/auth/getAccessToken?q=${encodeURIComponent(authCode)}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            if (response.ok) {
+                return true;
+            }
+        } catch (error) {
+            console.error("Error fetching access token:", error);
+            return false;
+        }
+    };
+    
+    const initializeAuth = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            return await fetchAccessToken(code);
+        }
+        return false;
+    };
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            if (!initialFetch.current) {
+                initialFetch.current = true;
+                const auth = await initializeAuth();
+                if (auth) {
+                    initialFetch.current = false;
+                    setAccessToken(true);
+                    navigate('/dashboard')
+                }
+            }
+        };
+        if (!hasAccessToken) {
+            fetchInitialData();
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (hasAccessToken) {
+                // Fetch step data
+                const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
+                const stepData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        weekOffset: weekOffset,
+                        timeRange: 'weekly',
+                    }),
+                });
+                const monthlyData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        weekOffset: 0, 
+                        timeRange: 'monthly',
+                    }),
+                });
+                if (!monthlyData.dailySteps) {
+                    setMonthlySteps([28000,28000, 28000, 28000, 28000, 28000, 28000])
+                    setDailySteps([400,400,400,400,400,400,400]);
+                    setTotalSteps(196000)
+                } else {
+                    setMonthlySteps(monthlyData.dailySteps);
+                    setDailySteps(stepData.dailySteps);
+                    setTotalSteps(stepData.totalSteps);
+                }
+
+                // Fetch distance data
+                const distanceData = await fetch(`${baseUrl}/api/fitness/getDistanceData`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        weekOffset: weekOffset, 
+                    }),
+                });
+                if (!distanceData.totalDistance) {
+                    setDailyDistance([10000,10000,10000,10000,10000,10000,10000]);
+                    setTotalDistance(70000);
+                } else {
+                    setDailyDistance(distanceData.dailyDistance);
+                    setTotalDistance(distanceData.totalDistance);
+                }
+                
+                // Fetch calorie data
+                const calorieData = await fetch(`${baseUrl}/api/fitness/getCaloriesData`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: JSON.stringify({ 
+                        weekOffset: weekOffset, 
+                    }),
+                });
+                if (!calorieData.dailyCalories) {
+                    setDailyCalories([2000,1000,2000,1000,2000,1000,2000])
+                    setTotalCalories(11000);
+                } else {
+                    setDailyCalories(calorieData.dailyCalories);
+                    setTotalCalories(calorieData.totalCalories);
+                }
+            }
+        }
+        fetchData();
+    }
+    , [hasAccessToken, weekOffset]);
+
+    const getCurrentWeekRange = (weekOffset) => {
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) - (7 * weekOffset));
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+    
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+        const startMonth = monthNames[startOfWeek.getMonth()];
+        const endMonth = monthNames[endOfWeek.getMonth()];
+    
+        return `${startMonth} ${startOfWeek.getDate()} - ${endMonth} ${endOfWeek.getDate()}`;
+    };
+
     return (
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
-                <div className="row h-100 align-items-center justify-content-center text-center">
-                    <div className="col-lg-8">
-                        <h1 className="font-weight-light">Dashboard</h1>
+                <div className='container'>
+                    <h1>Dashboard</h1>
+                    <button onClick={handleAuth}>Authorize</button>
+                    <div className='row'>
+                        <div className='col-4'>
+                            <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
+                        </div>
+                        <div className='col-4'>
+                            <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                        </div>
+                        <div className='col-4'>
+                            <button onClick={() => setWeekOffset(weekOffset - 1)}>Next Week</button>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-md-5'></div>
+                        <div className='col-md-4'>
+                            <CircularBar 
+                            value={totalSteps}
+                            maxValue={25000} // or whatever your goal is
+                            label={`${totalSteps} steps`}
+                            />
+                        </div>
+                        <div className='row'>
+                            <div className='col-md-2'>
+                                <BarChartUi 
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailySteps}
+                                    title="Step Counts"
+                                    bgColor="#8884d8"
+                                    borderColor="#000000"
+                                    dataKey="steps"
+                                />
+                            </div>
+                            <div className='col-md-2'>
+                            </div>
+                            <div className='col-md-2'>
+                                <BarChartUi
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailyDistance}
+                                    title="Distance"
+                                    bgColor="#82ca9d"
+                                    borderColor="#000000"
+                                    dataKey="distance"
+                                />
+                            </div>
+                            <div className='col-md-2'>
+                            </div>
+                            <div className='col-md-2'>
+                                <BarChartUi
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailyCalories}
+                                    title="Calories"
+                                    bgColor="#82ca9d"
+                                    borderColor="#000000"
+                                    dataKey="calories"
+                                />
+                            </div>
+                        </div>
+                            
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <Cards 
+                                    title="Total Steps"
+                                    value={`${totalSteps} steps`}
+                                />
+                            </div>
+                            <div className='col-md-4'>
+                                <Cards 
+                                    title="Total Distance"
+                                    value={`${totalDistance.toFixed(2)} km`}
+                                />
+                            </div>
+                            <div className='col-md-4'>
+                                <Cards 
+                                    title="Total Calories"
+                                    value={`${totalCalories.toFixed(2)} cal`}
+                                />
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <HeatMap monthlyData={monthlySteps} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
