@@ -1,0 +1,12 @@
+/* Add to your HorizontalScrollbar.css */
+/* .scroll-menu {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+} */
+
+.scroll-items {
+  /* display: inline-block; */
+  margin: 0 40px;
+}

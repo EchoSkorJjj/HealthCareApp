@@ -1,0 +1,17 @@
+.bodyPart-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-bottom-left-radius: 20px;
+    width: 270px;
+    height: 282px;
+    cursor: pointer;
+    gap: 47px;
+  }
+  
+  .bodyPart-card.selected {
+    border-top: 4px solid #FF2625;
+  }
+  

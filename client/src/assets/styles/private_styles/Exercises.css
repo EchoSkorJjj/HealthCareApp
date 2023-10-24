@@ -1,0 +1,25 @@
+#exercises {
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 5rem;
+  }
+  
+  .showing-results {
+    font-weight: bold;
+    font-size: 30px; /* Adjust for larger screens if necessary */
+    margin-bottom: 46px;
+  }
+  
+  .exercise-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px; /* Adjust for larger screens if necessary */
+    justify-content: center;
+  }
+  
+  .pagination-container {
+    margin-top: 70px; /* Adjust for larger screens if necessary */
+    display: flex;
+    justify-content: center;
+  }
+  

@@ -1,0 +1,64 @@
+.exercise-videos-container {
+    margin-top: 20px;
+    padding: 20px;
+  }
+  
+  .exercise-videos-title {
+    font-size: 25px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 33px;
+  }
+  
+  .exercise-videos-title span {
+    color: #FF2625;
+    text-transform: capitalize;
+  }
+  
+  .exercise-videos-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  
+  .exercise-video {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    margin-bottom: 20px; 
+  }
+  
+  .exercise-video img {
+    border-top-left-radius: 20px;
+  }
+  
+  .exercise-video-text {
+    margin-top: 10px;
+  }
+  
+  .exercise-video-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  .exercise-video-channel {
+    font-size: 14px;
+    color: #000;
+  }
+  
+  @media (min-width: 992px) {
+    .exercise-videos-container {
+      margin-top: 203px;
+    }
+    .exercise-videos-title {
+      font-size: 44px;
+    }
+    .exercise-videos-items {
+      gap: 110px;
+    }
+    .exercise-video-title {
+      font-size: 28px;
+    }
+  }
+  

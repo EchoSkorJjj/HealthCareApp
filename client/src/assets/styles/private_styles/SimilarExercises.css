@@ -1,0 +1,31 @@
+.similar-exercises-container {
+    margin-top: 0;
+  }
+  
+  .similar-exercises-title {
+    font-size: 25px;
+    margin-left: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 33px;
+  }
+  
+  .similar-exercises-title span {
+    color: #FF2625;
+    text-transform: capitalize;
+  }
+  
+  .similar-exercises-items {
+    padding: 20px;
+    position: relative;
+  }
+  
+  @media (min-width: 992px) {
+    .similar-exercises-container {
+      margin-top: 100px;
+    }
+    .similar-exercises-title {
+      font-size: 44px;
+    }
+  }
+  

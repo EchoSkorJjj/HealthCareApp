@@ -1,0 +1,32 @@
+.exercise-card {
+    text-decoration: none;
+    background: white;
+  }
+  
+  .button {
+    margin-left: 21px;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+  
+  .button-bodyPart {
+    background: #FFA9A9;
+  }
+  
+  .button-target {
+    background: #FCC757;
+  }
+  
+  .exercise-name {
+    margin-left: 21px;
+    color: #000;
+    font-weight: bold;
+    font-size: 20px; 
+    margin-top: 11px;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+  }
+  
