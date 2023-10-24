@@ -34,6 +34,9 @@ router.post('/auth/login', authController.loginUser);
  */
 router.post('/auth/logout', authController.logoutUser);
 
+router.get('/auth/getAuthUrl', authController.getAuthUrl);
+router.get('/auth/getAccessToken', authController.getGoogleAccessToken);
+
 
 module.exports = router;
 

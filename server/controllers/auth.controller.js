@@ -58,7 +58,10 @@ async function authLogin(req, res, username, fullname, userEmail, profilePic) {
       profile.profilePicture = profilePic;
     }
     const profileToSave = await profile.save();
-    req.session.user = user._id
+    req.session.user = {
+      id: user._id,
+      accessToken: '',
+    }
     req.session.cookie.expires = false;
     res.status(200).json({ profile: profile });
   }
@@ -170,58 +173,106 @@ const handleGithubCallback = async (req, res) => {
   }
 }
 
-// Function to handle user login
 const loginUser = async (req, res) => {
-    const { usernameOrEmail, password, rememberMe} = req.body; 
-    try {
-        // Find user by username or email
-        const user = await User.findOne({
-            $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
-        });
+  const { usernameOrEmail, password, rememberMe} = req.body; 
+  try {
+      const user = await User.findOne({
+          $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+      });
 
-        if (!user) {
-            return res.status(401).json({ message: 'User not found' });
-        }
+      if (!user) {
+          return res.status(401).json({ message: 'User not found' });
+      }
 
-        // Compare passwords
-        const passwordMatch = await user.comparePassword(password);
-        if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid password' });
-        }
-        
-        // store user information in session, typically a user id
-        req.session.user = user._id
-        if (rememberMe) {
-            // Set cookie to expire in 30 days
-            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
-        } else {
-            // Set cookie to expire at end of session
-            req.session.cookie.expires = false;
-        }
-        const profile = await Profile.findOne({userId: user._id})
-        res.status(200).json({ profile: profile });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+      const passwordMatch = await user.comparePassword(password);
+      if (!passwordMatch) {
+          return res.status(401).json({ message: 'Invalid password' });
+      }
+
+      req.session.user = {
+        id: user._id,
+        accessToken: '',
+      }
+      if (rememberMe) {
+          req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+      } else {
+          req.session.cookie.expires = false;
+      }
+      const profile = await Profile.findOne({userId: user._id})
+      res.status(200).json({ profile: profile });
+  } catch (error) {
+      res.status(400).json({ message: error.message });
+  }
 };
 
 const logoutUser = async (req, res) => {
-    try {
-        req.session.destroy(function (err) {
-          if (err) {
-            console.log('Error destroying session:', err);
-          }
-          res.clearCookie('sid', {expires: new Date(1), path:'/'});
-          res.status(200).json({ message: 'Logout successful' });
-        });
-      } catch (error) {
-        res.status(500).json({ message: 'Error logging out' });
-      }
+  try {
+      req.session.destroy(function (err) {
+        if (err) {
+          console.log('Error destroying session:', err);
+        }
+        res.clearCookie('sid', {expires: new Date(1), path:'/'});
+        res.status(200).json({ message: 'Logout successful' });
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Error logging out' });
+    }
 };
+
+const oAuth2Client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  'http://localhost:5173/dashboard',
+);
+
+const getAuthUrl = async (req, res) => {
+  try {
+    const SCOPES = [
+      "https://www.googleapis.com/auth/fitness.activity.read",
+      "https://www.googleapis.com/auth/fitness.location.read",
+      "https://www.googleapis.com/auth/fitness.blood_glucose.read",
+      "https://www.googleapis.com/auth/fitness.blood_pressure.read",
+      "https://www.googleapis.com/auth/fitness.heart_rate.read",
+      "https://www.googleapis.com/auth/fitness.body.read",
+      "https://www.googleapis.com/auth/fitness.body.read",
+      "https://www.googleapis.com/auth/fitness.sleep.read",
+      "https://www.googleapis.com/auth/fitness.body.read",
+      "https://www.googleapis.com/auth/fitness.reproductive_health.read",
+      // "https://www.googleapis.com/auth/userinfo.profile",
+    ];
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: SCOPES,
+    });
+    res.status(200).json({ authUrl });
+  } catch (error) {
+    console.error("Detailed Server Error: ", error);
+    res.status(500).json({ error: "Error fetching access token" });
+  
+  }
+};
+
+const getGoogleAccessToken = async (req, res) => {
+  const { q: authCode } = req.query;
+  try {
+    console.log(authCode)
+    const { tokens } = await oAuth2Client.getToken(authCode);
+    await oAuth2Client.setCredentials(tokens);
+    const userAuth = oAuth2Client.credentials;
+    req.session.user.accessToken = userAuth.access_token;
+    res.status(200).json({ message: "Access token fetched successfully" });
+  } catch (error) {
+    console.error("Detailed Server Error: ", error);
+    res.status(500).json({ error: "Error fetching access token" });
+  }
+}
+
 
 module.exports = {
     handleGoogleCallback,
     handleGithubCallback,
     loginUser,
     logoutUser,
+    getAuthUrl,
+    getGoogleAccessToken
 };
