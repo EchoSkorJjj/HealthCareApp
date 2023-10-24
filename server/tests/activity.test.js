@@ -29,7 +29,7 @@ afterAll(async () => {
 describe('Login and Protected Endpoints', () => {
   it('should fail since it is making unauthenticated requests', async () => {
     const getRecipeResponse = await testSession
-      .get('/api/account/getRecipes')
+      .get('/api/recipe/getRecipes')
       .query({ q: 'chicken rice' })
       .expect(401);
   });
@@ -43,7 +43,7 @@ describe('Login and Protected Endpoints', () => {
 
   it('should successfully get recipes from edamam Api since it is sending session cookie', async () => {
     const getRecipeResponse = await testSession
-      .get('/api/account/getRecipes')
+      .get('/api/recipe/getRecipes')
       .query({ q: 'chicken rice' })
       .expect(200);
   });

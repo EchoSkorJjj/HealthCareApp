@@ -40,7 +40,7 @@ export default function RecipeBook() {
             setLoading(true);
             const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
             try {
-                fetch(`${baseUrl}/api/account/getRecipeBook`, {
+                fetch(`${baseUrl}/api/recipe/getRecipeBook`, {
                     method: 'GET',
                     credentials: 'include',
                 })

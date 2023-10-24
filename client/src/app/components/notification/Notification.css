@@ -9,6 +9,7 @@
     color: rgb(65, 65, 81);
     font-size: 0.875rem;
     line-height: 1.25rem;
+    z-index: 3;
   }
   .notification-tray > ul {
     list-style-type: none;

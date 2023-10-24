@@ -7,11 +7,6 @@
     height: 92dvh;
 }
 
-.homepage-iframe {
-    width: 100%;
-    height: 100%;
-}
-
 @media screen and (max-width: 1275px) {
     .homepage-container {
         margin-left: 65px;

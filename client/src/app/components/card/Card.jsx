@@ -1,17 +1,10 @@
-import React from 'react';
-import { 
-    IoChevronForward, 
-    IoApps, 
-    IoNotifications, 
-    IoPieChart, 
-    IoNewspaper, 
-    IoSearch, 
-    IoColorFill,
-    IoIdCardOutline} from "react-icons/io5";
+import React, {useState, useRef, useEffect} from 'react';
+import { IoChevronForward} from "react-icons/io5";
 import {IconContext} from "react-icons";
-import {motion} from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
 import LinePng from '../../../assets/images/line.png';
 import './Card.scss';
+import {CardData} from './CardData';
 
 const container = {
     show:{
@@ -42,11 +35,30 @@ const hoverEffect = {
     },
 }
 
-
-
 function Card() {
-  return (
-    <motion.div className="service_container">
+    const [selectedCard, setSelectedCard] = useState(null);
+
+    const cardClickHandler = (index) => {
+        setSelectedCard(CardData[index]);
+    };
+
+    const cardRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (cardRef.current && !cardRef.current.contains(event.target)) {
+                setSelectedCard(null);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    return (
+    <motion.div className={`service_container ${selectedCard ? 'blurred' : ''}`}>
         <div className="title_wrapper">
             <motion.span className="service_title"
                 initial={{y:20, opacity:0}}
@@ -62,108 +74,44 @@ function Card() {
             >Optimize Your Well-being Journey<br/>With Time-saving Healthcare Solutions.</motion.h2>
         </div>
 
+        <AnimatePresence>
+            {selectedCard && (
+            <motion.div
+                ref={cardRef}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{duration:0.4}}
+                className="expanded-card"
+                style={{backgroundColor: selectedCard.backgroundColor}}
+            >
+                <div className="expanded-card-content">
+                {/* Display card content here */}
+                <h2>{selectedCard.title}</h2>
+                <p>{selectedCard.description}</p>
+                <button onClick={() => setSelectedCard(null)}>Close</button>
+                </div>
+            </motion.div>
+            )}
+        </AnimatePresence>
 
         <motion.div className="service_card" variants={container} initial="hidden" exit="exit" whileInView="show" viewport={{once:false}}>
-
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#ddfbf9"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#14da8f", size:"22px"}}>
-                        <IoSearch/>
+            {CardData.map((card, index) => (
+            <motion.div className="card" key={index} onClick={() => cardClickHandler(index)} variants={item}>
+                <motion.span className="service_icon" style={{ backgroundColor: card.backgroundColor }} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
+                    <IconContext.Provider value={{ color: card.iconColor, size: '22px' }}>
+                        {React.createElement(card.icon)}
                     </IconContext.Provider>
                 </motion.span>
-                <h3>Nutrition<br/>Navigator</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
+                <h3>{card.title[0]}<br/>{card.title[1]}</h3>
+                <a>
+                <span>learn more</span>
+                <IconContext.Provider value={{ color:"#14da8f", size: '18px' }}>
+                    <IoChevronForward />
+                </IconContext.Provider>
                 </a>
             </motion.div>
-
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#e7daf8"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#5700cf", size:"22px"}}>
-                        <IoColorFill/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Recipe Rendezvous<br/>& Review</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#ffede6"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#ff8559", size:"22px"}}>
-                        <IoApps/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Wellness<br/>Dashboard</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#ffe1e9"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#fa3970", size:"22px"}}>
-                        <IoIdCardOutline/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Personalized<br/>Workout Partner</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#dcedff"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#56a8f4", size:"22px"}}>
-                        <IoNewspaper/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Recipe Saver<br/>& Nutrition Info</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#dbf9ed"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#06d786", size:"22px"}}>
-                        <IoPieChart/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Health Alerts<br/>& Insights</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
-            <motion.div className="card" variants={item}>
-                <motion.span className="service_icon" style={{backgroundColor:"#fffada"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                    <IconContext.Provider value={{color:"#f1df11", size:"22px"}}>
-                    <IoNotifications/>
-                    </IconContext.Provider>
-                </motion.span>
-                <h3>Notification<br/>& Reminders</h3>
-                <a href="#">
-                    <span>learn more</span>
-                    <IconContext.Provider value={{color:"#14da8f", size:"18px"}}>
-                        <IoChevronForward/>
-                    </IconContext.Provider>
-                </a>
-            </motion.div>
+            ))}
             <motion.div className="card dark" variants={item}>
                 <img src={LinePng} alt="line" className="line"/>               
                 <h2>+4 <br/>More...</h2>

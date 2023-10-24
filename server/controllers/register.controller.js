@@ -11,7 +11,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Check if password is valid
 function isPasswordValid(password) {
     if (password.length < 8) {
       return 'Password must be at least 8 characters';
@@ -37,7 +36,7 @@ function isPasswordValid(password) {
       return 'Password must have at least one uppercase letter';
     }
   
-    return null; // Password is valid
+    return null; 
 }
 
 const sendOTP = async (req, res) => {
@@ -71,24 +70,20 @@ const sendOTP = async (req, res) => {
     }
 };
 
-// Function to create a new user
 const createNewUser = async (req, res) => {
     const { username, fullName, email, passwordHash, otpToken } = req.body;
 
     try {
-        // Check if username already exists
         const existingUsername = await User.findOne({ username });
         if (existingUsername) {
             return res.status(400).json({ message: 'Username already exists' });
         }
 
-        // Check if email already in use
         const existingEmail = await User.findOne({ email });
         if (existingEmail) {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
-        // Check email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({ message: 'Invalid email format' });
@@ -105,7 +100,6 @@ const createNewUser = async (req, res) => {
         return res.status(400).json({ message: 'Invalid OTP' });
         }
 
-        // Create a new user
         const user = new User({
             username,
             fullName,
@@ -117,7 +111,6 @@ const createNewUser = async (req, res) => {
 
         const userToSave = await user.save();
 
-        // Create a profile for the user
         const profile = new Profile({
             userId: userToSave._id,
             username: userToSave.username,

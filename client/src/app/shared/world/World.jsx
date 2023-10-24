@@ -52,18 +52,6 @@ export default function World() {
                         From Around The World
                     </motion.span>
                 </div>
-                {/* <motion.div variants={fadeIn} className='position-relative w-100 mt-5'>
-                    <img src={map} alt="map" className='map-image' />
-                    <div className='position-absolute end-0 bottom-0 sg-container'>
-                        <img src={sg_flag} alt="sg_flag" className='img-flag rounded-circle'/>
-                    </div>
-                    <div className='position-absolute end-0 bottom-0 ukraine-container'>
-                        <img src={ukraine} alt="ukraine_flag" className='img-flag rounded-circle'/>
-                    </div>
-                    <div className='position-absolute start-0 bottom-0 usa-container'>
-                        <img src={usa} alt="usa_flag" className='img-flag rounded-circle'/>
-                    </div>
-                </motion.div> */}
                 <motion.div variants={fadeIn} className='position-relative w-100 mt-5'>
                     <img src={map} alt="map" className='map-image' />
                     <div className='position-absolute end-0 bottom-0 sg-container'>

@@ -48,7 +48,7 @@ export default function RecipeList({ searchQuery }) {
       }
 
       setLoading(true);
-      fetch(`${baseUrl}/api/account/getRecipes?q=${encodeURIComponent(searchQuery)}`,
+      fetch(`${baseUrl}/api/recipe/getRecipes?q=${encodeURIComponent(searchQuery)}`,
         {
           method: 'GET',
           credentials: 'include',

@@ -96,12 +96,12 @@ router.post('/requestPasswordReset', userController.requestPasswordReset);
  */
 router.patch('/resetPassword', userController.resetPassword);
 
-router.get('/getRecipes', isAuthMiddleware, userController.getRecipes);
-router.get('/getNutrition', isAuthMiddleware, userController.getNutrition);
-router.get('/getRecipeRating', isAuthMiddleware, userController.getRecipeRating);
-router.post('/saveRecipe', isAuthMiddleware, userController.saveRecipe);
-router.patch('/saveReview', isAuthMiddleware, userController.saveReview);
-router.get('/getRecipeBook', isAuthMiddleware, userController.getRecipeBook);
+// router.get('/getRecipes', isAuthMiddleware, userController.getRecipes);
+// router.get('/getNutrition', isAuthMiddleware, userController.getNutrition);
+// router.get('/getRecipeRating', isAuthMiddleware, userController.getRecipeRating);
+// router.post('/saveRecipe', isAuthMiddleware, userController.saveRecipe);
+// router.patch('/saveReview', isAuthMiddleware, userController.saveReview);
+// router.get('/getRecipeBook', isAuthMiddleware, userController.getRecipeBook);
 
 router.patch('/updateSetting', isAuthMiddleware, userController.updateSetting);
 

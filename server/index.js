@@ -12,7 +12,6 @@ const mongoString = process.env.DATABASE_URL
 
 const app = express();
 
-// app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 app.use(helmetConfig);
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -47,8 +46,10 @@ database.once('connected', () => {
 })
  // random comment
 app.use('/request', require('./routes/register.routes'));
-app.use('/api/account', require('./routes/user.routes'));
 app.use('/api', require('./routes/auth.routes'));
+app.use('/api/account', require('./routes/user.routes'));
+app.use('/api/recipe', require('./routes/recipe.routes'));
+app.use('/api/fitness', require('./routes/fitness.routes'));
 app.use('/healthcheck', (req,res, next) => {
     res.status(200).send('Welcome to HealthCare API');
     next();

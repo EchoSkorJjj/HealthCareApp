@@ -101,6 +101,11 @@ $ make build
 $ make up
 ```
 
+#### 7. Just for Myself
+In the server folder, modify the node env do production, modify sessionMiddleware, modify the config
+In the client folder, modify the server/deployment url
+In google console and github Oauth, modify the redirect url
+
 ## Usage
 Guidance on how to use the app effectively.
 

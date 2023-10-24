@@ -43,7 +43,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   async function handleSaveRecipe() {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      const response = await fetch(`${baseUrl}/api/account/saveRecipe?q=${encodeURIComponent(recipe.uri)}`,
+      const response = await fetch(`${baseUrl}/api/recipe/saveRecipe?q=${encodeURIComponent(recipe.uri)}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -62,7 +62,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
     const submitReview = {...reviewForm}
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      const response = await fetch(`${baseUrl}/api/account/saveReview?q=${encodeURIComponent(recipe.uri)}`,{
+      const response = await fetch(`${baseUrl}/api/recipe/saveReview?q=${encodeURIComponent(recipe.uri)}`,{
           method: 'PATCH',
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   async function handleGetReview() {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      fetch(`${baseUrl}/api/account/getRecipeRating?q=${encodeURIComponent(recipe.uri)}`,
+      fetch(`${baseUrl}/api/recipe/getRecipeRating?q=${encodeURIComponent(recipe.uri)}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -96,6 +96,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
       )
         .then((response) => response.json())
         .then((data) => {
+          console.log(data)
             updateRating({overallRating: data.overallRating})
             updateRating({numRating: data.numRating})
             setReviews(data.reviews)

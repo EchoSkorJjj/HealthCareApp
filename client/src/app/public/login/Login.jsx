@@ -9,12 +9,14 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import useProfileStore from '../../../features/store/ProfileStore';
+import useFitnessStore from '../../../features/store/FitnessStore';
 
 export default function Login() {
     const [, setIsAuthenticated] = useLocalStorage(LOGGED_IN_KEY);
     const [, setIsGoogleAuthenticated] = useLocalStorage(GOOGLE_AUTH_KEY);
     const [, setIsGithubAuthenticated] = useLocalStorage(GITHUB_AUTH_KEY);
     const setProfileData = useProfileStore((state) => state.setProfileData)
+    const setAccessToken = useFitnessStore((state) => state.setAccessToken)
 
     const navigate = useNavigate();
 
@@ -72,6 +74,7 @@ export default function Login() {
             const dataResponse = response.data
             const profileData = dataResponse.profile;
             saveProfileData(profileData);
+            setAccessToken(false);
             googleLogin();
             navigate("/homepage");
           } else {
@@ -122,6 +125,7 @@ export default function Login() {
             const dataResponse = await response.json();
             const profileData = dataResponse.profile;
             saveProfileData(profileData);
+            setAccessToken(false);
             githubLogin();
             navigate("/homepage");
           } else {
@@ -181,6 +185,7 @@ export default function Login() {
               const dataResponse = await response.json();
               const profileData = dataResponse.profile;
               saveProfileData(profileData);
+              setAccessToken(false);
               login();
               setForm({ usernameOrEmail: "", password: "" });
               navigate("/homepage");
