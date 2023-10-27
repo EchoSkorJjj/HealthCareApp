@@ -233,8 +233,6 @@ const getAuthUrl = async (req, res) => {
       "https://www.googleapis.com/auth/fitness.blood_glucose.read",
       "https://www.googleapis.com/auth/fitness.blood_pressure.read",
       "https://www.googleapis.com/auth/fitness.heart_rate.read",
-      "https://www.googleapis.com/auth/fitness.body.read",
-      "https://www.googleapis.com/auth/fitness.body.read",
       "https://www.googleapis.com/auth/fitness.sleep.read",
       "https://www.googleapis.com/auth/fitness.body.read",
       "https://www.googleapis.com/auth/fitness.reproductive_health.read",
@@ -255,7 +253,6 @@ const getAuthUrl = async (req, res) => {
 const getGoogleAccessToken = async (req, res) => {
   const { q: authCode } = req.query;
   try {
-    console.log(authCode)
     const { tokens } = await oAuth2Client.getToken(authCode);
     await oAuth2Client.setCredentials(tokens);
     const userAuth = oAuth2Client.credentials;

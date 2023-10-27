@@ -6,7 +6,6 @@ import CircularBar from '../../components/circularbar/CircularBar';
 import HeatMap from '../../components/heatmap/HeatMap';
 import useFitnessStore from '../../../features/store/FitnessStore';
 import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -85,7 +84,7 @@ export default function Dashboard() {
             if (hasAccessToken) {
                 // Fetch step data
                 const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-                const stepData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                const stepDataResponse = await fetch(`${baseUrl}/api/fitness/getStepData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -96,7 +95,12 @@ export default function Dashboard() {
                         timeRange: 'weekly',
                     }),
                 });
-                const monthlyData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                if (stepDataResponse.ok) {
+                    const stepData = await stepDataResponse.json();
+                    setDailySteps(stepData.dailySteps);
+                    setTotalSteps(stepData.totalSteps);
+                }
+                const monthlyDataResponse = await fetch(`${baseUrl}/api/fitness/getStepData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -107,18 +111,13 @@ export default function Dashboard() {
                         timeRange: 'monthly',
                     }),
                 });
-                if (!monthlyData.dailySteps) {
-                    setMonthlySteps([28000,28000, 28000, 28000, 28000, 28000, 28000])
-                    setDailySteps([400,400,400,400,400,400,400]);
-                    setTotalSteps(196000)
-                } else {
+                if (monthlyDataResponse.ok) {
+                    const monthlyData = await monthlyDataResponse.json();
                     setMonthlySteps(monthlyData.dailySteps);
-                    setDailySteps(stepData.dailySteps);
-                    setTotalSteps(stepData.totalSteps);
                 }
-
+                
                 // Fetch distance data
-                const distanceData = await fetch(`${baseUrl}/api/fitness/getDistanceData`, {
+                const distanceDataResponse = await fetch(`${baseUrl}/api/fitness/getDistanceData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -128,26 +127,25 @@ export default function Dashboard() {
                         weekOffset: weekOffset, 
                     }),
                 });
-                if (!distanceData.totalDistance) {
-                    setDailyDistance([10000,10000,10000,10000,10000,10000,10000]);
-                    setTotalDistance(70000);
-                } else {
+                if (distanceDataResponse.ok) {
+                    const distanceData = await distanceDataResponse.json();
                     setDailyDistance(distanceData.dailyDistance);
                     setTotalDistance(distanceData.totalDistance);
                 }
                 
                 // Fetch calorie data
-                const calorieData = await fetch(`${baseUrl}/api/fitness/getCaloriesData`, {
+                const calorieDataResponse = await fetch(`${baseUrl}/api/fitness/getCaloriesData`, {
                     method: 'POST',
                     credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({ 
                         weekOffset: weekOffset, 
                     }),
                 });
-                if (!calorieData.dailyCalories) {
-                    setDailyCalories([2000,1000,2000,1000,2000,1000,2000])
-                    setTotalCalories(11000);
-                } else {
+                if (calorieDataResponse.ok) {
+                    const calorieData = await calorieDataResponse.json();
                     setDailyCalories(calorieData.dailyCalories);
                     setTotalCalories(calorieData.totalCalories);
                 }
@@ -177,8 +175,9 @@ export default function Dashboard() {
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
                 <div className='container'>
-                    <h1>Dashboard</h1>
-                    <button onClick={handleAuth}>Authorize</button>
+                    <div className='row d-flex justify-content-center'>
+                        <button className='col-4' onClick={handleAuth}>Authorize</button>
+                    </div>
                     <div className='row'>
                         <div className='col-4'>
                             <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
@@ -191,77 +190,68 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-md-5'></div>
-                        <div className='col-md-4'>
+                        <div className='col-auto'>
                             <CircularBar 
                             value={totalSteps}
                             maxValue={25000} // or whatever your goal is
                             label={`${totalSteps} steps`}
                             />
                         </div>
-                        <div className='row'>
-                            <div className='col-md-2'>
-                                <BarChartUi 
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailySteps}
-                                    title="Step Counts"
-                                    bgColor="#8884d8"
-                                    borderColor="#000000"
-                                    dataKey="steps"
-                                />
-                            </div>
-                            <div className='col-md-2'>
-                            </div>
-                            <div className='col-md-2'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyDistance}
-                                    title="Distance"
-                                    bgColor="#82ca9d"
-                                    borderColor="#000000"
-                                    dataKey="distance"
-                                />
-                            </div>
-                            <div className='col-md-2'>
-                            </div>
-                            <div className='col-md-2'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyCalories}
-                                    title="Calories"
-                                    bgColor="#82ca9d"
-                                    borderColor="#000000"
-                                    dataKey="calories"
-                                />
-                            </div>
-                        </div>
-                            
-                        <div className='row'>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Steps"
-                                    value={`${totalSteps} steps`}
-                                />
-                            </div>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Distance"
-                                    value={`${totalDistance.toFixed(2)} km`}
-                                />
-                            </div>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Calories"
-                                    value={`${totalCalories.toFixed(2)} cal`}
-                                />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-md-4'>
-                                <HeatMap monthlyData={monthlySteps} />
-                            </div>
+                        <div className='col-auto'>
+                            <HeatMap monthlyData={monthlySteps} />
                         </div>
                     </div>
+                    <div className='row mb-3'>
+                        <div className='col-md-4'>
+                            <Cards 
+                                title="Total Steps"
+                                value={`${totalSteps} steps`}
+                            />
+                        </div>
+                        <div className='col-md-4'>
+                            <Cards 
+                                title="Total Distance"
+                                value={`${totalDistance.toFixed(2)} km`}
+                            />
+                        </div>
+                        <div className='col-md-4'>
+                            <Cards 
+                                title="Total Calories"
+                                value={`${totalCalories.toFixed(2)} cal`}
+                            />
+                        </div>
+                    </div>
+                    <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                        <div className='col-6'>
+                            <BarChartUi 
+                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                data={dailySteps}
+                                title="Step Counts"
+                                bgColor="#8884d8"
+                                dataKey="steps"
+                            />
+                        </div>
+                        <div className='col-6'>
+                            <BarChartUi
+                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                data={dailyDistance}
+                                title="Distance"
+                                bgColor="#82ca9d"
+                                dataKey="distance"
+                            />
+                        </div>
+                    </div>
+                    <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                        <div className='col-12'>
+                            <BarChartUi
+                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                data={dailyCalories}
+                                title="Calories"
+                                bgColor="#82ca9d"
+                                dataKey="calories"
+                            />
+                        </div>
+                    </div>                           
                 </div>
             </div>
         </div>

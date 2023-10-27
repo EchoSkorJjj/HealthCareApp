@@ -4,7 +4,7 @@
     width: calc(100% - 210px);
     margin-right: 0px;
     flex-grow: 1;
-    height: 92dvh;
+    padding-bottom: 180px;
 }
 
 @media screen and (max-width: 1275px) {

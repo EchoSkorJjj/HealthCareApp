@@ -3,15 +3,8 @@ const Profile = require('../models/profileModel');
 const axios = require('axios');
 
 const fetchStepCountData = async (req, res) => {
-    const { q } = req.query;
-    let queryData = {};
-    try {
-        queryData = JSON.parse(decodeURIComponent(q));
-    } catch (err) {
-        return res.status(400).json({ message: 'Invalid query format' });
-    }
+    const { weekOffset: weekOffset, timeRange: timeRange } = req.body;
 
-    const { weekOffset, timeRange } = queryData;
     const token = req.session.user.accessToken;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -47,7 +40,7 @@ const fetchStepCountData = async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log("API response: " + response.data);
+        // console.log("Steps response: " + response.data);
 
         let stepsArray = Array(timeRange === 'weekly' ? 7 : new Date(startOfRange.getFullYear(), startOfRange.getMonth() + 1, 0).getDate()).fill(null);
         response.data.bucket.forEach((bucket) => {
@@ -62,28 +55,21 @@ const fetchStepCountData = async (req, res) => {
                 stepsArray[index] = bucket.dataset[0].point[0].value[0].intVal;
             }
         });
-        console.log("steps array: " + stepsArray);
+        // console.log("steps array: " + stepsArray);
 
         const totalSteps = stepsArray.reduce((total, daySteps) => total + (daySteps || 0), 0);
         
         res.status(200).json({dailySteps: stepsArray, totalSteps });
 
     } catch (error) {
-        console.error("Error fetching step count data:", error);
+        // console.error("Error fetching step count data:", error);
         res.status(404).json({ message: 'Error fetching step count data' });
     }
 };
 
 const fetchDistanceData = async (req,res) => {
-    const { q } = req.query;
-    let queryData = {};
-    try {
-        queryData = JSON.parse(decodeURIComponent(q));
-    } catch (err) {
-        return res.status(400).json({ message: 'Invalid query format' });
-    }
+    const { weekOffset: weekOffset } = req.body;
 
-    const { weekOffset } = queryData;
     const token = req.session.user.accessToken;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -125,21 +111,14 @@ const fetchDistanceData = async (req,res) => {
         res.status(200).json({dailyDistance: weekDistances, totalDistance });
 
     } catch (error) {
-        console.error("Error fetching distance data:", error);
+        // console.error("Error fetching distance data:", error);
         res.status(404).json({ message: error });
     }
 };
 
 const fetchCaloriesData = async (req, res) => {
-    const { q } = req.query;
-    let queryData = {};
-    try {
-        queryData = JSON.parse(decodeURIComponent(q));
-    } catch (err) {
-        return res.status(400).json({ message: 'Invalid query format' });
-    }
+    const { weekOffset: weekOffset} = req.body;
 
-    const { weekOffset } = queryData;
     const token = req.session.user.accessToken;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -181,7 +160,7 @@ const fetchCaloriesData = async (req, res) => {
         res.status(200).json({dailyCalories: weekCalories, totalCalories });
 
     } catch (error) {
-        console.error("Error fetching calories data:", error);
+        // console.error("Error fetching calories data:", error);
         res.status(404).json({ message: error });
     }
 };
