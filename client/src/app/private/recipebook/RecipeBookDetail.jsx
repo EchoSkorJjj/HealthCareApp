@@ -102,7 +102,7 @@ export default function RecipeDetails() {
 
     return (
         // loading ? <Loader /> :
-        <div className='container data-container col-lg-9 bg-light'>
+        <div className='container-fluid px-0 data-container bg-light'>
             <div className="container py-5">
                 <div className="recipe-details d-flex justify-content-center align-items-center flex-column">
                     <div className='d-flex flex-row mb-3'>

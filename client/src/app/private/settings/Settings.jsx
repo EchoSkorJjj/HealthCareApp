@@ -5,7 +5,7 @@ export default function Settings() {
     
 
     return (
-        <div className='container settings-container bg-light col-lg-9'>
+        <div className='container-fluid px-0 settings-container bg-light'>
             <div className="container py-5">
                 <div className="row">
                     <div className="col-md-12">

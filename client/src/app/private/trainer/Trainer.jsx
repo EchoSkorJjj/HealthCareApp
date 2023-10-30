@@ -20,7 +20,7 @@ export default function Trainer() {
     };
   
     return (
-      <div className="col-lg-9 bg-light container trainer-container">
+      <div className="bg-light container-fluid px-0 trainer-container">
         <header className='row d-flex text-center'>
           <h1>Your Personal AI Trainer</h1>
         </header>

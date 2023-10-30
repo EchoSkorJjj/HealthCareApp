@@ -126,12 +126,12 @@ export default function RecipeBook() {
     
     return (
         loading ? <Loader /> :
-        <motion.div initial='initial' animate='animate' className='container book-container col-lg-7 bg-light '>
+        <motion.div initial='initial' animate='animate' className='container-fluid book-container px-0 bg-light '>
             <motion.div className="container py-5 d-flex align-items-center justify-content-center flex-column" variants={stagger}>
                 <motion.div className="row mb-4" variants={component}>
                     <h1>Recipe Book</h1>
                 </motion.div>
-                <ul className={recipeCount ? 'list-group' : 'list-group-tall'}>
+                <ul className='list-group'>
                     {recipes.map((recipe) => (
                     <motion.li 
                     initial="initial"
