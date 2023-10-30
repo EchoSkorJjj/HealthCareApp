@@ -1,10 +1,25 @@
 .book-container {
-    padding-top: 108px;
-    margin-left: 210px;
+    margin-top: 108px;
+    /* margin-left: 210px;
+    padding-bottom: 180px;
+    margin-bottom: 180px;
     width: calc(100% - 210px);
     margin-right: 0px;
-    flex-grow: 1;
-    height: 100dvh;
+    flex-grow: 1;   */
+    width: 100% !important;
+}
+
+.label-text {
+    font-size: 1rem !important;
+    font-weight: bold;
+}
+
+.list-group {
+    width: 75%;
+}
+
+.filler-container {
+    height: 92dvh;
 }
 
 .image-container {
@@ -12,18 +27,46 @@
 }
 
 .recipe-image {
-    width: 200px !important;
+    width: 100% !important;
     height: 200px !important;
 }
 
-@media screen and (max-width: 1275px) {
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - var(--bs-modal-margin) * 2);
+}
+
+/* @media screen and (max-width: 1275px) {
     .book-container {
         margin-left: 65px;
     }
-}
+} */
 
 @media screen and (max-width: 991px) {
-    .book-container {
+    /* .book-container {
         margin-left: 0px;
+    } */
+    .list-group {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .list-item-container {
+        align-items: center;
+        text-align: center;
+    }
+    .trash-container {
+        width: 100% !important;
+    }
+    .trash-button {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .trash-button {
+        width: 100%;
     }
 }

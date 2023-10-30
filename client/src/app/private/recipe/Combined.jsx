@@ -11,9 +11,12 @@ export default function Combined() {
     };
 
     return (
-        <div className="col-lg-9 container combined-container">
+        <div className="container-fluid px-0 combined-container">
             <SearchBar onSearch={handleSearch}/>
-            <RecipeList searchQuery={searchQuery}/>
-        </div>
+            {searchQuery ? 
+            <RecipeList searchQuery={searchQuery}/> :
+            (<div className='filler-component'></div>)
+            }
+        </div> 
     )
 }

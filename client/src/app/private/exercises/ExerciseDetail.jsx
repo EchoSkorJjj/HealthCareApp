@@ -41,7 +41,7 @@ const ExerciseDetail = () => {
   if (!exerciseDetail) return <div>No Data</div>;
 
   return (
-    <div className='col-lg-9 container bg-light exercisedetail-container'>
+    <div className='container-fluid px-0 bg-light exercisedetail-container'>
         <div className="container w-100 h-100">
             <Container className='component-container'>
                 <Detail exerciseDetail={exerciseDetail} />

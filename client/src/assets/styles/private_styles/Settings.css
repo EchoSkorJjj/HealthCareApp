@@ -1,11 +1,12 @@
 .settings-container {
     margin-top: 108px;
-    margin-left: 210px;
+    /* margin-left: 210px;
     width: calc(100% - 210px);
     margin-right: 0px;
-    flex-grow: 1;
+    flex-grow: 1; */
+    width: 100% !important;
 }
-
+/* 
 @media screen and (max-width: 1275px) {
     .settings-container {
         margin-left: 65px;
@@ -16,7 +17,7 @@
     .settings-container {
         margin-left: 0px;
     }
-}
+} */
 
 .setting-header {
     background: none !important;

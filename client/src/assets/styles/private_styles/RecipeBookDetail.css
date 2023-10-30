@@ -1,29 +1,30 @@
-.homepage-container {
+.data-container {
     margin-top: 108px;
-    width: 100% !important;
-    
     /* margin-left: 210px;
     width: calc(100% - 210px);
     margin-right: 0px;
     flex-grow: 1;
-    height: 92dvh; */
+    padding-bottom: 180px; */
+    width: 100%;
 }
 
 /* @media screen and (max-width: 1275px) {
-    .homepage-container {
+    .data-container {
         margin-left: 65px;
     }
 }
 
 @media screen and (max-width: 991px) {
-    .homepage-container {
+    .data-container {
         margin-left: 0px;
     }
-
-}
-
-/* @media (min-width: 575px) {
-    .carousel-caption {
-        display: block !important;
-    }
 } */
+
+@media screen and (max-width: 767px) {
+    .nutrition-header{
+        font-size: 1rem;
+    }
+    .ingredient-header {
+        font-size: 1rem;
+    }
+}

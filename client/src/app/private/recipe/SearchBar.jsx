@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../../../assets/styles/private_styles/Searchbar.css';
+import useRecipeStore from '../../../features/store/RecipeStore';
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
+  const searchName = useRecipeStore((state) => state.searchName);
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);

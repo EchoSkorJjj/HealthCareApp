@@ -67,17 +67,22 @@ const App = () => {
   const totalNutrition = calculateTotal();
 
   return (
-    <div className='container nutrition-main col-lg-9'>
-      <div className="container bg-light py-5">
+    <div className='container-fluid px-0 nutrition-main bg-light'>
+      <div className="container py-5">
         <h1>Nutrition Data Search</h1>
-        <div>
-          <textarea
-            placeholder="Enter food items (one per line)"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            rows={5}
-          />
-          <button onClick={handleFetchClick}>Fetch Nutrition Data</button>
+        <div className='d-flex justify-content-center row'>
+          <div>
+            <textarea
+              placeholder="Enter food items (one per line) 
+            e.g (1 chicken or 100g chicken)"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className='w-100 nutrition-text'
+            />
+          </div>
+          <div>
+            <button className='nutrition-btn' onClick={handleFetchClick}>Fetch Nutrition Data</button>
+          </div>
         </div>
         {nutritionDataList.length > 0 ? (
           <div>
@@ -89,59 +94,69 @@ const App = () => {
                   <h2 className="nutrition-title">Nutrition Facts for {nutritionData.food}</h2>
                 )}
                 {nutritionData.error ? (
-                  <p className="error-message">Failed to fetch nutrition data for {nutritionData.food}. Please check the item name.</p>
+                  <p className="error-message">
+                    Failed to fetch nutrition data for {nutritionData.food}. Please check the item name.
+                  </p>
                 ) : (
-                  <div>
-                    <div className="nutrition-fact">
-                      <div className="nutrition-label">Calories</div>
-                      <div className="nutrition-value">{nutritionData.calories?.toFixed(1)}</div>
-                    </div>
-                    {/* Render other nutrient information here */}
-                    <div className="nutrition-fact">
-                      <div className="nutrition-label">Total Weight</div>
-                      <div className="nutrition-value">{nutritionData.totalWeight?.toFixed(1)} g</div>
-                    </div>
-                  </div>
+                  <table className="nutrition-table">
+                    <tbody>
+                      <tr>
+                        <td className="nutrition-label">Calories</td>
+                        <td className="nutrition-value">{nutritionData.calories?.toFixed(1)}</td>
+                      </tr>
+                      {/* Add more rows for other nutrient information */}
+                      <tr>
+                        <td className="nutrition-label">Total Weight</td>
+                        <td className="nutrition-value">{nutritionData.totalWeight?.toFixed(1)} g</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 )}
               </div>
             ))}
             {/* Display total nutrition values */}
             <div className="nutrition-container">
               <h2 className="nutrition-title">Total Nutrition</h2>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Calories</div>
-                <div className="nutrition-value">{totalNutrition.calories.toFixed(1)}</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Fat</div>
-                <div className="nutrition-value">{totalNutrition.fat.toFixed(1)} g</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Cholesterol</div>
-                <div className="nutrition-value">{totalNutrition.cholesterol.toFixed(1)} mg</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Sodium</div>
-                <div className="nutrition-value">{totalNutrition.sodium.toFixed(1)} mg</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Carbohydrates</div>
-                <div className="nutrition-value">{totalNutrition.carbohydrates.toFixed(1)} g</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total Protein</div>
-                <div className="nutrition-value">{totalNutrition.protein.toFixed(1)} g</div>
-              </div>
-              <div className="nutrition-fact">
-                <div className="nutrition-label">Total CO2 Emissions</div>
-                <div className="nutrition-value">{totalNutrition.totalCO2Emissions.toFixed(1)}</div>
-              </div>
+              <table className="nutrition-table">
+                <tbody>
+                  <tr>
+                    <td className="nutrition-label">Total Calories</td>
+                    <td className="nutrition-value">{totalNutrition.calories.toFixed(1)}</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total Fat</td>
+                    <td className="nutrition-value">{totalNutrition.fat.toFixed(1)} g</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total Cholesterol</td>
+                    <td className="nutrition-value">{totalNutrition.cholesterol.toFixed(1)} mg</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total Sodium</td>
+                    <td className="nutrition-value">{totalNutrition.sodium.toFixed(1)} mg</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total Carbohydrates</td>
+                    <td className="nutrition-value">{totalNutrition.carbohydrates.toFixed(1)} g</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total Protein</td>
+                    <td className="nutrition-value">{totalNutrition.protein.toFixed(1)} g</td>
+                  </tr>
+                  <tr>
+                    <td className="nutrition-label">Total CO2 Emissions</td>
+                    <td className="nutrition-value">{totalNutrition.totalCO2Emissions.toFixed(1)}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         ) : (
-          <p>Enter food items and click "Fetch Nutrition Data"</p>
+          <div className='filler-component'>
+            <p>Enter food items and click "Fetch Nutrition Data"</p>
+          </div>
         )}
-        </div>
+      </div>
     </div>
   );
 };

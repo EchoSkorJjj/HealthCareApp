@@ -38,11 +38,6 @@ export const SidebarItem = [
         icon: faBook
     },
     {
-        name: 'Services',
-        path: '/services',
-        icon: faWrench
-    },
-    {
         name: 'Profile',
         path: '/profile',
         icon: faUser

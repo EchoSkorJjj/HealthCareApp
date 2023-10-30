@@ -96,7 +96,6 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
             updateRating({overallRating: data.overallRating})
             updateRating({numRating: data.numRating})
             setReviews(data.reviews)
