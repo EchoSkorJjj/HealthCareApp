@@ -54,7 +54,7 @@
 
 @media screen and (min-width: 1276px) {
   .sidebar {
-    width: 210px;
+    width: 210px; 
   }
   /* .sidebar-content {
     margin-bottom: 15px;
