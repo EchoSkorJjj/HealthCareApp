@@ -6,10 +6,23 @@ const useRecipeStore = create(
         (set) => ({
             searchName: '',
             recipeResults: [],
+            recipeData: {
+                image: '',
+                source: '',
+                url: '',
+                overallRating: '',
+                numRating: '',
+                ingredientLines: [],
+                totalNutrients: [],
+                totalCO2Emissions: '',
+                yield: '',
+            },
             setSearchName: (data) => set({ searchName: data }),
             setRecipeResults: (data) => set({ recipeResults: [...data] }),
+            setRecipeData: (data) => set({ recipeData: {...data} }),
             resetSearchName: () => set({ searchName: '' }),
             resetRecipeResults: () => set({ recipeResults: [] }),
+            resetRecipeData: () => set({ recipeData: {} })
         }),
         {
             name: 'recipe-store',

@@ -10,7 +10,7 @@ import Charts from './images/charts.jpg'
 
 export default function Home() {
     return (
-        <div className='col-lg-9 container bg-light homepage-container'>
+        <div className='container-fluid bg-light homepage-container px-0'>
             <div className="container w-100 h-100">
 {/* edit here */}
                 <div>

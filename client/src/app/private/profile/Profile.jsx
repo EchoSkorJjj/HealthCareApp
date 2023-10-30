@@ -105,7 +105,7 @@ export default function Profile() {
     }
 
     return (
-        <div className='container profile-container bg-light col-lg-9 overflow-y-auto'>
+        <div className='container-fluid px-0 profile-container bg-light overflow-y-auto'>
             <div className="container py-5">
             <div className="row">
                     <div className='col-lg-3'>

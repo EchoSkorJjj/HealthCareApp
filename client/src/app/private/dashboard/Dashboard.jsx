@@ -172,7 +172,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className='container dashboard-container bg-light col-lg-9'>
+        <div className='container-fluid px-0 dashboard-container bg-light'>
             <div className="container w-100 h-100">
                 <div className='container'>
                     <div className='row d-flex justify-content-center'>
