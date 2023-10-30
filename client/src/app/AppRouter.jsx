@@ -28,13 +28,13 @@ const ResetPasswordPage = lazy(() => import('./public/resetpass/ResetPassword.js
 // private route
 const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
 const SidebarPage = lazy(() => import('./private/sidebar/Sidebar.jsx'));
-const ServicesPage = lazy(() => import('./private/services/Services.jsx'));
 const ProfilePage = lazy(() => import('./private/profile/Profile.jsx'));
 const SettingsPage = lazy(() => import('./private/settings/Settings.jsx'));
 const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
 const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
 const CombinedPage = lazy(() => import('./private/recipe/Combined.jsx'));
 const RecipeBookPage = lazy(() => import('./private/recipebook/RecipeBook.jsx'));
+const RecipeBookDetailPage = lazy(() => import('./private/recipebook/RecipeBookDetail.jsx'));
 const TrainerPage = lazy(() => import('./private/trainer/Trainer.jsx'));
 const GymPage = lazy(() => import('./private/exercises/Gym.jsx'));
 const ExerciseDetailPage = lazy(() => import('./private/exercises/ExerciseDetail.jsx'));
@@ -53,6 +53,7 @@ export const AppRouter = () => {
     const resetSearchName = useRecipeStore((state) => state.resetSearchName);
     const resetRecipeResults = useRecipeStore((state) => state.resetRecipeResults);
     const resetAccessToken = useFitnessStore((state) => state.resetAccessToken);
+    const resetRecipeData = useRecipeStore((state) => state.resetRecipeData);
     
     const googleLogout = useCallback(() => {
       setIsGoogleAuthenticated(undefined);
@@ -77,6 +78,7 @@ export const AppRouter = () => {
             resetSearchName();
             resetRecipeResults();
             resetAccessToken();
+            resetRecipeData();
             if (isGoogleAuthenticated) {  
             googleLogout();
             } 
@@ -109,13 +111,13 @@ export const AppRouter = () => {
             <Route path="/homepage" element={<HomePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/services" element={<ServicesPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/gym" element={<GymPage />} />
             <Route path="/exercise/:id" element={<ExerciseDetailPage />} />
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
             <Route path="/recipe" element={<CombinedPage />}/>
             <Route path="/recipebook" element={<RecipeBookPage />} />
+            <Route path="/recipebook/:recipeId" element={<RecipeBookDetailPage />} />
             <Route path="/trainer" element={<TrainerPage />} />
           </Route>
           <Route path="*" element={<div>404</div>} />

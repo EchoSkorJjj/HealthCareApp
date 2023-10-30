@@ -6,6 +6,10 @@
     flex-grow: 1;
     /* height: 92dvh; */
   }
+
+.filler-component {
+  height: 80dvh;
+}
   
   @media screen and (max-width: 1275px) {
     .trainer-container {

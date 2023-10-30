@@ -12,5 +12,7 @@ router.get('/getRecipeRating', isAuthMiddleware, recipeController.getRecipeRatin
 router.post('/saveRecipe', isAuthMiddleware, recipeController.saveRecipe);
 router.patch('/saveReview', isAuthMiddleware, recipeController.saveReview);
 router.get('/getRecipeBook', isAuthMiddleware, recipeController.getRecipeBook);
+router.delete('/removeRecipe', isAuthMiddleware, recipeController.removeRecipe);
+router.post('/getRecipeData', isAuthMiddleware, recipeController.getRecipeData);
 
 module.exports = router;
