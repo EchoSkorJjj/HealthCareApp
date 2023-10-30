@@ -18,3 +18,9 @@
         margin-left: 0px;
     }
 }
+
+/* @media (min-width: 575px) {
+    .carousel-caption {
+        display: block !important;
+    }
+} */
