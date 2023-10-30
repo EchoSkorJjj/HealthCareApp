@@ -6,7 +6,11 @@ import CircularBar from '../../components/circularbar/CircularBar';
 import HeatMap from '../../components/heatmap/HeatMap';
 import useFitnessStore from '../../../features/store/FitnessStore';
 import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
+import ChevronLeft from 'bootstrap-icons/icons/chevron-left.svg';
+import ChevronRight from 'bootstrap-icons/icons/chevron-right.svg';
+import PersonWalking from 'bootstrap-icons/icons/person-walking.svg';
+
+
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -176,67 +180,38 @@ export default function Dashboard() {
     return (
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
-                <div className='container'>
-                    <h1>Dashboard</h1>
-                    <button onClick={handleAuth}>Authorize</button>
-                    <div className='row'>
-                        <div className='col-4'>
-                            <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
-                        </div>
-                        <div className='col-4'>
-                            <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
-                        </div>
-                        <div className='col-4'>
-                            <button onClick={() => setWeekOffset(weekOffset - 1)}>Next Week</button>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col-md-5'></div>
-                        <div className='col-md-4'>
-                            <CircularBar 
-                            value={totalSteps}
-                            maxValue={25000} // or whatever your goal is
-                            label={`${totalSteps} steps`}
-                            />
+                <div className="container">
+                    {dailySteps.length > 0 && dailyDistance.length > 0 && dailyCalories.length > 0 && monthlySteps.length > 0 ? (
+                        <>
+                        <div className="row">
+                            <div className="d-flex col-4 justify-content-end align-items-center">
+                                <img onClick={() => setWeekOffset(weekOffset + 1)} aria-label="Previous Week" src={ChevronLeft} alt="Previous" 
+                                    style={{width:"40px", height:"40px", cursor: "pointer"}}
+                                />
+                            </div>
+
+                            <div className="col-4">
+                                <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                            </div>
+                            <div className="d-flex col-4 justify-content-start align-items-center">
+                                <img onClick={() => setWeekOffset(weekOffset - 1)} aria-label="Next Week" src={ChevronRight} alt="Next" 
+                                    style={{width:"40px", height:"40px", cursor: "pointer"}}
+                                />
+                            </div>
                         </div>
                         <div className='row'>
-                            <div className='col-md-2'>
-                                <BarChartUi 
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailySteps}
-                                    title="Step Counts"
-                                    bgColor="#8884d8"
-                                    borderColor="#000000"
-                                    dataKey="steps"
+                            <div className='col-auto'>
+                                <CircularBar 
+                                value={totalSteps}
+                                maxValue={25000} // or whatever your goal is
+                                label={`${totalSteps}` <img src={PersonWalking} alt="Person Walking" style={{width:"40px", height:"40px"}}/>}
                                 />
                             </div>
-                            <div className='col-md-2'>
-                            </div>
-                            <div className='col-md-2'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyDistance}
-                                    title="Distance"
-                                    bgColor="#82ca9d"
-                                    borderColor="#000000"
-                                    dataKey="distance"
-                                />
-                            </div>
-                            <div className='col-md-2'>
-                            </div>
-                            <div className='col-md-2'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyCalories}
-                                    title="Calories"
-                                    bgColor="#82ca9d"
-                                    borderColor="#000000"
-                                    dataKey="calories"
-                                />
+                            <div className='col-auto'>
+                                <HeatMap monthlyData={monthlySteps} />
                             </div>
                         </div>
-                            
-                        <div className='row'>
+                        <div className='row mb-3'>
                             <div className='col-md-4'>
                                 <Cards 
                                     title="Total Steps"
@@ -256,12 +231,60 @@ export default function Dashboard() {
                                 />
                             </div>
                         </div>
-                        <div className='row'>
-                            <div className='col-md-4'>
-                                <HeatMap monthlyData={monthlySteps} />
+                        <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                            <div className='col-6'>
+                                <BarChartUi 
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailySteps}
+                                    title="Step Counts"
+                                    bgColor="#8884d8"
+                                    dataKey="steps"
+                                />
+                            </div>
+                            <div className='col-6'>
+                                <BarChartUi
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailyDistance}
+                                    title="Distance"
+                                    bgColor="#82ca9d"
+                                    dataKey="distance"
+                                />
                             </div>
                         </div>
-                    </div>
+                        <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                            <div className='col-12'>
+                                <BarChartUi
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailyCalories}
+                                    title="Calories"
+                                    bgColor="#82ca9d"
+                                    dataKey="calories"
+                                />
+                            </div>
+                        </div>               
+                        </>
+                    ) : (
+                        // <div className='row d-flex justify-content-center bg-black'>
+                        //     <button className='col-4' onClick={handleAuth}>Authorize</button>
+                        // </div>
+                        <div className='container' style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <button 
+                                onClick={handleAuth} 
+                                style={{
+                                padding: '10px 20px', // Larger padding for a bigger button
+                                fontSize: '1.5rem', // Larger font size
+                                width: '50%', // Adjust width as needed
+                                minWidth: '200px', // Ensures the button doesn't get too small
+                                display: 'block', // Needed to apply margin auto for centering
+                                }}
+                            >
+                                Authorize
+                            </button>
+                        </div>
+
+
+
+                    )}
                 </div>
             </div>
         </div>
