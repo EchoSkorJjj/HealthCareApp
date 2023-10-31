@@ -7,10 +7,6 @@ import World from '../world/World.jsx';
 import Review from '../review/Review.jsx';
 
 export default function Home() {
-    console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID);
-    console.log(import.meta.env.VITE_GITHUB_CLIENT_ID);
-    console.log(import.meta.env);
-    console.log(process.env);
 
     return (
         <div className='container-fluid px-0 mx-0 fadein-style'>
