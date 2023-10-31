@@ -31,7 +31,7 @@ FROM node:slim
 RUN apt update && apt install curl -y
 
 # Declaring env
-ENV NODE_ENV development
+ENV NODE_ENV production
 
 # Setting up the work directory
 WORKDIR /app
