@@ -32,7 +32,7 @@ const developmentSessionMiddleware = session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
-    secure: false, // Set to false for development (http)
+    secure: true, // Set to false for development (http)
     sameSite: 'none', // Set sameSite to 'lax'
   },
   store: store, // Use the MongoDB store
