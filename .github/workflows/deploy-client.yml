@@ -14,6 +14,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up environment file
+      run: |
+        echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" > .env.production
+        echo "VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }}" >> .env.production
+        echo "VITE_DEVELOPMENT_SERVER=${{ secrets.VITE_DEVELOPMENT_SERVER }}" >> .env.production
+        echo "VITE_GITHUB_CLIENT_ID=${{ secrets.VITE_GITHUB_CLIENT_ID }}" >> .env.production
+        echo "VITE_GOOGLE_FITNESS_SCOPES=${{ secrets.VITE_GOOGLE_FITNESS_SCOPES }}" >> .env.production
+        echo "VITE_HTTPS_SERVER=${{ secrets.VITE_HTTPS_SERVER }}" >> .env.production
+        echo "VITE_NODE_ENV=${{ secrets.VITE_NODE_ENV }}" >> .env.production
+        echo "VITE_RAPID_API_EXERCISE_HOST=${{ secrets.VITE_RAPID_API_EXERCISE_HOST }}" >> .env.production
+        echo "VITE_RAPID_API_EXERCISE_KEY=${{ secrets.VITE_RAPID_API_EXERCISE_KEY }}" >> .env.production
+        echo "VITE_RAPID_API_YOUTUBE_HOST=${{ secrets.VITE_RAPID_API_YOUTUBE_HOST }}" >> .env.production
+        echo "VITE_RAPID_API_YOUTUBE_KEY=${{ secrets.VITE_RAPID_API_YOUTUBE_KEY }}" >> .env.production
+
+
     - name: Build, Push and release Docker Image to Heroku
       uses: gonuit/heroku-docker-deploy@v1.3.3
       with:
