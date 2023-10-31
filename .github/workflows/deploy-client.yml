@@ -22,7 +22,7 @@ jobs:
         echo "VITE_GITHUB_CLIENT_ID=${{ secrets.VITE_GITHUB_CLIENT_ID }}" >> ./client/.env.production
         echo "VITE_GOOGLE_FITNESS_SCOPES=${{ secrets.VITE_GOOGLE_FITNESS_SCOPES }}" >> ./client/.env.production
         echo "VITE_HTTPS_SERVER=${{ secrets.VITE_HTTPS_SERVER }}" >> ./client/.env.production
-        echo "VITE_NODE_ENV=${{ secrets.VITE_NODE_ENV }}" >> .env.production
+        echo "VITE_NODE_ENV=${{ secrets.VITE_NODE_ENV }}" >> ./client/.env.production
         echo "VITE_RAPID_API_EXERCISE_HOST=${{ secrets.VITE_RAPID_API_EXERCISE_HOST }}" >> ./client/.env.production
         echo "VITE_RAPID_API_EXERCISE_KEY=${{ secrets.VITE_RAPID_API_EXERCISE_KEY }}" >> ./client/.env.production
         echo "VITE_RAPID_API_YOUTUBE_HOST=${{ secrets.VITE_RAPID_API_YOUTUBE_HOST }}" >> ./client/.env.production
