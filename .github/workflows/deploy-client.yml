@@ -1,0 +1,32 @@
+name: Deploy Client to Heroku
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'client/**'
+
+jobs:
+  build-and-deploy-client:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Heroku Container Registry
+      run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+    - name: Build and push client Docker image
+      run: |
+        heroku container:push web --app ${{ secrets.HEROKU_CLIENT_APP_NAME }} --context-path ./client
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+    - name: Release Client
+      run: |
+        heroku container:release web --app ${{ secrets.HEROKU_CLIENT_APP_NAME }}
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
