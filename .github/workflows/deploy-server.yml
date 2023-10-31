@@ -24,7 +24,7 @@ jobs:
 
     - name: Build and push server Docker image
       run: |
-        heroku container:push server -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
+        heroku container:push server --context-path ./server -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
