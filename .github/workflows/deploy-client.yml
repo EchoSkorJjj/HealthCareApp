@@ -5,7 +5,7 @@ on:
     branches:
       - main  
     paths:
-      - 'path/to/client/**'
+      - 'client/**'
 
 jobs:
   build-and-deploy-client:
