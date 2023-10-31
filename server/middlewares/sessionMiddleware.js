@@ -10,7 +10,7 @@ const productionSessionMiddleware = session({
   name: 'sid',
   secret: process.env.MY_SECRET_KEY,
   resave: false,
-  proxy: true, // ******* ABSOLUTELY REQUIRED ********* if using reverse proxy like nginx
+  // proxy: true, // ******* ABSOLUTELY REQUIRED ********* if using reverse proxy like nginx
   // https://stackoverflow.com/questions/30802322/node-js-express-session-what-does-the-proxy-option-do
   // Explains best about why proxy should be set to true and how nginx actually freaking works
   saveUninitialized: true,
@@ -38,6 +38,7 @@ const developmentSessionMiddleware = session({
   store: store, // Use the MongoDB store
 });
 
-const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
+// const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
+const sessionMiddleware = productionSessionMiddleware;
 
 module.exports = sessionMiddleware;

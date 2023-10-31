@@ -11,7 +11,6 @@ require('dotenv').config();
 const mongoString = process.env.DATABASE_URL
 const app = express();
 
-console.log(process.env)
 const PORT = process.env.PORT || 3000;
 app.set("trust proxy", 1);
 app.use(helmetConfig);
