@@ -33,7 +33,7 @@ const developmentSessionMiddleware = session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
     secure: false, // Set to false for development (http)
-    sameSite: 'lax', // Set sameSite to 'lax'
+    sameSite: 'none', // Set sameSite to 'lax'
   },
   store: store, // Use the MongoDB store
 });

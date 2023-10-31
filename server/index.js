@@ -13,10 +13,9 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 app.set("trust proxy", 1);
-// app.use(helmetConfig);
+app.use(helmetConfig);
 app.use(cors(corsOptions));
 app.use(cookieParser());
-
 
 app.use(
     '/api-docs',
