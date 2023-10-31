@@ -7,7 +7,7 @@ import World from '../world/World.jsx';
 import Review from '../review/Review.jsx';
 
 export default function Home() {
-    console.log(import.meta.env)
+
     return (
         <div className='container-fluid px-0 mx-0 fadein-style'>
             <ShuffleHero />

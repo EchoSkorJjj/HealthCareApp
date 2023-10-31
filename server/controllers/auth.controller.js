@@ -83,6 +83,7 @@ const handleGoogleCallback = async (req, res) => {
         'postmessage',
     );
     const { tokens } = await oAuth2Client.getToken(req.body.code);
+    console.log(tokens)
     await oAuth2Client.setCredentials(tokens);
     const userAuth = oAuth2Client.credentials;
     // const newAccessToken = await refreshAccessToken(userAuth.refresh_token);

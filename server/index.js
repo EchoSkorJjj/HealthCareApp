@@ -9,7 +9,7 @@ const helmetConfig = require('./config/helmetConfig.js');
 
 require('dotenv').config();
 const mongoString = process.env.DATABASE_URL
-
+console.log(process.env.NODE_ENV)
 const app = express();
 
 const PORT = process.env.PORT || 3000;

@@ -64,6 +64,7 @@ export default function Login() {
     const googleAuth = useGoogleLogin({
       onSuccess: async ({ code }) => {
         try {
+          console.log(code)
           const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
           const response = await axios.post(`${baseUrl}/api/auth/google/callback`, {
             code,
