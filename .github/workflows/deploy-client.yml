@@ -14,22 +14,33 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Login to Heroku Container Registry
-      run: heroku container:login
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    - name: Build, Push and release Docker Image to Heroku
+      uses: gonuit/heroku-docker-deploy@v1.3.3
+      with:
+        email: ${{ secrets.HEROKU_EMAIL }}
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: ${{ secrets.HEROKU_CLIENT_APP_NAME }}
+        dockerfile_directory: ./client
+        dockerfile_name: Dockerfile
+        docker_options: "--no-cache"
+        process_type: web
 
-    - name: Change working directory
-      run: cd client
+    # - name: Login to Heroku Container Registry
+    #   run: heroku container:login
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-    - name: Build and push client Docker image
-      run: |
-        heroku container:push web -a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    # - name: Change working directory
+    #   run: cd client
 
-    - name: Release Client
-      run: |
-        heroku container:release web -a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    # - name: Build and push client Docker image
+    #   run: |
+    #     heroku container:push web -a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+    # - name: Release Client
+    #   run: |
+    #     heroku container:release web -a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
