@@ -4,12 +4,11 @@
 name: Deploy Server to Heroku
 
 on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    types:
-      - completed
+  push:
     branches:
       - main
+    paths:
+      - 'path/to/server/**'
 
 jobs:
   build-and-deploy-server:
