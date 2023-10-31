@@ -51,9 +51,6 @@ RUN npm install -g serve
 # Copy the built files from the build stage
 COPY --from=build /app/dist /app
 
-# Expose the port the app runs on
-EXPOSE $PORT
-
 # Serve the static files
-CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:$PORT"]
+CMD serve -s . -l $PORT
 
