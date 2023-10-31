@@ -22,13 +22,16 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
+    - name: Change working directory to server
+      run: cd server
+
     - name: Build and push server Docker image
       run: |
-        heroku container:push server --context-path ./server -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
+        heroku container:push web -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
     - name: Release Server
-      run: heroku container:release server -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
+      run: heroku container:release web -a ${{ secrets.HEROKU_SERVER_APP_NAME }}
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
