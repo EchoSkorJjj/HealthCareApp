@@ -1,6 +1,5 @@
 import {react} from 'react';
 import '../../../assets/styles/private_styles/Homepage.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Carousel, Card, Row, Col } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import nutritionShareImage from './images/Nutrition_share.jpg'

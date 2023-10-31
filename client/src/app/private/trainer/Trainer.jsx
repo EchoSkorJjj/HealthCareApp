@@ -1,22 +1,41 @@
-import { useState } from 'react';
-import Bicep from './Bicep';
-import PushUp from './PushUp';
+import React, { useState, useEffect } from 'react';
 import '../../../assets/styles/private_styles/Trainer.css';
+import BicepCurlGIf from '../../../assets/images/BicepCurl.gif';
+import PushUpGif from '../../../assets/images/PushUp.gif';
 
 export default function Trainer() {
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [exerciseComponent, setExerciseComponent] = useState(null);
+    const [key, setKey] = useState(0); 
 
-    const renderExercise = (exercise) => {
+    useEffect(() => {
+        if (selectedExercise) {
+            renderExercise(selectedExercise).then(component => {
+                setExerciseComponent(component);
+            });
+        } else {
+            setExerciseComponent(null);
+        }
+    }, [selectedExercise]);
+
+    const renderExercise = async (exercise) => {
       switch (exercise) {
         case 'bicepCurl':
+          const Bicep = (await import('./Bicep')).default;
           return <Bicep />;
-        
+          
         case 'pushUp':
+          const PushUp = (await import('./PushUp')).default;
           return <PushUp />;
           
         default:
           return null;
       }
+    };
+
+    const handleExerciseSelect = (exercise) => {
+        setSelectedExercise(exercise);
+        setKey(prev => prev + 1); 
     };
   
     return (
@@ -24,22 +43,22 @@ export default function Trainer() {
         <header className='row d-flex text-center'>
           <h1>Your Personal AI Trainer</h1>
         </header>
-        <div className="options row d-flex justify-content-center gap-2">
-          <button className='col-md-2 col-6' onClick={() => setSelectedExercise('bicepCurl')}>Bicep Curl</button>
-          <button className='col-md-2 col-6' onClick={() => setSelectedExercise('pushUp')}>Push Up</button>
-          <button className='col-md-2 col-6' onClick={() => setSelectedExercise(null)}>Reset</button>
+        <div className="options row d-flex justify-content-center gap-2 mb-5">
+          <button className='col-md-2 col-6 trainer-btn' onClick={() => handleExerciseSelect('bicepCurl')}>Bicep Curl</button>
+          <button className='col-md-2 col-6 trainer-btn' onClick={() => handleExerciseSelect('pushUp')}>Push Up</button>
+          <button className='col-md-2 col-6 trainer-btn' onClick={() => handleExerciseSelect(null)}>Reset</button>
         </div>
-        <div className="exercise-container">
+        <div className="exercise-container" key={key}> 
           {selectedExercise ? 
-            (renderExercise(selectedExercise)) :
+            exerciseComponent :
             <div className='filler-component'>
               <h2>Choose an exercise to get started!</h2>
               <div className='row'>
-                <div className='col-md-6'>
-                  <img src='https://v2.exercisedb.io/image/wO8F2mfM6u0M0t' alt='pushup' className='float-end'/>
+                <div type='btn' className='col-md-6' onClick={() => handleExerciseSelect('bicepCurl')}>
+                  <img src={BicepCurlGIf} alt='bicepcurl' className='float-end'/>
                 </div>
-                <div className='col-md-6'>
-                  <img src='https://v2.exercisedb.io/image/wO8F2mfM6u0M0t' alt='pushup' className='float-start'/>
+                <div type='btn' onClick={() => handleExerciseSelect('pushUp')} className='col-md-6'>
+                  <img src={PushUpGif} alt='pushup' className='float-start'/>
                 </div>
               </div>
             </div>

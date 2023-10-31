@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import '@tensorflow/tfjs'; // Import TensorFlow.js
-import '@tensorflow/tfjs-backend-webgl'; // Import TensorFlow.js WebGL backend
-import '@tensorflow/tfjs-converter'; // Import TensorFlow.js model converter
-import '@tensorflow/tfjs-core'; // Import TensorFlow.js core
-import * as tf from '@tensorflow/tfjs';
-import * as poseDetection from '@tensorflow-models/pose-detection'; // Import Pose Detection Model
+// import '@tensorflow/tfjs'; // Import TensorFlow.js
+// import '@tensorflow/tfjs-backend-webgl'; // Import TensorFlow.js WebGL backend
+// import '@tensorflow/tfjs-converter'; // Import TensorFlow.js model converter
+// import '@tensorflow/tfjs-core'; // Import TensorFlow.js core
+// import * as tf from '@tensorflow/tfjs';
+// import * as poseDetection from '@tensorflow-models/pose-detection'; // Import Pose Detection Model
 import '../../../assets/styles/private_styles/PushUp.css';
 
 function PushUp() {
@@ -23,11 +23,9 @@ function PushUp() {
 
       frameCount++;
       if (deltaTime >= 1000) {
-        // Calculate FPS based on the number of frames rendered in one second
         const currentFps = (frameCount * 1000) / deltaTime;
         setFps(currentFps);
 
-        // Reset frame count and last frame time for the next second
         frameCount = 0;
         lastFrameTime = currentTime;
       }
@@ -45,12 +43,17 @@ function PushUp() {
 
   useEffect(() => {
     const runPoseDetection = async () => {
-      await tf.ready(); // Wait for TensorFlow to be ready
-      await tf.setBackend('webgl'); // Set backend to 'webgl'
+      const tf = await import('@tensorflow/tfjs');
+      await import('@tensorflow/tfjs-backend-webgl');
+      await import('@tensorflow/tfjs-converter');
+      await import('@tensorflow/tfjs-core');
+      const poseDetection = await import('@tensorflow-models/pose-detection');
+      await tf.ready(); 
+      await tf.setBackend('webgl'); 
 
       let video = document.getElementById("video");
-      let windowHeight = 500;  // Adjusted the multiplier from 5 to 3
-      let windowWidth = 700; // Adjusted the subtraction from 200 to 100
+      let windowHeight = 500;  
+      let windowWidth = 700; 
 
       var reps = 0;
       var upPosition = false;
@@ -192,8 +195,8 @@ function PushUp() {
         var pi = Math.PI;
         let angle = radians * (180 / pi);
         // console.log('inDownPosition angle:', angle);
-        console.log('keypoints: 0', keypoints[0].y);
-        console.log('keypoints: 7', keypoints[7].y);
+        // console.log('keypoints: 0', keypoints[0].y);
+        // console.log('keypoints: 7', keypoints[7].y);
 
         let elbowAboveNose = false;
         if (keypoints[0].y > keypoints[7].y) {
