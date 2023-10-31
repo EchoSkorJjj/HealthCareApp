@@ -12,6 +12,8 @@ const mongoString = process.env.DATABASE_URL
 
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 app.use(helmetConfig);
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -28,11 +30,8 @@ app.use(express.static(__dirname));
 
 app.use(express.json());
 
-// app.listen(3500, () => {
-//     console.log('Server started at port 3500')
-// })
-const server = app.listen(3500, () => {
-    console.log('Server started at port 3500');      
+const server = app.listen(PORT, () => {
+    console.log(`Server started at port ${PORT}`);      
 });
  
 const connection = mongoose.connect(mongoString);

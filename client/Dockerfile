@@ -28,7 +28,9 @@
 # EXPOSE 5173
 
 # Stage 1: Build the React application
-FROM node:16-slim as build
+FROM node:slim AS build
+
+ENV NODE_ENV production
 
 WORKDIR /app
 
@@ -41,7 +43,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the app using a simple Node.js server
-FROM node:16-slim
+FROM node:slim
 
 WORKDIR /app
 
@@ -51,8 +53,6 @@ RUN npm install -g serve
 # Copy the built files from the build stage
 COPY --from=build /app/dist /app
 
-# Expose the port the app runs on
-EXPOSE $PORT
-
 # Serve the static files
-CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:${PORT}"]
+# Use the "sh -c" shell form to ensure the $PORT environment variable is evaluated
+CMD sh -c "serve -s . -l tcp://0.0.0.0:$PORT"
