@@ -38,7 +38,6 @@ const developmentSessionMiddleware = session({
   store: store, // Use the MongoDB store
 });
 
-// const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
-const sessionMiddleware = productionSessionMiddleware;
+const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
 
 module.exports = sessionMiddleware;
