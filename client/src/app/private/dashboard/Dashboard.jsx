@@ -6,8 +6,8 @@ import CircularBar from '../../components/circularbar/CircularBar';
 import HeatMap from '../../components/heatmap/HeatMap';
 import useFitnessStore from '../../../features/store/FitnessStore';
 import { useNavigate } from 'react-router-dom';
-import ChevronLeft from 'bootstrap-icons/icons/chevron-left.svg';
-import ChevronRight from 'bootstrap-icons/icons/chevron-right.svg';
+// This is a comment, not a command. You need to run this command in your terminal or command prompt:
+// npm install bootstrap-icons
 import PersonWalking from 'bootstrap-icons/icons/person-walking.svg';
 
 
@@ -111,6 +111,7 @@ export default function Dashboard() {
                         timeRange: 'monthly',
                     }),
                 });
+                console.log("monthly data: " + monthlyData.dailySteps);
                 if (!monthlyData.dailySteps) {
                     setMonthlySteps([28000,28000, 28000, 28000, 28000, 28000, 28000])
                     setDailySteps([400,400,400,400,400,400,400]);
@@ -183,7 +184,7 @@ export default function Dashboard() {
                 <div className="container">
                     {dailySteps.length > 0 && dailyDistance.length > 0 && dailyCalories.length > 0 && monthlySteps.length > 0 ? (
                         <>
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="d-flex col-4 justify-content-end align-items-center">
                                 <img onClick={() => setWeekOffset(weekOffset + 1)} aria-label="Previous Week" src={ChevronLeft} alt="Previous" 
                                     style={{width:"40px", height:"40px", cursor: "pointer"}}
@@ -198,13 +199,23 @@ export default function Dashboard() {
                                     style={{width:"40px", height:"40px", cursor: "pointer"}}
                                 />
                             </div>
+                        </div> */}
+                        <div className="row">
+                            <div className="col-4">
+                                <button onClick={() => setWeekOffset(weekOffset + 1)}>
+                                    Previous week
+                                </button>
+                            </div>
+                            <div className="col-4">
+                                <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                            </div>
                         </div>
                         <div className='row'>
                             <div className='col-auto'>
                                 <CircularBar 
                                 value={totalSteps}
                                 maxValue={25000} // or whatever your goal is
-                                label={`${totalSteps}` <img src={PersonWalking} alt="Person Walking" style={{width:"40px", height:"40px"}}/>}
+                                label={`${totalSteps} steps`}
                                 />
                             </div>
                             <div className='col-auto'>
@@ -281,9 +292,6 @@ export default function Dashboard() {
                                 Authorize
                             </button>
                         </div>
-
-
-
                     )}
                 </div>
             </div>
