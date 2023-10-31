@@ -27,6 +27,6 @@ jobs:
 
     - name: Release Client
       run: |
-        heroku container:release web --a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
+        heroku container:release web -a ${{ secrets.HEROKU_CLIENT_APP_NAME }}
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
