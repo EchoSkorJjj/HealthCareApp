@@ -70,18 +70,18 @@ jobs:
           export TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
           npm run test
 
-      # Configure AWS credentials from your GitHub secrets.
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1 # Specify your AWS region here
+      # # Configure AWS credentials from your GitHub secrets.
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ap-southeast-1 # Specify your AWS region here
 
-      # Now you're authenticated with AWS, you can proceed to log in to ECR.
-      - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      # # Now you're authenticated with AWS, you can proceed to log in to ECR.
+      # - name: Login to ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
       # # Build a Docker image for the client application and push to ECR
       # - name: Build and Push Client Docker Image
