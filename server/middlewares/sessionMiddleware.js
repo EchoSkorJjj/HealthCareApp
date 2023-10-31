@@ -18,6 +18,7 @@ const productionSessionMiddleware = session({
     maxAge: 24 * 60 * 60 * 1000,
     secure: true, // Use HTTPS //set to false for development (http)
     sameSite: 'none', // Set sameSite to none
+    domain: '.herokuapp.com',
     path: '/', // Set cookie path to root
     httpOnly: true, // Set httpOnly to true
   },
