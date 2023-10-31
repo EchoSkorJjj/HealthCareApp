@@ -5,7 +5,11 @@ name: Run Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths-ignore:
+      - 'client/**'
+      - 'server/**'
 
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
