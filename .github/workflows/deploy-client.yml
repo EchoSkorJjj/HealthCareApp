@@ -1,14 +1,16 @@
 name: Deploy Client to Heroku
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
     branches:
       - main
-    paths:
-      - 'client/**'
 
 jobs:
   build-and-deploy-client:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
