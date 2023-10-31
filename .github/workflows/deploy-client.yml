@@ -1,12 +1,11 @@
 name: Deploy Client to Heroku
 
 on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    types:
-      - completed
+  push:
     branches:
-      - main
+      - main  
+    paths:
+      - 'path/to/client/**'
 
 jobs:
   build-and-deploy-client:
