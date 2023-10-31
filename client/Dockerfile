@@ -34,16 +34,12 @@ ENV NODE_ENV production
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the project files
 COPY . .
 
-# Build the project
 RUN npm run build
 
 # Stage 2: Serve the app using a simple Node.js server
@@ -55,8 +51,8 @@ WORKDIR /app
 RUN npm install -g serve
 
 # Copy the built files from the build stage
-COPY --from=build /app/build /app
+COPY --from=build /app/dist /app
 
 # Serve the static files
+# Use the "sh -c" shell form to ensure the $PORT environment variable is evaluated
 CMD sh -c "serve -s . -l tcp://0.0.0.0:$PORT"
-
