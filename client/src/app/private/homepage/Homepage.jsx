@@ -10,7 +10,7 @@ export default function Home() {
             <div className="container w-100 h-100">
                 {/* edit here */}
                 {/* edit ends here. */}
-                Hello World Nope
+                Hello World Nop
             </div>
         </div>
     )
