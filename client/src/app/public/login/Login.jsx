@@ -65,8 +65,6 @@ export default function Login() {
       onSuccess: async ({ code }) => {
         try {
           const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-          console.log(import.meta.env.VITE_NODE_ENV)
-          console.log(baseUrl);
           const response = await axios.post(`${baseUrl}/api/auth/google/callback`, {
             code,
           }, {
