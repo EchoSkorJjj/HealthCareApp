@@ -8,7 +8,7 @@ const developmentConfig = helmet({
 // Production configuration
 const productionConfig = helmet({
   cors: {
-    origin: ["https://healthcarepro-client-5fa84d187628.herokuapp.com"]
+    origin: ["https://www.healthcarepro.live"]
   }
 });
 
