@@ -109,6 +109,9 @@
     justify-content: center;
     width: 30%;
   }
+  .sidebar {
+    top: 0;
+  }
   .sidebar-body {
     display: flex;
     justify-content: start;

@@ -18,7 +18,7 @@ const productionSessionMiddleware = session({
     maxAge: 24 * 60 * 60 * 1000,
     secure: true, // Use HTTPS //set to false for development (http)
     sameSite: 'none', // Set sameSite to none
-    domain: '.herokuapp.com',
+    domain: '.healthcarepro.live',
     path: '/', // Set cookie path to root
     httpOnly: true, // Set httpOnly to true
   },
@@ -33,6 +33,7 @@ const developmentSessionMiddleware = session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
     secure: true, // Set to false for development (http)
+    domain: '.healthcarepro.live',
     sameSite: 'none', // Set sameSite to 'lax'
   },
   store: store, // Use the MongoDB store
