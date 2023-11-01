@@ -13,6 +13,7 @@ export default function Dashboard() {
     const setAccessToken = useFitnessStore((state) => state.setAccessToken);
     const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
     const [authCode, setAuthCode] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
     const [totalSteps, setTotalSteps] = useState(0);
     const [dailySteps, setDailySteps] = useState([]);
@@ -70,7 +71,11 @@ export default function Dashboard() {
                 if (auth) {
                     initialFetch.current = false;
                     setAccessToken(true);
+                    setIsAuthorized(true);
                     navigate('/dashboard')
+                } else {
+                    initialFetch.current = false;
+                    setIsAuthorized(false);
                 }
             }
         };
@@ -175,83 +180,101 @@ export default function Dashboard() {
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
                 <div className='container'>
-                    <div className='row d-flex justify-content-center'>
-                        <button className='col-4' onClick={handleAuth}>Authorize</button>
-                    </div>
-                    <div className='row'>
-                        <div className='col-4'>
-                            <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
-                        </div>
-                        <div className='col-4'>
-                            <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
-                        </div>
-                        <div className='col-4'>
-                            <button onClick={() => setWeekOffset(weekOffset - 1)}>Next Week</button>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col-auto'>
-                            <CircularBar 
-                            value={totalSteps}
-                            maxValue={25000} // or whatever your goal is
-                            label={`${totalSteps} steps`}
-                            />
-                        </div>
-                        <div className='col-auto'>
-                            <HeatMap monthlyData={monthlySteps} />
-                        </div>
-                    </div>
-                    <div className='row mb-3'>
-                        <div className='col-md-4'>
-                            <Cards 
-                                title="Total Steps"
-                                value={`${totalSteps} steps`}
-                            />
-                        </div>
-                        <div className='col-md-4'>
-                            <Cards 
-                                title="Total Distance"
-                                value={`${totalDistance.toFixed(2)} km`}
-                            />
-                        </div>
-                        <div className='col-md-4'>
-                            <Cards 
-                                title="Total Calories"
-                                value={`${totalCalories.toFixed(2)} cal`}
-                            />
-                        </div>
-                    </div>
-                    <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
-                        <div className='col-6'>
-                            <BarChartUi 
-                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                data={dailySteps}
-                                title="Step Counts"
-                                bgColor="#8884d8"
-                                dataKey="steps"
-                            />
-                        </div>
-                        <div className='col-6'>
-                            <BarChartUi
-                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                data={dailyDistance}
-                                title="Distance"
-                                bgColor="#82ca9d"
-                                dataKey="distance"
-                            />
-                        </div>
-                    </div>
-                    <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
-                        <div className='col-12'>
-                            <BarChartUi
-                                labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                data={dailyCalories}
-                                title="Calories"
-                                bgColor="#82ca9d"
-                                dataKey="calories"
-                            />
-                        </div>
-                    </div>                           
+                    {!isAuthorized ? (
+                        <div className='row justify-content-center align-items-center' style={{ height: '100vh' }}> {/* Full height container */}
+                            <div className='col-md-6 col-lg-4'> {/* Responsive width */}
+                                <button 
+                                    className='btn btn-primary btn-lg w-100'  // Bootstrap button classes for size and full width
+                                    onClick={handleAuth}
+                                    style={{
+                                        fontSize: '1.5rem', // Larger font size
+                                        padding: '15px 30px', // Larger padding for bigger button
+                                        borderRadius: '25px', // Rounded corners
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Subtle shadow for depth
+                                    }}
+                                >
+                                    Authorize
+                                </button>
+                            </div>
+                        </div>                    
+                    ) : (
+                        <>
+                            <div className='row'>
+                                <div className='col-4'>
+                                    <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
+                                </div>
+                                <div className='col-4'>
+                                    <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                                </div>
+                                <div className='col-4'>
+                                    <button onClick={() => setWeekOffset(weekOffset - 1)}>Next Week</button>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='col-auto'>
+                                    <CircularBar 
+                                    value={totalSteps}
+                                    maxValue={25000} // or whatever your goal is
+                                    label={`${totalSteps} steps`}
+                                    />
+                                </div>
+                                <div className='col-auto'>
+                                    <HeatMap monthlyData={monthlySteps} />
+                                </div>
+                            </div>
+                            <div className='row mb-3'>
+                                <div className='col-md-4'>
+                                    <Cards 
+                                        title="Total Steps"
+                                        value={`${totalSteps} steps`}
+                                    />
+                                </div>
+                                <div className='col-md-4'>
+                                    <Cards 
+                                        title="Total Distance"
+                                        value={`${totalDistance.toFixed(2)} km`}
+                                    />
+                                </div>
+                                <div className='col-md-4'>
+                                    <Cards 
+                                        title="Total Calories"
+                                        value={`${totalCalories.toFixed(2)} cal`}
+                                    />
+                                </div>
+                            </div>
+                            <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                                <div className='col-6'>
+                                    <BarChartUi 
+                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        data={dailySteps}
+                                        title="Step Counts"
+                                        bgColor="#8884d8"
+                                        dataKey="steps"
+                                    />
+                                </div>
+                                <div className='col-6'>
+                                    <BarChartUi
+                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        data={dailyDistance}
+                                        title="Distance"
+                                        bgColor="#82ca9d"
+                                        dataKey="distance"
+                                    />
+                                </div>
+                            </div>
+                            <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                                <div className='col-12'>
+                                    <BarChartUi
+                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        data={dailyCalories}
+                                        title="Calories"
+                                        bgColor="#82ca9d"
+                                        dataKey="calories"
+                                    />
+                                </div>
+                            </div>  
+                        </>
+                    )}                       
                 </div>
             </div>
         </div>
