@@ -19,7 +19,7 @@ export default function Sidebar({show, handleClose, handleLogout}) {
     const stagger = {
         animate:{
             transition:{
-            delayChildren:0.3,
+            delayChildren:0.2,
             staggerChildren:0.1,
             staggerDirection:1
             }
@@ -36,7 +36,7 @@ export default function Sidebar({show, handleClose, handleLogout}) {
             y:0,
             opacity:1,
             animation:{
-            duration:0.6,
+            duration:0.3,
             ease:easing
             }
         }

@@ -206,6 +206,39 @@ const getRecipeBook = async (req, res) => {
     }
 }
 
+const removeRecipe = async (req, res) => {
+    try {
+        const {recipeId: recipeId} = req.body;
+        const userId = req.session.user.id;
+        const profile = await Profile.findOne({ userId: userId });
+        const recipeBook = profile.recipeBook;
+        const index = recipeBook.indexOf(recipeId);
+        if (index > -1) {
+            recipeBook.splice(index, 1);
+        }
+        profile.recipeBook = recipeBook;
+        await profile.save();
+        const recipeList = [];
+        for (const recipe of profile.recipeBook) {
+            const recipeInfo = await Recipe.findOne({ recipeId: recipe });
+            recipeList.push(recipeInfo);
+        }
+        res.status(200).json({ recipeList: recipeList });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const getRecipeData = async (req, res) => {
+    const { recipeId: recipeId} = req.body;
+    try {
+        const recipeData = await Recipe.findOne({ recipeId: recipeId});
+        res.status(200).json({ recipeData: recipeData });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+ 
 module.exports = {
     getRecipes,
     getNutrition,
@@ -213,4 +246,6 @@ module.exports = {
     saveRecipe,
     saveReview,
     getRecipeBook,
+    removeRecipe,
+    getRecipeData,
 }

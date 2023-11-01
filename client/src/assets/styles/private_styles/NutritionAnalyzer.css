@@ -7,6 +7,10 @@
   flex-grow: 1;
 }
 
+.filler-component{
+  height: 80dvh;
+}
+
 @media screen and (max-width: 1275px) {
   .nutrition-main {
     margin-left: 65px;
@@ -48,3 +52,117 @@
     text-align: right;
   }
   
+/* Center the textarea and button within the content area */
+.nutrition-text, .nutrition-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Style the textarea */
+.nutrition-text {
+  
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+/* Style the textarea when focused */
+.nutrition-text:focus {
+  border-color: #008000;
+  outline: none;
+}
+
+/* Center the total nutrition section */
+.total-nutrition-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Center the "Enter food items and click" message */
+.enter-food-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Add a CSS rule for styling the nutrition containers */
+.nutrition-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1000px; /* Set a maximum width for larger screens */
+  margin: 0 auto;
+}
+
+/* Style the title of the nutrition containers */
+.nutrition-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #008000;
+}
+
+/* Add a CSS rule for styling the nutrition tables */
+.nutrition-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.nutrition-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Style the labels and values in the tables */
+.nutrition-label {
+  color: #333;
+}
+
+.nutrition-value {
+  color: #008000;
+}
+
+/* Style the button with a green background and white text */
+.nutrition-btn {
+  background-color: #008000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.nutrition-btn:hover {
+  background-color: #006400;
+}
+
+/* Create a gap between "Nutrition Facts" and "Total Nutrition" */
+.total-nutrition-container {
+  margin-bottom: 20px;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+  /* Adjust the width of the textarea for smaller screens */
+  .nutrition-text {
+    width: 100%;
+  }
+
+  /* Adjust the maximum width of nutrition containers for smaller screens */
+  .nutrition-container {
+    max-width: 100%;
+  }
+}

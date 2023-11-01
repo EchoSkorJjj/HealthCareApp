@@ -5,6 +5,10 @@
     flex-grow: 1;
 }
 
+.filler-component{
+    height: 92dvh;
+}
+
 @media screen and (max-width: 1275px) {
     .combined-container {
         margin-left: 65px;

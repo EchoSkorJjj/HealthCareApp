@@ -6,9 +6,10 @@ import CircularBar from '../../components/circularbar/CircularBar';
 import HeatMap from '../../components/heatmap/HeatMap';
 import useFitnessStore from '../../../features/store/FitnessStore';
 import { useNavigate } from 'react-router-dom';
-// This is a comment, not a command. You need to run this command in your terminal or command prompt:
-// npm install bootstrap-icons
-import PersonWalking from 'bootstrap-icons/icons/person-walking.svg';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 
 
 
@@ -18,6 +19,10 @@ export default function Dashboard() {
     const setAccessToken = useFitnessStore((state) => state.setAccessToken);
     const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
     const [authCode, setAuthCode] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [selectedDateData, setSelectedDateData] = useState(null);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [detailsData, setDetailsData] = useState(null);
 
     const [totalSteps, setTotalSteps] = useState(0);
     const [dailySteps, setDailySteps] = useState([]);
@@ -67,6 +72,22 @@ export default function Dashboard() {
         return false;
     };
 
+      // Handler for when a date in the HeatMap is clicked
+    const handleDateClick = (dayIndex) => {
+        // Create a new Date object representing the clicked day
+        const clickedDate = new Date(new Date().getFullYear(), new Date().getMonth(), dayIndex + 1); // +1 because dayIndex would be 0-indexed
+        const dateStr = clickedDate.toISOString().split('T')[0]; // Format the date as a string
+        
+        // Retrieve the steps from the monthlyData using the dayIndex
+        const steps = monthlySteps[dayIndex] || 0; // Fallback to 0 if no data
+
+        // Set the data for the modal
+        setDetailsData({ date: dateStr, steps: steps });
+
+        // Show the modal
+        setShowDetailsModal(true);
+    };
+
     useEffect(() => {
         const fetchInitialData = async () => {
             if (!initialFetch.current) {
@@ -75,7 +96,11 @@ export default function Dashboard() {
                 if (auth) {
                     initialFetch.current = false;
                     setAccessToken(true);
+                    setIsAuthorized(true);
                     navigate('/dashboard')
+                } else {
+                    initialFetch.current = false;
+                    setIsAuthorized(false);
                 }
             }
         };
@@ -89,7 +114,7 @@ export default function Dashboard() {
             if (hasAccessToken) {
                 // Fetch step data
                 const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
-                const stepData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                const stepDataResponse = await fetch(`${baseUrl}/api/fitness/getStepData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -100,7 +125,12 @@ export default function Dashboard() {
                         timeRange: 'weekly',
                     }),
                 });
-                const monthlyData = await fetch(`${baseUrl}/api/fitness/getStepData`, {
+                if (stepDataResponse.ok) {
+                    const stepData = await stepDataResponse.json();
+                    setDailySteps(stepData.dailySteps);
+                    setTotalSteps(stepData.totalSteps);
+                }
+                const monthlyDataResponse = await fetch(`${baseUrl}/api/fitness/getStepData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -111,19 +141,13 @@ export default function Dashboard() {
                         timeRange: 'monthly',
                     }),
                 });
-                console.log("monthly data: " + monthlyData.dailySteps);
-                if (!monthlyData.dailySteps) {
-                    setMonthlySteps([28000,28000, 28000, 28000, 28000, 28000, 28000])
-                    setDailySteps([400,400,400,400,400,400,400]);
-                    setTotalSteps(196000)
-                } else {
+                if (monthlyDataResponse.ok) {
+                    const monthlyData = await monthlyDataResponse.json();
                     setMonthlySteps(monthlyData.dailySteps);
-                    setDailySteps(stepData.dailySteps);
-                    setTotalSteps(stepData.totalSteps);
                 }
-
+                
                 // Fetch distance data
-                const distanceData = await fetch(`${baseUrl}/api/fitness/getDistanceData`, {
+                const distanceDataResponse = await fetch(`${baseUrl}/api/fitness/getDistanceData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -133,26 +157,25 @@ export default function Dashboard() {
                         weekOffset: weekOffset, 
                     }),
                 });
-                if (!distanceData.totalDistance) {
-                    setDailyDistance([10000,10000,10000,10000,10000,10000,10000]);
-                    setTotalDistance(70000);
-                } else {
+                if (distanceDataResponse.ok) {
+                    const distanceData = await distanceDataResponse.json();
                     setDailyDistance(distanceData.dailyDistance);
                     setTotalDistance(distanceData.totalDistance);
                 }
                 
                 // Fetch calorie data
-                const calorieData = await fetch(`${baseUrl}/api/fitness/getCaloriesData`, {
+                const calorieDataResponse = await fetch(`${baseUrl}/api/fitness/getCaloriesData`, {
                     method: 'POST',
                     credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({ 
                         weekOffset: weekOffset, 
                     }),
                 });
-                if (!calorieData.dailyCalories) {
-                    setDailyCalories([2000,1000,2000,1000,2000,1000,2000])
-                    setTotalCalories(11000);
-                } else {
+                if (calorieDataResponse.ok) {
+                    const calorieData = await calorieDataResponse.json();
                     setDailyCalories(calorieData.dailyCalories);
                     setTotalCalories(calorieData.totalCalories);
                 }
@@ -181,48 +204,131 @@ export default function Dashboard() {
     return (
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
-                <div className="container">
-                    {dailySteps.length > 0 && dailyDistance.length > 0 && dailyCalories.length > 0 && monthlySteps.length > 0 ? (
-                        <>
-                        {/* <div className="row">
-                            <div className="d-flex col-4 justify-content-end align-items-center">
-                                <img onClick={() => setWeekOffset(weekOffset + 1)} aria-label="Previous Week" src={ChevronLeft} alt="Previous" 
-                                    style={{width:"40px", height:"40px", cursor: "pointer"}}
-                                />
-                            </div>
-
-                            <div className="col-4">
-                                <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
-                            </div>
-                            <div className="d-flex col-4 justify-content-start align-items-center">
-                                <img onClick={() => setWeekOffset(weekOffset - 1)} aria-label="Next Week" src={ChevronRight} alt="Next" 
-                                    style={{width:"40px", height:"40px", cursor: "pointer"}}
-                                />
-                            </div>
-                        </div> */}
-                        <div className="row">
-                            <div className="col-4">
-                                <button onClick={() => setWeekOffset(weekOffset + 1)}>
-                                    Previous week
+                <div className='container'>
+                    {!isAuthorized ? (
+                        <div className='row justify-content-center align-items-center' style={{ height: '100vh' }}> {/* Full height container */}
+                            <div className='col-md-6 col-lg-4'> {/* Responsive width */}
+                                <button 
+                                    className='btn btn-primary btn-lg w-100'  // Bootstrap button classes for size and full width
+                                    onClick={handleAuth}
+                                    style={{
+                                        fontSize: '1.5rem', // Larger font size
+                                        padding: '15px 30px', // Larger padding for bigger button
+                                        borderRadius: '25px', // Rounded corners
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Subtle shadow for depth
+                                    }}
+                                >
+                                    Authorize
                                 </button>
                             </div>
-                            <div className="col-4">
-                                <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                        </div>                    
+                    ) : (
+                        <>
+                            <div className='row'>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
+                                    <button 
+                                    className='btn btn-link' 
+                                    onClick={() => setWeekOffset(weekOffset + 1)}
+                                    aria-label='Previous Week'
+                                    >
+                                    <i className='bi bi-chevron-left'></i> {/* Bootstrap icon for left chevron */}
+                                    </button>
+                                </div>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
+                                    <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
+                                </div>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
+                                    <button 
+                                    className='btn btn-link' 
+                                    onClick={() => setWeekOffset(weekOffset - 1)}
+                                    aria-label='Next Week'
+                                    >
+                                    <i className='bi bi-chevron-right'></i> {/* Bootstrap icon for right chevron */}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-auto'>
-                                <CircularBar 
-                                value={totalSteps}
-                                maxValue={25000} // or whatever your goal is
-                                label={`${totalSteps} steps`}
+                            <div className='row'>
+                                <div className='col-md-4 d-flex align-items-center justify-content-center'>
+                                    <CircularBar 
+                                        value={totalSteps}
+                                        maxValue={25000}
+                                    />
+                                </div>
+                                <div className='col-md-4'>
+                                    <div className="mb-4">
+                                    <Cards 
+                                        title="Total Distance"
+                                        value={`${totalDistance.toFixed(2)} km`}
+                                    />
+                                    </div>
+                                    <div>
+                                    <Cards 
+                                        title="Total Calories"
+                                        value={`${totalCalories.toFixed(2)} cal`}
+                                    />
+                                    </div>
+                                </div>
+                                <div className='col-md-4'>
+                                    <HeatMap monthlyData={monthlySteps} onDateClick={handleDateClick} />
+                                </div>
+                            </div>
+
+                            {showDetailsModal && (
+                                <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Date Details</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        {detailsData && (
+                                            <>
+                                                <h5>Steps: {detailsData.steps}</h5>
+                                                <p>Date: {detailsData.date}</p>
+                                                {/* You can add more details you want to display here */}
+                                            </>
+                                        )}
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+                                            Close
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                            )}
+
+                            <div className='row mb-3 mt-4' style={{ display: 'flex', alignItems: 'stretch' }}>
+                                <div className='col-6'>
+                                    <BarChartUi 
+                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        data={dailySteps}
+                                        title="Step Counts"
+                                        bgColor="#8884d8"
+                                        dataKey="steps"
+                                    />
+                                </div>
+                                <div className='col-6'>
+                                    <BarChartUi
+                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        data={dailyDistance}
+                                        title="Distance"
+                                        bgColor="#82ca9d"
+                                        dataKey="distance"
+                                    />
+                                </div>
+                            </div>
+                            <div className='col-md-2'>
+                                <BarChartUi
+                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                    data={dailyCalories}
+                                    title="Calories"
+                                    bgColor="#82ca9d"
+                                    borderColor="#000000"
+                                    dataKey="calories"
                                 />
                             </div>
-                            <div className='col-auto'>
-                                <HeatMap monthlyData={monthlySteps} />
-                            </div>
-                        </div>
-                        <div className='row mb-3'>
+                            
+
+                            
+                        <div className='row'>
                             <div className='col-md-4'>
                                 <Cards 
                                     title="Total Steps"
@@ -242,57 +348,12 @@ export default function Dashboard() {
                                 />
                             </div>
                         </div>
-                        <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
-                            <div className='col-6'>
-                                <BarChartUi 
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailySteps}
-                                    title="Step Counts"
-                                    bgColor="#8884d8"
-                                    dataKey="steps"
-                                />
-                            </div>
-                            <div className='col-6'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyDistance}
-                                    title="Distance"
-                                    bgColor="#82ca9d"
-                                    dataKey="distance"
-                                />
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <HeatMap monthlyData={monthlySteps} />
                             </div>
                         </div>
-                        <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
-                            <div className='col-12'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyCalories}
-                                    title="Calories"
-                                    bgColor="#82ca9d"
-                                    dataKey="calories"
-                                />
-                            </div>
-                        </div>               
-                        </>
-                    ) : (
-                        // <div className='row d-flex justify-content-center bg-black'>
-                        //     <button className='col-4' onClick={handleAuth}>Authorize</button>
-                        // </div>
-                        <div className='container' style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <button 
-                                onClick={handleAuth} 
-                                style={{
-                                padding: '10px 20px', // Larger padding for a bigger button
-                                fontSize: '1.5rem', // Larger font size
-                                width: '50%', // Adjust width as needed
-                                minWidth: '200px', // Ensures the button doesn't get too small
-                                display: 'block', // Needed to apply margin auto for centering
-                                }}
-                            >
-                                Authorize
-                            </button>
-                        </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
