@@ -19,7 +19,6 @@ export default function Dashboard() {
     const setAccessToken = useFitnessStore((state) => state.setAccessToken);
     const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
     const [authCode, setAuthCode] = useState(false);
-    const [isAuthorized, setIsAuthorized] = useState(false);
     const [selectedDateData, setSelectedDateData] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [detailsData, setDetailsData] = useState(null);
@@ -96,11 +95,7 @@ export default function Dashboard() {
                 if (auth) {
                     initialFetch.current = false;
                     setAccessToken(true);
-                    setIsAuthorized(true);
                     navigate('/dashboard')
-                } else {
-                    initialFetch.current = false;
-                    setIsAuthorized(false);
                 }
             }
         };
@@ -205,7 +200,7 @@ export default function Dashboard() {
         <div className='container dashboard-container bg-light col-lg-9'>
             <div className="container w-100 h-100">
                 <div className='container'>
-                    {!isAuthorized ? (
+                    {totalSteps == 0 && totalDistance == 0 && totalCalories == 0  ? (
                         <div className='row justify-content-center align-items-center' style={{ height: '100vh' }}> {/* Full height container */}
                             <div className='col-md-6 col-lg-4'> {/* Responsive width */}
                                 <button 
@@ -276,14 +271,12 @@ export default function Dashboard() {
                             {showDetailsModal && (
                                 <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Date Details</Modal.Title>
+                                        <Modal.Title>Number of Steps</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         {detailsData && (
                                             <>
-                                                <h5>Steps: {detailsData.steps}</h5>
-                                                <p>Date: {detailsData.date}</p>
-                                                {/* You can add more details you want to display here */}
+                                                <h5>You took {detailsData.steps} steps this day!</h5>
                                             </>
                                         )}
                                     </Modal.Body>
@@ -296,64 +289,39 @@ export default function Dashboard() {
                             )}
 
                             <div className='row mb-3 mt-4' style={{ display: 'flex', alignItems: 'stretch' }}>
-                                <div className='col-6'>
+                                <div className='col-4'>
                                     <BarChartUi 
-                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
                                         data={dailySteps}
                                         title="Step Counts"
                                         bgColor="#8884d8"
                                         dataKey="steps"
                                     />
                                 </div>
-                                <div className='col-6'>
+                                <div className='col-4'>
                                     <BarChartUi
-                                        labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                                        labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
                                         data={dailyDistance}
                                         title="Distance"
                                         bgColor="#82ca9d"
                                         dataKey="distance"
                                     />
                                 </div>
+                                <div className='col-4'>
+                                    <BarChartUi
+                                        labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
+                                        data={dailyCalories}
+                                        title="Calories"
+                                        bgColor="#82ca9d"
+                                        dataKey="calories"
+                                    />
+                                </div>
                             </div>
-                            <div className='col-md-2'>
-                                <BarChartUi
-                                    labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-                                    data={dailyCalories}
-                                    title="Calories"
-                                    bgColor="#82ca9d"
-                                    borderColor="#000000"
-                                    dataKey="calories"
-                                />
-                            </div>
-                            
-
-                            
-                        <div className='row'>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Steps"
-                                    value={`${totalSteps} steps`}
-                                />
-                            </div>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Distance"
-                                    value={`${totalDistance.toFixed(2)} km`}
-                                />
-                            </div>
-                            <div className='col-md-4'>
-                                <Cards 
-                                    title="Total Calories"
-                                    value={`${totalCalories.toFixed(2)} cal`}
-                                />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-md-4'>
-                                <HeatMap monthlyData={monthlySteps} />
-                            </div>
-                        </div>
-                    </div>
+                            {/* <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+                                
+                            </div>   */}
+                        </>
+                    )}                       
                 </div>
             </div>
         </div>
