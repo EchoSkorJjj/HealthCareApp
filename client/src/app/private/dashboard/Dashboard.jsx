@@ -6,6 +6,12 @@ import CircularBar from '../../components/circularbar/CircularBar';
 import HeatMap from '../../components/heatmap/HeatMap';
 import useFitnessStore from '../../../features/store/FitnessStore';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
+
+
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -14,6 +20,9 @@ export default function Dashboard() {
     const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
     const [authCode, setAuthCode] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [selectedDateData, setSelectedDateData] = useState(null);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [detailsData, setDetailsData] = useState(null);
 
     const [totalSteps, setTotalSteps] = useState(0);
     const [dailySteps, setDailySteps] = useState([]);
@@ -61,6 +70,22 @@ export default function Dashboard() {
             return await fetchAccessToken(code);
         }
         return false;
+    };
+
+      // Handler for when a date in the HeatMap is clicked
+    const handleDateClick = (dayIndex) => {
+        // Create a new Date object representing the clicked day
+        const clickedDate = new Date(new Date().getFullYear(), new Date().getMonth(), dayIndex + 1); // +1 because dayIndex would be 0-indexed
+        const dateStr = clickedDate.toISOString().split('T')[0]; // Format the date as a string
+        
+        // Retrieve the steps from the monthlyData using the dayIndex
+        const steps = monthlySteps[dayIndex] || 0; // Fallback to 0 if no data
+
+        // Set the data for the modal
+        setDetailsData({ date: dateStr, steps: steps });
+
+        // Show the modal
+        setShowDetailsModal(true);
     };
 
     useEffect(() => {
@@ -200,49 +225,77 @@ export default function Dashboard() {
                     ) : (
                         <>
                             <div className='row'>
-                                <div className='col-4'>
-                                    <button onClick={() => setWeekOffset(weekOffset + 1)}>Previous Week</button>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
+                                    <button 
+                                    className='btn btn-link' 
+                                    onClick={() => setWeekOffset(weekOffset + 1)}
+                                    aria-label='Previous Week'
+                                    >
+                                    <i className='bi bi-chevron-left'></i> {/* Bootstrap icon for left chevron */}
+                                    </button>
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
                                     <h2 className="my-4">{getCurrentWeekRange(weekOffset)}</h2>
                                 </div>
-                                <div className='col-4'>
-                                    <button onClick={() => setWeekOffset(weekOffset - 1)}>Next Week</button>
+                                <div className='col-4 d-flex justify-content-center align-items-center'>
+                                    <button 
+                                    className='btn btn-link' 
+                                    onClick={() => setWeekOffset(weekOffset - 1)}
+                                    aria-label='Next Week'
+                                    >
+                                    <i className='bi bi-chevron-right'></i> {/* Bootstrap icon for right chevron */}
+                                    </button>
                                 </div>
                             </div>
                             <div className='row'>
-                                <div className='col-auto'>
+                                <div className='col-md-4 d-flex align-items-center justify-content-center'>
                                     <CircularBar 
-                                    value={totalSteps}
-                                    maxValue={25000} // or whatever your goal is
-                                    label={`${totalSteps} steps`}
-                                    />
-                                </div>
-                                <div className='col-auto'>
-                                    <HeatMap monthlyData={monthlySteps} />
-                                </div>
-                            </div>
-                            <div className='row mb-3'>
-                                <div className='col-md-4'>
-                                    <Cards 
-                                        title="Total Steps"
-                                        value={`${totalSteps} steps`}
+                                        value={totalSteps}
+                                        maxValue={25000}
                                     />
                                 </div>
                                 <div className='col-md-4'>
+                                    <div className="mb-4">
                                     <Cards 
                                         title="Total Distance"
                                         value={`${totalDistance.toFixed(2)} km`}
                                     />
-                                </div>
-                                <div className='col-md-4'>
+                                    </div>
+                                    <div>
                                     <Cards 
                                         title="Total Calories"
                                         value={`${totalCalories.toFixed(2)} cal`}
                                     />
+                                    </div>
+                                </div>
+                                <div className='col-md-4'>
+                                    <HeatMap monthlyData={monthlySteps} onDateClick={handleDateClick} />
                                 </div>
                             </div>
-                            <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
+
+                            {showDetailsModal && (
+                                <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Date Details</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        {detailsData && (
+                                            <>
+                                                <h5>Steps: {detailsData.steps}</h5>
+                                                <p>Date: {detailsData.date}</p>
+                                                {/* You can add more details you want to display here */}
+                                            </>
+                                        )}
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+                                            Close
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                            )}
+
+                            <div className='row mb-3 mt-4' style={{ display: 'flex', alignItems: 'stretch' }}>
                                 <div className='col-6'>
                                     <BarChartUi 
                                         labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
