@@ -1,14 +1,10 @@
-import {react, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import '../../../assets/styles/private_styles/Homepage.css';
 import { Container, Carousel, Card, Row, Col } from 'react-bootstrap';
-import Image from 'react-bootstrap/Image';
-import nutritionShareImage from './images/Nutrition_share.jpg'
-import Exercise from './images/exercise1.jpg'
-import Recipe from './images/nutrition.png'
-import Charts from './images/googlefit.jpg'
-import 'aos/dist/aos.css';
-import AOS from 'aos';
-
+import nutritionShareImage from '../../../assets/images/Nutrition_share.jpg';
+import Exercise from '../../../assets/images/exercise1.jpg'
+import Recipe from '../../../assets/images/nutrition.png'
+import Charts from '../../../assets/images/googlefit.jpg'
 
 export default function Home() {
 
@@ -51,7 +47,7 @@ export default function Home() {
                     <Container data-aos='zoom-in'>
                         <Carousel fade controls={false} indicators={false}>
                             <Carousel.Item interval={5000}>
-                                <img className="d-block w-100" src={nutritionShareImage} alt="First slide" style={blurryStyle}/>
+                                <img className="d-block w-100" src={nutritionShareImage} alt="First slide" style={blurryStyle} loading="lazy"/>
                             <Carousel.Caption  className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Nutrition Information</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
@@ -59,7 +55,7 @@ export default function Home() {
                             </Carousel.Item>
 
                             <Carousel.Item interval={5000}>
-                                <img className="d-block w-100" src={Recipe} alt="First slide" style={blurryStyle}/>
+                                <img className="d-block w-100" src={Recipe} alt="First slide" style={blurryStyle} loading="lazy"/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Recipe Analysis</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
@@ -67,7 +63,7 @@ export default function Home() {
                             </Carousel.Item>
 
                             <Carousel.Item interval={5000}>
-                                <img className="d-block w-100" src={Exercise} alt="First slide" style={blurryStyle}/>
+                                <img className="d-block w-100" src={Exercise} alt="First slide" style={blurryStyle} loading="lazy"/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Smart Exercise Assistant</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
@@ -89,7 +85,7 @@ export default function Home() {
                         <Card style={cardStyle} data-aos='fade-left' data-aos-offset="200" data-aos-once='true' data-aos-mirror="true" data-aos-easing="ease-in-out" data-aos-anchor-placement="center-bottom">
                             <Row className="g-0">
                                 <Col md={4}>
-                                    <Card.Img src={nutritionShareImage} alt="Card image" />
+                                    <Card.Img src={nutritionShareImage} alt="Card image" loading="lazy"/>
                                 </Col>
                                 <Col md={8}>
                                     <Card.Body>
@@ -115,7 +111,7 @@ export default function Home() {
                         <Card style={cardStyle} data-aos='fade-right' data-aos-offset="200" data-aos-once="true" data-aos-mirror="true" data-aos-easing="ease-in-out">
                             <Row className="g-0">
                             <Col md={4} className="order-md-2">
-                                <Card.Img src={Recipe} alt="Card image" />
+                                <Card.Img src={Recipe} alt="Card image" loading="lazy"/>
                             </Col>
                         <Col md={8} className="order-md-1">
                         <Card.Body>
@@ -141,7 +137,7 @@ export default function Home() {
                         <Card style={cardStyle} data-aos='fade-left' data-aos-offset="200" data-aos-once="true" data-aos-mirror="true" data-aos-easing="ease-in-out">
                             <Row className="g-0">
                                 <Col md={4}>
-                                    <Card.Img src={Exercise} alt="Card image" />
+                                    <Card.Img src={Exercise} alt="Card image" loading="lazy"/>
                                 </Col>
                                 <Col md={8}>
                                     <Card.Body>
@@ -166,7 +162,7 @@ export default function Home() {
                         <Card style={cardStyle} data-aos='fade-right' data-aos-offset="200" data-aos-once="true" data-aos-mirror="true" data-aos-easing="ease-in-out">
                             <Row className="g-0">
                             <Col md={4} className="order-md-2">
-                                <Card.Img src={Charts} alt="Card image" />
+                                <Card.Img src={Charts} alt="Card image" loading="lazy"/>
                             </Col>
                         <Col md={8} className="order-md-1">
                         <Card.Body>
