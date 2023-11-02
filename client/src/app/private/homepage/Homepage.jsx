@@ -52,7 +52,7 @@ export default function Home() {
                 <div>
                     <Container data-aos='zoom-in'>
                         <Carousel fade controls={false} indicators={false}>
-                            <Carousel.Item interval={10000}>
+                            <Carousel.Item interval={5000}>
                                 <img className="d-block w-100" src={nutritionShareImage} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption  className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Nutrition Information</h4>
@@ -60,7 +60,7 @@ export default function Home() {
                             </Carousel.Caption>
                             </Carousel.Item>
 
-                            <Carousel.Item interval={10000}>
+                            <Carousel.Item interval={5000}>
                                 <img className="d-block w-100" src={Recipe} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Recipe Analysis</h4>
@@ -68,7 +68,7 @@ export default function Home() {
                             </Carousel.Caption>
                             </Carousel.Item>
 
-                            <Carousel.Item interval={10000}>
+                            <Carousel.Item interval={5000}>
                                 <img className="d-block w-100" src={Exercise} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Smart Exercise Assistant</h4>
@@ -76,7 +76,7 @@ export default function Home() {
                             </Carousel.Caption>
                             </Carousel.Item>
 
-                            <Carousel.Item interval={10000}>
+                            <Carousel.Item interval={5000}>
                                 <img className="d-block w-100" src={Charts} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
                                 <h4>Google Fit API</h4>
