@@ -289,7 +289,7 @@ export default function Dashboard() {
                             )}
 
                             <div className='row mb-3 mt-4' style={{ display: 'flex', alignItems: 'stretch' }}>
-                                <div className='col-4'>
+                                <div className='col-lg-4'>
                                     <BarChartUi 
                                         labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
                                         data={dailySteps}
@@ -298,7 +298,7 @@ export default function Dashboard() {
                                         dataKey="steps"
                                     />
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-lg-4'>
                                     <BarChartUi
                                         labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
                                         data={dailyDistance}
@@ -307,7 +307,7 @@ export default function Dashboard() {
                                         dataKey="distance"
                                     />
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-lg-4'>
                                     <BarChartUi
                                         labels={['M', 'T', 'W', 'T', 'F', 'S', 'S']}
                                         data={dailyCalories}
@@ -317,9 +317,6 @@ export default function Dashboard() {
                                     />
                                 </div>
                             </div>
-                            {/* <div className='row mb-3' style={{ display: 'flex', alignItems: 'stretch' }}>
-                                
-                            </div>   */}
                         </>
                     )}                       
                 </div>
