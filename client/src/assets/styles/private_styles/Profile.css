@@ -1,24 +1,11 @@
 .profile-container {
     margin-top: 108px;
-    /* margin-left: 210px;
-    width: calc(100% - 210px);
-    margin-right: 0px;
-    flex-grow: 1;
-    height: 92dvh; */
     width: 100% !important;
 }
 
-/* @media screen and (max-width: 1275px) {
-    .profile-container {
-        margin-left: 65px;
-    }
+.profileinfo-container {
+    padding-bottom: 10rem;
 }
-
-@media screen and (max-width: 991px) {
-    .profile-container {
-        margin-left: 0px;
-    }
-} */
 
 .profile-header {
     background: none !important;

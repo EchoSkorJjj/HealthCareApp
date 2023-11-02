@@ -269,7 +269,7 @@ const NewLogin = () => {
             });
   
             if (response.ok) {
-              setForm({ username: "", fullName: "", email: "" , passwordHash: ""});
+              setRegisterForm({ username: "", fullName: "", email: "" , passwordHash: ""});
               window.alert("Registration Successful");
               setIsActive(!isActive);
             } else {
@@ -288,6 +288,9 @@ const NewLogin = () => {
 
     return (
         <div className="full-page-container">
+            <div className='button-container'>
+                <button className="back-to-home" onClick={navigateToHome}>Back to Home</button>
+            </div>
             <div className={`forms-container ${isActive ? "active" : ""}`} id="container">
                 <div className="form-container sign-up">
                     <form onSubmit={handleRegister}>
@@ -419,7 +422,6 @@ const NewLogin = () => {
                     </div>
                 </div>
             </div>
-            <button className="back-to-home" onClick={navigateToHome}>Back to Home</button>
         </div>
     );
 };

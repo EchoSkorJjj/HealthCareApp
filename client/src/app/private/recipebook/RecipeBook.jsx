@@ -10,6 +10,7 @@ export default function RecipeBook() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [recipes, setRecipes] = useState([]);
+    const [hasRecipe, setHasRecipe] = useState(false);
     const [recipeCount, setRecipeCount] = useState(false);
 
     const [show, setShow] = useState(false);
@@ -74,7 +75,10 @@ export default function RecipeBook() {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.recipeList) {
-                        if (data.recipeList.length > 3) {
+                        if (data.recipeList.length > 0) {
+                            setHasRecipe(true);
+                        }
+                        else if (data.recipeList.length > 3) {
                             setRecipeCount(true);
                         }
                         setRecipes(data.recipeList);
@@ -105,7 +109,10 @@ export default function RecipeBook() {
             if (deleteResponse.ok) {
                 const data = await deleteResponse.json();
                 if (data.recipeList) {
-                    if (data.recipeList.length > 3) {
+                    if (data.recipeList.length > 0) {
+                        setHasRecipe(true);
+                    }
+                    else if (data.recipeList.length > 3) {
                         setRecipeCount(true);
                     }
                     else {
@@ -131,8 +138,9 @@ export default function RecipeBook() {
                 <motion.div className="row mb-4" variants={component}>
                     <h1>Recipe Book</h1>
                 </motion.div>
-                <ul className='list-group'>
-                    {recipes.map((recipe) => (
+                <ul className={`list-group ${recipeCount ? `` : `filler-container`}`}>
+                    {hasRecipe ? 
+                    recipes.map((recipe) => (
                     <motion.li 
                     initial="initial"
                     animate="animate"
@@ -176,7 +184,8 @@ export default function RecipeBook() {
                             </Modal>
                         </h3>                 
                     </motion.li>
-                    ))}
+                    ))
+                    : <div className="filler-text">Add recipes to your recipe book to see them here</div>}
                 </ul>
             </motion.div>
         </motion.div>

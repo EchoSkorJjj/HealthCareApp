@@ -9,19 +9,23 @@
     align-items: center;
     background-color: rgb(175, 233, 165); 
     z-index: 2000; 
+    overflow: auto;
 }
 
-.back-to-home {
+.button-container {
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 3;
+}
+
+.back-to-home {
     padding: 10px 20px;
     background-color: #14da8f;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 3; /* Ensuring it's above the full-page-container */
 }
 
 .forms-container{
@@ -29,10 +33,12 @@
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
-    overflow: hidden;
+    overflow: auto;
     width: 768px;
     max-width: 100%;
     min-height: 480px;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .forms-container p{
@@ -111,6 +117,7 @@
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
+    overflow: auto;
 }
 
 .sign-in{
@@ -229,6 +236,19 @@
     transform: translateX(200%);
 }
 
+
+@media screen and (max-height: 1000px) {
+    .forms-container {
+        margin-top: 10rem;
+    }
+}
+
+@media screen and (max-height: 800px) {
+    .forms-container {
+        margin-top: 20rem;
+    }
+}
+
 @media screen and (max-width: 830px) {
     .forms-container {
         margin-left: 5%;
@@ -240,8 +260,6 @@
     .forms-container {
         height: auto;
         min-height: auto;
-        margin-left: 5%;
-        margin-right: 5%;
     }
 
     .form-container {

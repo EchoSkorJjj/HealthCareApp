@@ -105,14 +105,14 @@ export default function Profile() {
     }
 
     return (
-        <div className='container-fluid px-0 profile-container bg-light overflow-y-auto'>
-            <div className="container py-5">
-            <div className="row">
+        <div className='container-fluid px-0 profile-container bg-light'>
+            <div className="container d-flex align-items-center justify-content-center profileinfo-container">
+                <div className="row card-container">
                     <div className='col-lg-3'>
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <img src={profileData.profilePicture} alt="Admin" className="rounded-circle p-1 bg-primary" width="110"/>
+                                    <img src={profileData.profilePicture} alt="Profile Pic" className="rounded-circle p-1 bg-primary" width="110"/>
                                     <div className="mt-3">
                                         <h2>{profileData.username}</h2>
                                         <p className="text-secondary mb-1">{profileData.fullname}</p>
@@ -122,7 +122,7 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-                    <div className='col-lg-9'>
+                    <div className='col-lg-9 '>
                         <div className="card">
                             <div className="card-header profile-header">
                                 <h5>Edit Profile</h5>

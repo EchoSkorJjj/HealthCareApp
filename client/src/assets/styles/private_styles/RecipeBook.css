@@ -1,11 +1,5 @@
 .book-container {
     margin-top: 108px;
-    /* margin-left: 210px;
-    padding-bottom: 180px;
-    margin-bottom: 180px;
-    width: calc(100% - 210px);
-    margin-right: 0px;
-    flex-grow: 1;   */
     width: 100% !important;
 }
 
@@ -19,7 +13,7 @@
 }
 
 .filler-container {
-    height: 92dvh;
+    padding-bottom: 20rem;
 }
 
 .image-container {
@@ -37,16 +31,7 @@
     min-height: calc(100% - var(--bs-modal-margin) * 2);
 }
 
-/* @media screen and (max-width: 1275px) {
-    .book-container {
-        margin-left: 65px;
-    }
-} */
-
 @media screen and (max-width: 991px) {
-    /* .book-container {
-        margin-left: 0px;
-    } */
     .list-group {
         width: 100%;
     }

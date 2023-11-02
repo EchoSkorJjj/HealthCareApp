@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const NotFoundPage = () => {
     return (
-        <div className='d-flex justify-content-center align-items-center w-100 flex-column'>
+        <div className='d-flex justify-content-center align-items-center w-100 flex-column error-container'>
             <div className="error-page">
                 <div>
                 <h1 data-h1="404">404</h1>

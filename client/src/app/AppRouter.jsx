@@ -28,10 +28,8 @@ const ResetPasswordPage = lazy(() => import('./public/resetpass/ResetPassword.js
 const NewLoginPage = lazy(() => import('./public/newlogin/NewLogin.jsx'));
 
 // private route
-// const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
 const SidebarPage = lazy(() => import('./private/sidebar/Sidebar.jsx'));
 const ProfilePage = lazy(() => import('./private/profile/Profile.jsx'));
-const SettingsPage = lazy(() => import('./private/settings/Settings.jsx'));
 const DashboardPage = lazy(() => import('./private/dashboard/Dashboard.jsx'));
 const NutritionAnalyzerPage = lazy(() => import('./private/nutrition/NutritionAnalyzer.jsx'));
 const CombinedPage = lazy(() => import('./private/recipe/Combined.jsx'));
@@ -103,15 +101,14 @@ export const AppRouter = () => {
         <div className="d-flex content-container">
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
-            <Route exact path={HOME_ROUTE} element={<Home />} />
+            <Route path={HOME_ROUTE} element={<Home />} />
             <Route path="/newlogin" element={<NewLoginPage />} />
             <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
             <Route path="/resetpassword" element={<ResetPasswordPage />} />
           </Route>
-          <Route element={<><SidebarPage show={show} handleClose={handleClose} handleLogout={handleLogout}/><PrivateRoute/></>}>
-            <Route exact path="/dashboard" element={<DashboardPage />} />
+          <Route  exact path={ROOT_ROUTE} element={<><SidebarPage show={show} handleClose={handleClose} handleLogout={handleLogout}/><PrivateRoute/></>}>
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/gym" element={<GymPage />} />
             <Route path="/exercise/:id" element={<ExerciseDetailPage />} />
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
