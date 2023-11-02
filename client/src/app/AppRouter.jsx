@@ -6,6 +6,8 @@ import { HOME_ROUTE, ROOT_ROUTE } from '../constants/routes';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 
+import '../assets/styles/shared_styles/AppRouter.css';
+
 import { useNavigate, useLocation } from 'react-router-dom'
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../features/localStorage'
 import { useAuth } from '../features/auth';
@@ -95,10 +97,10 @@ export const AppRouter = () => {
     }
 
     return (
-      <div className='container-fluid d-flex flex-column min-vh-100'>
+      <div className='container-fluid d-flex flex-column min-vh-100 px-0'>
       <Suspense fallback={<div><Loader /></div>}>
         <Header onToggle={handleToggle} handleLogout={handleLogout}/>
-        <div className="row flex-grow-1 d-flex overflow-x-visible">
+        <div className="d-flex content-container">
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
             <Route path={HOME_ROUTE} element={<Home />} />

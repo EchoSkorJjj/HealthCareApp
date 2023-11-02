@@ -1,24 +1,22 @@
 .trainer-container {
     margin-top: 108px;
-    margin-left: 210px;
-    width: calc(100% - 210px);
-    margin-right: 0px;
-    flex-grow: 1;
-    /* height: 92dvh; */
+    width: 100% !important;
   }
 
 .filler-component {
   height: 80dvh;
 }
-  
-  @media screen and (max-width: 1275px) {
-    .trainer-container {
-        margin-left: 65px;
-    }
-  }
-  
-  @media screen and (max-width: 991px) {
-    .trainer-container {
-        margin-left: 0px;
-    }
-  }
+
+.trainer-btn {
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+  border-radius: 5px;
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0 0;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}

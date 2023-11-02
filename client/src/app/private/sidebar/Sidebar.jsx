@@ -42,23 +42,23 @@ export default function Sidebar({show, handleClose, handleLogout}) {
         }
     };
     return (
-        <motion.div initial='initial' animate='animate' className="sidebar d-none d-lg-block" >
-            <motion.div className='container d-flex justify-content-start w-100 sidebar-container' variants={stagger}>
+        <motion.div initial='initial' animate='animate' className="sidebar" >
+            <motion.div className='container d-flex w-100 sidebar-container' variants={stagger}>
             <Offcanvas show={show} onHide={handleClose} responsive="lg" >
                 <Offcanvas.Header closeButton>
                 <Offcanvas.Title>Menu Panel</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body className='d-flex flex-column sidebar-body'>
                 {SidebarItem.map((item, index) => (
-                    <motion.a key={index} href={item.path} className='sidebar-content row' variants={component}>
+                    <motion.a key={index} href={item.path} className='sidebar-content' variants={component}>
                         <div className='col-2 px-0 sidebar-icon'>
                             <FontAwesomeIcon icon={item.icon} className="fa-1x" />
                         </div>
                         <span className='sidebar-text col-10 text-start'>{item.name}</span>
                     </motion.a>
                 ))}
-                <motion.button className='logout-button row' variants={component} onClick={() => setShowLogoutModal(true)}>
-                    <div className='col-2 px-0 sidebar-icon'>
+                <motion.button className='logout-button' variants={component} onClick={() => setShowLogoutModal(true)}>
+                    <div className='col-2 px-0 button-icon'>
                         <FontAwesomeIcon icon={faRightFromBracket} className="fa-1x"/>
                     </div>
                     <span className='button-text col-10 text-start'>Log Out</span>

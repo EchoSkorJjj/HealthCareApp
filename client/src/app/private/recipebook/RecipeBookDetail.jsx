@@ -10,8 +10,8 @@ export default function RecipeDetails() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { recipeId } = useParams();
-    const recipeData = useRecipeStore((state) => state.recipeData)
     const setRecipeData = useRecipeStore((state) => state.setRecipeData);
+    const recipeData = useRecipeStore((state) => state.recipeData)
 
     const [show, setShow] = useState(false);
 
@@ -58,9 +58,8 @@ export default function RecipeDetails() {
                 .then((data) => {
                     if (data.recipeData) {
                         saveRecipeData(data.recipeData);
-                        console.log(recipeData.yield)
                         setLoading(false);
-                    }  
+                    }
                 })
             } catch (error) {
                 setLoading(false);
@@ -69,6 +68,8 @@ export default function RecipeDetails() {
         }
         fetchRecipeData();
     }, []);
+
+    
 
     async function handleDelete() {
         setLoading(true);
@@ -96,13 +97,13 @@ export default function RecipeDetails() {
         }
     }
 
-    if (loading || !recipeData || !recipeData.ingredientLines) {
+    if (loading || !recipeData || !recipeData.ingredientLines || !recipeData.totalNutrients[0]) {
         return <Loader />;
     }
 
     return (
         // loading ? <Loader /> :
-        <div className='container data-container col-lg-9 bg-light'>
+        <div className='container-fluid px-0 data-container bg-light'>
             <div className="container py-5">
                 <div className="recipe-details d-flex justify-content-center align-items-center flex-column">
                     <div className='d-flex flex-row mb-3'>
