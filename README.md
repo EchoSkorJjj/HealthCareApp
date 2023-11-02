@@ -58,13 +58,11 @@ Installing HealthPortalPro is a breeze. Just follow these simple steps:
 
    - For the client application, run:
      ```bash
-     $ cd client
-     $ npm start
+     $ npm run dev
      ```
 
    - For the server application, run:
      ```bash
-     $ cd server
      $ npm start
      ```
 
