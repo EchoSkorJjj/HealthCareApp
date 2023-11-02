@@ -2,7 +2,7 @@
     background-color: #fff;
     margin-top: 108px;
     position: sticky;
-    top: 0;
+    top: 108px;
     height: 100%;
   }
 
@@ -108,6 +108,9 @@
     display: flex;
     justify-content: center;
     width: 30%;
+  }
+  .sidebar {
+    top: 0;
   }
   .sidebar-body {
     display: flex;

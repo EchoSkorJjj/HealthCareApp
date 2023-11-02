@@ -11,7 +11,7 @@ export default function Combined() {
     };
 
     return (
-        <div className="container-fluid px-0 combined-container">
+        <div className="container-fluid px-0 bg-light combined-container">
             <SearchBar onSearch={handleSearch}/>
             {searchQuery ? 
             <RecipeList searchQuery={searchQuery}/> :

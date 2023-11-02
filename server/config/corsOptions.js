@@ -16,7 +16,7 @@ const development = {
 };
 
 const production = {
-    origin: 'https://yourproductiondomain.com', // or an array of origins ['https://yourproductiondomain.com', 'https://anotherdomain.com']
+    origin: ['https://www.healthcarepro.live'], // or an array of origins ['https://yourproductiondomain.com', 'https://anotherdomain.com']
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     // allowedHeaders: ['Content-Type', 'Authorization'],
     // exposedHeaders: ['Content-Range', 'X-Content-Range'],

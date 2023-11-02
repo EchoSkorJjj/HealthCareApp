@@ -1,0 +1,188 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  EDAMAM_NUTRITION_API_KEY: ${{ secrets.EDAMAM_NUTRITION_API_KEY }}
+  EDAMAM_NUTRITION_APP_ID: ${{ secrets.EDAMAM_NUTRITION_APP_ID }}
+  EDAMAM_RECIPE_API_KEY: ${{ secrets.EDAMAM_RECIPE_API_KEY }}
+  EDAMAM_RECIPE_APP_ID: ${{ secrets.EDAMAM_RECIPE_APP_ID }}
+  GIT_CLIENT_ID: ${{ secrets.GIT_CLIENT_ID }}
+  GIT_CLIENT_SECRET: ${{ secrets.GIT_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  JWT_RESET_SECRET: ${{ secrets.JWT_RESET_SECRET }}
+  MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
+  OTP_SECRET: ${{ secrets.OTP_SECRET }}
+  TRANSPORTER_GMAIL: ${{ secrets.TRANSPORTER_GMAIL }}
+  TRANSPORTER_PASSWORD: ${{ secrets.TRANSPORTER_PASSWORD }}
+  VITE_DEVELOPMENT_SERVER: ${{ secrets.VITE_DEVELOPMENT_SERVER }}
+  VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
+  VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+  VITE_HTTPS_SERVER: ${{ secrets.VITE_HTTPS_SERVER }}
+  VITE_NODE_ENV: ${{ secrets.VITE_NODE_ENV }}
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code from the GitHub repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Install dependencies and run tests for the client application
+      - name: Install and Test Client
+        working-directory: ./client
+        run: |
+          npm install
+          export VITE_DEVELOPMENT_SERVER=$VITE_DEVELOPMENT_SERVER
+          export VITE_GITHUB_CLIENT_ID=$VITE_GITHUB_CLIENT_ID
+          export VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+          export VITE_HTTPS_SERVER=$VITE_HTTPS_SERVER
+          export VITE_NODE_ENV=$VITE_NODE_ENV
+          npm run test
+          
+      # Install dependencies and run tests for the server application
+      - name: Install and Test Server
+        working-directory: ./server
+        run: |
+          npm install
+          export DATABASE_URL=$DATABASE_URL
+          export EDAMAM_NUTRITION_API_KEY=$EDAMAM_NUTRITION_API_KEY
+          export EDAMAM_NUTRITION_APP_ID=$EDAMAM_NUTRITION_APP_ID
+          export EDAMAM_RECIPE_API_KEY=$EDAMAM_RECIPE_API_KEY
+          export EDAMAM_RECIPE_APP_ID=$EDAMAM_RECIPE_APP_ID
+          export GIT_CLIENT_ID=$GIT_CLIENT_ID
+          export GIT_CLIENT_SECRET=$GIT_CLIENT_SECRET
+          export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+          export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+          export JWT_RESET_SECRET=$JWT_RESET_SECRET
+          export MY_SECRET_KEY=$MY_SECRET_KEY
+          export OTP_SECRET=$OTP_SECRET
+          export TRANSPORTER_GMAIL=$TRANSPORTER_GMAIL
+          export TRANSPORTER_PASSWORD=$TRANSPORTER_PASSWORD
+          npm run test
+
+      # # Configure AWS credentials from your GitHub secrets.
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ap-southeast-1 # Specify your AWS region here
+
+      # # Now you're authenticated with AWS, you can proceed to log in to ECR.
+      # - name: Login to ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
+
+      # # Build a Docker image for the client application and push to ECR
+      # - name: Build and Push Client Docker Image
+      #   id: build-client-image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./client
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-client:client-${{github.run_number}}
+
+      # # Build a Docker image for the server application and push to ECR
+      # - name: Build and Push Server Docker Image
+      #   id: build-server-image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./server
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-server:server-${{github.run_number}}
+
+      # - name: Build and Push NGINX Docker Image
+      #   id: build-nginx-image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./config
+      #     push: true
+      #     tags: 030820224983.dkr.ecr.ap-southeast-1.amazonaws.com/healthcareapp-nginx:nginx-${{github.run_number}}
+
+      # # Build, tag, and push SERVER image to Amazon ECR
+      # - name: Build, tag, and push SERVER image to Amazon ECR
+      #   id: build-server-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp-server # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./server/Dockerfile ./server
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "server-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Build, tag, and push CLIENT image to Amazon ECR
+      # - name: Build, tag, and push CLIENT image to Amazon ECR
+      #   id: build-client-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp-client # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./client/Dockerfile ./client
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "client-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Build, tag, and push NGINX image to Amazon ECR
+      # - name: Build, tag, and push NGINX image to Amazon ECR
+      #   id: build-nginx-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: healthcareapp-nginx # specify your repository name here
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./config/Dockerfile ./config
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #     echo "nginx-image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # # Download the current task definition from AWS
+      # - name: Download Server Task Definition
+      #   id: download-server-task-def
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/server-task-definition:2 --query taskDefinition > server-task-definition.json
+
+      # - name: Download Client Task Definition
+      #   id: download-client-task-def
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/client-task-definition:1 --query taskDefinition > client-task-definition.json
+          
+      # - name: Download Nginx Task Definition
+      #   id: download-nginx-task-def
+      #   run: |
+      #     aws ecs describe-task-definition --task-definition arn:aws:ecs:ap-southeast-1:030820224983:task-definition/nginx-task-definition:1 --query taskDefinition > nginx-task-definition.json
+      
+      # # Update Task Definition 
+      # - name: Update server task definition
+      #   id: update-server-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: server-task-definition.json
+      #     container-name: server-container
+      #     image: ${{ env.server-image }}
+
+      # - name: Update client task definition
+      #   id: update-client-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: client-task-definition.json
+      #     container-name: client-container
+      #     image: ${{ env.client-image }}
+      
+      # - name: Update NGINX task definition
+      #   id: update-nginx-task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: nginx-task-definition.json
+      #     container-name: nginx-container
+      #     image: ${{ env.nginx-image }}

@@ -7,7 +7,9 @@ const developmentConfig = helmet({
 
 // Production configuration
 const productionConfig = helmet({
-  crossOriginResourcePolicy: { policy: "same-origin" }
+  cors: {
+    origin: ["https://www.healthcarepro.live"]
+  }
 });
 
 const configOptions = process.env.NODE_ENV === 'production' ? productionConfig : developmentConfig;

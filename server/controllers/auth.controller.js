@@ -222,7 +222,7 @@ const logoutUser = async (req, res) => {
 const oAuth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  'http://localhost:5173/dashboard',
+  process.env.GOOGLE_REDIRECT_URI,
 );
 
 const getAuthUrl = async (req, res) => {
