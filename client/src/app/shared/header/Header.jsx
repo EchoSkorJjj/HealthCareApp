@@ -184,14 +184,14 @@ export default function Header({onToggle, handleLogout}) {
                     ) : (
                     <>
                     <div>
-                        <Nav.Link href="/login">
+                        <Nav.Link href="/newlogin">
                             <DrawOutlineButton>
                                 Log In
                             </DrawOutlineButton>
                         </Nav.Link>
                     </div>
                     <div>
-                        <Nav.Link href="/register">
+                        <Nav.Link href="/newlogin?activate=true">
                             <DrawOutlineButton>
                                 Sign Up
                             </DrawOutlineButton>

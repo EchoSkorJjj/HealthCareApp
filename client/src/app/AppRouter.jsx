@@ -23,13 +23,12 @@ const Loader = lazy(() => import('./shared/loader/Loader.jsx'));
 const NotFoundPage = lazy(() => import('./shared/404/404.jsx'));
 
 // public route
-const LoginPage = lazy(() => import('./public/login/Login.jsx'));
-const RegisterPage = lazy(() => import('./public/register/Register.jsx'));
 const ForgotPasswordPage = lazy(() => import('./public/forgotpass/ForgotPassword.jsx'));
 const ResetPasswordPage = lazy(() => import('./public/resetpass/ResetPassword.jsx'));
+const NewLoginPage = lazy(() => import('./public/newlogin/NewLogin.jsx'));
 
 // private route
-const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
+// const HomePage = lazy(() => import('./private/homepage/Homepage.jsx'));
 const SidebarPage = lazy(() => import('./private/sidebar/Sidebar.jsx'));
 const ProfilePage = lazy(() => import('./private/profile/Profile.jsx'));
 const SettingsPage = lazy(() => import('./private/settings/Settings.jsx'));
@@ -105,13 +104,11 @@ export const AppRouter = () => {
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
             <Route exact path={HOME_ROUTE} element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/newlogin" element={<NewLoginPage />} />
             <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
             <Route path="/resetpassword" element={<ResetPasswordPage />} />
           </Route>
           <Route element={<><SidebarPage show={show} handleClose={handleClose} handleLogout={handleLogout}/><PrivateRoute/></>}>
-            {/* <Route path="/homepage" element={<HomePage />} /> */}
             <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />

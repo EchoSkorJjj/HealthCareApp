@@ -16,8 +16,8 @@ export default function Dashboard() {
     const hasData = useRef(false);
     const setAccessToken = useFitnessStore((state) => state.setAccessToken);
     const hasAccessToken = useFitnessStore((state) => state.hasAccessToken);
-    const [authCode, setAuthCode] = useState(false);
-    const [selectedDateData, setSelectedDateData] = useState(null);
+    // const [authCode, setAuthCode] = useState(false);
+    // const [selectedDateData, setSelectedDateData] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [detailsData, setDetailsData] = useState(null);
 

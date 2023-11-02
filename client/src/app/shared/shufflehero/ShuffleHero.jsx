@@ -169,13 +169,13 @@ const ShuffleHero = () => {
           <motion.p variants={fadeInUp}>In the embrace of nature's beauty, where the sun touches the horizon. </motion.p>
 
           <motion.div className="btn_group gap-3" variants={stagger}>
-            <motion.a className="btn btn_primary" variants={btnGroup} whileHover={{scale:1.05}} whileTap={{scale:0.95}} href="/register">
+            <motion.a className="btn btn_primary" variants={btnGroup} whileHover={{scale:1.05}} whileTap={{scale:0.95}} href="/newlogin?activate=true">
               Get Started
             <IconContext.Provider value={{color:"#14da8f", size:"25px"}}>
                 <IoChevronForwardCircle/>
             </IconContext.Provider>
             </motion.a>
-            <motion.a className="btn-link btn btn_secondary" variants={btnGroup} whileHover={{scale:1.05}} whileTap={{scale:0.95}} href="/login">
+            <motion.a className="btn-link btn btn_secondary" variants={btnGroup} whileHover={{scale:1.05}} whileTap={{scale:0.95}} href="/newlogin">
               Sign In
             </motion.a>
           </motion.div>
