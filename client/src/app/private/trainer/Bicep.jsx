@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import '@tensorflow/tfjs'; // Import TensorFlow.js
-import '@tensorflow/tfjs-backend-webgl'; // Import TensorFlow.js WebGL backend
-import '@tensorflow/tfjs-converter'; // Import TensorFlow.js model converter
-import '@tensorflow/tfjs-core'; // Import TensorFlow.js core
-import * as tf from '@tensorflow/tfjs';
-import * as poseDetection from '@tensorflow-models/pose-detection'; // Import Pose Detection Model
+// import '@tensorflow/tfjs'; // Import TensorFlow.js
+// import '@tensorflow/tfjs-backend-webgl'; // Import TensorFlow.js WebGL backend
+// import '@tensorflow/tfjs-converter'; // Import TensorFlow.js model converter
+// import '@tensorflow/tfjs-core'; // Import TensorFlow.js core
+// import * as tf from '@tensorflow/tfjs';
+// import * as poseDetection from '@tensorflow-models/pose-detection'; // Import Pose Detection Model
 import '../../../assets/styles/private_styles/Bicep.css';
 
 function Bicep() {
@@ -20,11 +20,8 @@ function Bicep() {
 
       frameCount++;
       if (deltaTime >= 1000) {
-        // Calculate FPS based on the number of frames rendered in one second
         const currentFps = (frameCount * 1000) / deltaTime;
         setFps(currentFps);
-
-        // Reset frame count and last frame time for the next second
         frameCount = 0;
         lastFrameTime = currentTime;
       }
@@ -42,6 +39,11 @@ function Bicep() {
 
   useEffect(() => {
     const runPoseDetection = async () => {
+      const tf = await import('@tensorflow/tfjs');
+      await import('@tensorflow/tfjs-backend-webgl');
+      await import('@tensorflow/tfjs-converter');
+      await import('@tensorflow/tfjs-core');
+      const poseDetection = await import('@tensorflow-models/pose-detection');
       await tf.ready(); // Wait for TensorFlow to be ready
       await tf.setBackend('webgl'); // Set backend to 'webgl'
 
