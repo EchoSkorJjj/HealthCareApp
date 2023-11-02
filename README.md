@@ -10,17 +10,6 @@
 - [Usage](#usage)
 - [Key Features](#key-features)
 - [Dependencies](#dependencies)
-- [Screenshots](#screenshots)
-- [Demo Video](#demo-video)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
-- [Security](#security)
-- [Feedback and Support](#feedback-and-support)
-- [Versioning](#versioning)
-- [Acknowledgments](#acknowledgments)
-- [Community and Social Links](#community-and-social-links)
-- [Translations](#translations)
-- [Changelog](#changelog)
 - [License](#license)
 
 ## Introduction
