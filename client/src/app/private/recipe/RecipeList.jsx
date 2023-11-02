@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../../assets/styles/private_styles/RecipeCard.css';
-import RecipeDetail from './RecipeDetail';
-import {Tilt} from 'react-tilt';
+import RecipeDetail from './RecipeDetail';;
 import {motion} from 'framer-motion';
 import Loader from '../../shared/loader/Loader.jsx';
 import useRecipeStore from '../../../features/store/RecipeStore';
@@ -12,6 +11,7 @@ export default function RecipeList({ searchQuery }) {
   const [loading, setLoading] = useState(false);
 
   const searchName = useRecipeStore((state) => state.searchName);
+  const setRecipeSelected = useRecipeStore((state) => state.setRecipeSelected);
   const recipeResults = useRecipeStore((state) => state.recipeResults);
   const setSearchName = useRecipeStore((state) => state.setSearchName);
   const resetSearchName = useRecipeStore((state) => state.resetSearchName);
@@ -74,6 +74,7 @@ export default function RecipeList({ searchQuery }) {
   
 
   const handleRecipeClick = (recipe) => {
+    setRecipeSelected(true);
     setSelectedRecipe(recipe);
   };
 

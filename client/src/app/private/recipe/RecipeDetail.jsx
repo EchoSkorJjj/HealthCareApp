@@ -3,8 +3,10 @@ import '../../../assets/styles/private_styles/RecipeDetail.css';
 import { Rating } from 'react-simple-star-rating';
 import {Modal, Form, Button} from 'react-bootstrap';
 import Loader from '../../shared/loader/Loader.jsx';
+import useRecipeStore from '../../../features/store/RecipeStore';
 
 export default function RecipeDetail({ recipe, setSelectedRecipe }) {
+  const setRecipeSelected = useRecipeStore((state) => state.setRecipeSelected);
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState({
     overallRating: 0,
@@ -38,6 +40,11 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
 
   const handleRating = (rate) => {
     reviewForm.rating = rate;
+  }
+
+  function removeSelectedRecipe() {
+    setRecipeSelected(false);
+    setSelectedRecipe(null)
   }
 
   async function handleSaveRecipe() {
@@ -119,9 +126,9 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
 
   return (
     loading ? <Loader /> :
-    <div className="recipe-detail">
+    <div className="recipe-detail pt-5">
       <div className='d-flex justify-content-center gap-3 pb-5'>
-        <button type="button" className="btn btn-outline-primary" onClick={() => setSelectedRecipe(null)}>Return Back</button>
+        <button type="button" className="btn btn-outline-primary" onClick={removeSelectedRecipe}>Return Back</button>
       </div>
       <div className='container mb-5'>
         <div className='row container'>

@@ -17,6 +17,8 @@ const useRecipeStore = create(
                 totalCO2Emissions: '',
                 yield: '',
             },
+            recipeSelected: false,
+            setRecipeSelected: (data) => set({ recipeSelected: data }),
             setSearchName: (data) => set({ searchName: data }),
             setRecipeResults: (data) => set({ recipeResults: [...data] }),
             setRecipeData: (data) => set({ recipeData: {...data} }),
