@@ -82,6 +82,12 @@ export default function About() {
         }
     }
 
+    const TextStyle = {
+        background: 'linear-gradient(90deg, #14da8f, #1dd39c, #2af0b3)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+    };
+
     return (
         <motion.div initial='initial' animate='animate' className='about_container'>
             <motion.div className="about_content" initial={{opacity:0,scale:0}} animate={{opacity:1, scale:1}} transition={{duration:0.6, ease:easing}} >
@@ -90,7 +96,7 @@ export default function About() {
                         <motion.img src={developer} alt="developer" className="img-thumbnail aboutus_image" />
                     </motion.div>
                     <div className="col-md-6 text_container">
-                        <div className="about_text card">
+                        <div className="about_text">
                             <motion.h2 className='card-header'>
                                 <motion.span variants={firstName} initial="initial" animate="animate" className='first'>
                                     <motion.span variants={letter}>A</motion.span>
@@ -99,7 +105,7 @@ export default function About() {
                                     <motion.span variants={letter}>u</motion.span>
                                     <motion.span variants={letter}>t</motion.span>
                                 </motion.span>
-                                <motion.span variants={lastName} initial="initial" animate="animate" className='last'>
+                                <motion.span variants={lastName} initial="initial" animate="animate" className='last' style={TextStyle}>
                                     <motion.span variants={letter} className="second">U</motion.span>
                                     <motion.span variants={letter}>s</motion.span>
                                 </motion.span>
@@ -117,14 +123,14 @@ export default function About() {
                         <motion.img src={healthyman} alt="healthyman" className="img-thumbnail aboutus_image" />
                     </motion.div>
                     <div className="col-md-6 order-md-first text_container">
-                        <div className="about_text card">
-                            <motion.h2 className='card-header'>
+                        <div className="about_text">
+                            <motion.h2 className='card-header' >
                                 <motion.span variants={firstName} initial="initial" animate="animate" className='first'>
                                     <motion.span variants={letter}>O</motion.span>
                                     <motion.span variants={letter}>u</motion.span>
                                     <motion.span variants={letter}>r</motion.span>
                                 </motion.span>
-                                <motion.span variants={lastName} initial="initial" animate="animate" className='last'>
+                                <motion.span variants={lastName} initial="initial" animate="animate" className='last' style={TextStyle}>
                                     <motion.span variants={letter} className="second">M</motion.span>
                                     <motion.span variants={letter}>i</motion.span>
                                     <motion.span variants={letter}>s</motion.span>
@@ -134,7 +140,7 @@ export default function About() {
                                     <motion.span variants={letter}>n</motion.span>
                                 </motion.span>
                             </motion.h2>
-                            <motion.div variants={item} className='card-body'>
+                            <motion.div variants={item} className='card-body' style={{ color: '#fff', marginTop: '20px' }}>
                                 <motion.p>
                                     Our mission is to empower individuals to take control of their health and make informed decisions. Whether you want to track your nutrition, monitor your fitness, or connect with healthcare providers, we have you covered.
                                 </motion.p>
