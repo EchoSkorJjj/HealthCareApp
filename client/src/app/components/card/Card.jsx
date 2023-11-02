@@ -132,18 +132,6 @@ function Card() {
                 </a>
             </motion.div>
             ))}
-            <motion.div className="card dark" variants={item}>
-                <img src={LinePng} alt="line" className="line"/>               
-                <h2>+4 <br/>More...</h2>
-                <a href="#">
-                    <span>View more...</span>
-                    <motion.span className="service_icon" style={{backgroundColor:"#14da8f"}} variants={hoverEffect} whileHover="whileHover" whileTap='whileTap'>
-                        <IconContext.Provider value={{color:"#fff", size:"18px"}}>
-                            <IoChevronForward/>
-                        </IconContext.Provider>
-                    </motion.span>
-                </a>
-            </motion.div>
         </motion.div>
     </motion.div>
   )

@@ -8,7 +8,32 @@ import {
     IoColorFill,
     IoIdCardOutline} from "react-icons/io5";
 
+import {
+    CgGym,
+    } from "react-icons/cg";
+
 export const CardData = [
+    {
+        title: ['Wellness', 'Dashboard'],
+        description: 'Transform your approach to personal wellness with the comprehensive and intuitive Wellness Dashboard, an integrated platform that serves as your dedicated hub for not only meticulously tracking and managing every aspect of your well-being but also fostering a deeper understanding of your health journey through its holistic perspective, allowing you to monitor a diverse range of health metrics and intricate progress data over an extended period. By providing you with valuable insights and actionable information, this multifaceted tool empowers you to make informed decisions and strategic adjustments, ensuring that you remain consistently aligned with your aspirations and targets for optimal health and wellness.',
+        icon: IoApps,
+        iconColor: '#ff8559',
+        backgroundColor: '#ffede6',
+    },
+    {
+        title: ['FitGIF', 'Selector'],
+        description: "Unveiling the 'FitGIF Selector', a dynamic and interactive feature designed to enhance your fitness journey. This innovative tool allows users to effortlessly select their desired body part or the equipment they have at their disposal, and in response, it intelligently showcases a curated collection of exercise GIFs tailored to those choices. Each GIF visually demonstrates the correct form and technique for a range of exercises, making it easier than ever for users to understand and execute workouts accurately. Whether you're focusing on toning your arms, strengthening your legs, or utilizing specific gym equipment, the FitGIF Selector brings a personalized, visual training guide right to your fingertips. Get ready to elevate your workout routine with precision and clarity, all thanks to the power of the FitGIF Selector!",
+        icon: CgGym,
+        iconColor: 'black',
+        backgroundColor: '#87ceeb',
+    },
+    {
+        title: ['Personalized', 'Workout Partner'],
+        description: "Introducing your new indispensable workout companion, an innovative and dynamic digital platform that not only provides you with meticulously tailored and personalized workout plans designed to suit your specific fitness goals and preferences but also serves as an all-encompassing virtual fitness partner, dedicated to supporting and encouraging you every step of the way on your journey to enhanced physical well-being and vitality. With its user-friendly interface and comprehensive tracking features, this cutting-edge solution ensures that you can effortlessly monitor your progress, celebrate your achievements, and maintain unwavering motivation, enabling you to cultivate a sustainable and fulfilling fitness routine that seamlessly integrates into your lifestyle.",
+        icon: IoIdCardOutline,
+        iconColor: '#fa3970',
+        backgroundColor: '#ffe1e9',
+    },
     {
         title: ['Nutrition', 'Navigator'],
         description: 'When it comes to achieving and maintaining optimal health through a well-balanced diet, the Nutrition Navigator serves as your comprehensive and reliable compass, guiding you through the intricate landscape of managing and optimizing your nutritional intake. By offering an extensive array of resources and information, ranging from tracking macros and micros to unearthing an abundance of delectable and nourishing recipes, this invaluable tool empowers you to make informed and conscious decisions about your dietary habits, enabling you to cultivate a sustainable and wholesome approach to nutrition that harmoniously supports your overall well-being and vitality.',
@@ -22,20 +47,6 @@ export const CardData = [
         icon: IoColorFill,
         iconColor: '#5700cf',
         backgroundColor: '#e7daf8',
-    },
-    {
-        title: ['Wellness', 'Dashboard'],
-        description: 'Transform your approach to personal wellness with the comprehensive and intuitive Wellness Dashboard, an integrated platform that serves as your dedicated hub for not only meticulously tracking and managing every aspect of your well-being but also fostering a deeper understanding of your health journey through its holistic perspective, allowing you to monitor a diverse range of health metrics and intricate progress data over an extended period. By providing you with valuable insights and actionable information, this multifaceted tool empowers you to make informed decisions and strategic adjustments, ensuring that you remain consistently aligned with your aspirations and targets for optimal health and wellness.',
-        icon: IoApps,
-        iconColor: '#ff8559',
-        backgroundColor: '#ffede6',
-    },
-    {
-        title: ['Personalized', 'Workout Partner'],
-        description: "Introducing your new indispensable workout companion, an innovative and dynamic digital platform that not only provides you with meticulously tailored and personalized workout plans designed to suit your specific fitness goals and preferences but also serves as an all-encompassing virtual fitness partner, dedicated to supporting and encouraging you every step of the way on your journey to enhanced physical well-being and vitality. With its user-friendly interface and comprehensive tracking features, this cutting-edge solution ensures that you can effortlessly monitor your progress, celebrate your achievements, and maintain unwavering motivation, enabling you to cultivate a sustainable and fulfilling fitness routine that seamlessly integrates into your lifestyle.",
-        icon: IoIdCardOutline,
-        iconColor: '#fa3970',
-        backgroundColor: '#ffe1e9',
     },
     {
         title: ['Recipe Saver', '& Nutrition Info'],
