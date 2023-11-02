@@ -76,7 +76,7 @@ export default function Login() {
             saveProfileData(profileData);
             setAccessToken(false);
             googleLogin();
-            navigate("/homepage");
+            navigate("/dashboard");
           } else {
             try {
               const errorResponse = await response.json();
@@ -127,7 +127,7 @@ export default function Login() {
             saveProfileData(profileData);
             setAccessToken(false);
             githubLogin();
-            navigate("/homepage");
+            navigate("/dashboard");
           } else {
             try {
               const errorResponse = await response.json();
@@ -188,7 +188,7 @@ export default function Login() {
               setAccessToken(false);
               login();
               setForm({ usernameOrEmail: "", password: "" });
-              navigate("/homepage");
+              navigate("/dashboard");
             } else {
               try {
                 const errorResponse = await response.json();

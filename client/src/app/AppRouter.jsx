@@ -20,6 +20,7 @@ const Header = lazy(() => import('./shared/header/Header.jsx'));
 const Home = lazy(() => import('./shared/home/Home.jsx'));
 const Footer = lazy(() => import('./shared/footer/Footer.jsx'));
 const Loader = lazy(() => import('./shared/loader/Loader.jsx'));
+const NotFoundPage = lazy(() => import('./shared/404/404.jsx'));
 
 // public route
 const LoginPage = lazy(() => import('./public/login/Login.jsx'));
@@ -103,15 +104,15 @@ export const AppRouter = () => {
         <div className="d-flex content-container">
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
-            <Route path={HOME_ROUTE} element={<Home />} />
+            <Route exact path={HOME_ROUTE} element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
             <Route path="/resetpassword" element={<ResetPasswordPage />} />
           </Route>
-          <Route exact path={ROOT_ROUTE} element={<><SidebarPage show={show} handleClose={handleClose} handleLogout={handleLogout}/><PrivateRoute/></>}>
-            <Route path="/homepage" element={<HomePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+          <Route element={<><SidebarPage show={show} handleClose={handleClose} handleLogout={handleLogout}/><PrivateRoute/></>}>
+            {/* <Route path="/homepage" element={<HomePage />} /> */}
+            <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/gym" element={<GymPage />} />
@@ -122,7 +123,7 @@ export const AppRouter = () => {
             <Route path="/recipebook/:recipeId" element={<RecipeBookDetailPage />} />
             <Route path="/trainer" element={<TrainerPage />} />
           </Route>
-          <Route path="*" element={<div>404</div>} />
+          <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
         </div>
         <Footer />

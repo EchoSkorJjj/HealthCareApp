@@ -36,7 +36,6 @@ const hoverEffect = {
 }
 
 const buttonStyle = {
-
     padding: '7px 10px',
     border: 'none',
     borderRadius: '5px',
@@ -45,15 +44,6 @@ const buttonStyle = {
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
     marginTop: 'auto'
 }
-
-const paraStyle = {
-
-    border: '5px solid',
-    borderImage: 'linear-gradient(90deg, #14da8f, #1dd39c, #2af0b3) 5',
-    padding: '5px',
-
-}
-
 
 function Card() {
     const [selectedCard, setSelectedCard] = useState(null);
@@ -102,14 +92,13 @@ function Card() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.5 }}
                 transition={{duration:0.4}}
-                className="expanded-card"
+                className="expanded-card card"
                 style={{backgroundColor: selectedCard.backgroundColor}}
             >
-                <div className="expanded-card-content">
-                {/* Display card content here */}
-                <h2 style={{ marginTop: 0 }}>{selectedCard.title}</h2>
-                <p style={paraStyle}>{selectedCard.description}</p>
-                <button onClick={() => setSelectedCard(null)} style={buttonStyle}>Close</button>
+                <div className="expanded-card-content card-body">
+                    <h5 className="card-title fw-bold">{selectedCard.title}</h5>
+                    <p className="card-text">{selectedCard.description}</p>
+                    <button onClick={() => setSelectedCard(null)} style={buttonStyle}>Close</button>
                 </div>
             </motion.div>
             )}

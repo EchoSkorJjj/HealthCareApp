@@ -1,12 +1,12 @@
-import { faHome, faWrench, faUser, faPerson, faDumbbell, faBook, faGear, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faPerson, faDumbbell, faBook, faGear, faTableColumns, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons';
 
 export const SidebarItem = [
-    {
-        name: 'Home Page',
-        path: '/homepage',
-        icon: faHome
-    },
+    // {
+    //     name: 'Home Page',
+    //     path: '/homepage',
+    //     icon: faHome
+    // },
     {
         name: 'Dashboard',
         path: '/dashboard',
