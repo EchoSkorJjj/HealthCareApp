@@ -5,8 +5,8 @@ import { Container, Carousel, Card, Row, Col } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import nutritionShareImage from './images/Nutrition_share.jpg'
 import Exercise from './images/exercise1.jpg'
-import Recipe from './images/recipe_analyis.jpg'
-import Charts from './images/charts.jpg'
+import Recipe from './images/nutrition.png'
+import Charts from './images/googlefit.jpg'
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
@@ -55,7 +55,7 @@ export default function Home() {
                             <Carousel.Item interval={10000}>
                                 <img className="d-block w-100" src={nutritionShareImage} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption  className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
-                                <h5>Nutrition Information</h5>
+                                <h4>Nutrition Information</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
                             </Carousel.Caption>
                             </Carousel.Item>
@@ -63,7 +63,7 @@ export default function Home() {
                             <Carousel.Item interval={10000}>
                                 <img className="d-block w-100" src={Recipe} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
-                                <h5>Recipe Analysis</h5>
+                                <h4>Recipe Analysis</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
                             </Carousel.Caption>
                             </Carousel.Item>
@@ -71,7 +71,7 @@ export default function Home() {
                             <Carousel.Item interval={10000}>
                                 <img className="d-block w-100" src={Exercise} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
-                                <h5>Smart Exercise Assistant</h5>
+                                <h4>Smart Exercise Assistant</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
                             </Carousel.Caption>
                             </Carousel.Item>
@@ -79,7 +79,7 @@ export default function Home() {
                             <Carousel.Item interval={10000}>
                                 <img className="d-block w-100" src={Charts} alt="First slide" style={blurryStyle}/>
                             <Carousel.Caption className="d-flex flex-column justify-content-center" style={{ top: 0 }}>
-                                <h5>Google Fit API</h5>
+                                <h4>Google Fit API</h4>
                                 {/* <p>Some representative placeholder content for the first slide.</p> */}
                             </Carousel.Caption>
                             </Carousel.Item>
@@ -97,7 +97,7 @@ export default function Home() {
                                     <Card.Body>
                                         <Card.Title style={titleStyle}>Nutrition Information</Card.Title>
                                             <Card.Text style={textStyle}>
-                                            <ul style={{ listStyleType: 'none', padding: 0 }}>
+                                            <ul style={{ listStyleType: 'none', padding: 20 }}>
                                                 <li>Detailed nutritional information through Edamam API.</li>
                                                 <li>Search for foods and retrieve its nutrition details.</li>
                                                 <li>Create meal plans and track daily intake.</li>
@@ -123,7 +123,7 @@ export default function Home() {
                         <Card.Body>
                             <Card.Title style={titleStyle}>Recipe Analysis</Card.Title>
                             <Card.Text style={textStyle}>
-                                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                                <ul style={{ listStyleType: 'none', padding: 20 }}>
                                     <li>Analyse recipes utilizing Edamam API</li>
                                     <li>Calculate recipe's calorie content, breakdown of nutrients</li>
                                     <li>Understand nutrition value of favorite dishes</li>
@@ -149,7 +149,7 @@ export default function Home() {
                                     <Card.Body>
                                         <Card.Title style={titleStyle}>Smart Exercise Assistant</Card.Title>
                                             <Card.Text style={textStyle}>
-                                                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                                                <ul style={{ listStyleType: 'none', padding: 20 }}>
                                                     <li>Track right posture of exercise through TensorFlow</li>
                                                     <li>Provide counter to keep track of exercise done</li>
                                                     <li>Ensures proper technique of exercise</li>
@@ -174,10 +174,10 @@ export default function Home() {
                         <Card.Body>
                             <Card.Title style={titleStyle}>Google Fit API</Card.Title>
                             <Card.Text style={textStyle}>
-                                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                                    <li>Item 1</li>
-                                    <li>Item 2</li>
-                                    <li>Item 3</li>
+                                <ul style={{ listStyleType: 'none', padding: 20 }}>
+                                    <li>Monitor your daily output</li>
+                                    <li>Calculate calories burned</li>
+                                    <li>Personalised dashboard about health goals</li>
                                 </ul>
                             </Card.Text>
                             <Card.Text>
