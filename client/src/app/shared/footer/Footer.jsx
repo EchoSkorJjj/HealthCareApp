@@ -3,6 +3,7 @@
 import '../../../assets/styles/shared_styles/Footer.css';
 import logo from '../../../assets/images/dumble.png';
 
+
 export default function Footer() {
     const year = new Date().getFullYear();
 
