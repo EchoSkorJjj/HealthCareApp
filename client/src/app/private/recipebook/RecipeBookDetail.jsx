@@ -9,7 +9,7 @@ import {Modal, Button} from 'react-bootstrap';
 export default function RecipeDetails() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { recipeId } = useParams();
+    const { recipeLabel } = useParams();
     const setRecipeData = useRecipeStore((state) => state.setRecipeData);
     const recipeData = useRecipeStore((state) => state.recipeData)
 
@@ -18,10 +18,12 @@ export default function RecipeDetails() {
     const handleCloseDelete = () => setShow(false);
     const handleShowDelete = () => setShow(true);
 
-    if (!recipeId) {
-        navigate('/recipebook');
-    }
-
+    useEffect(() => {
+        if (!recipeLabel) {
+            navigate('/recipebook');
+        }
+    }, [])
+    
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
         
     function handleBack() {
@@ -52,7 +54,7 @@ export default function RecipeDetails() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({recipeId: recipeId})
+                    body: JSON.stringify({recipeLabel: recipeLabel})
                 })
                 .then((response) => response.json())
                 .then((data) => {
@@ -81,7 +83,7 @@ export default function RecipeDetails() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    recipeId: recipeId,
+                    recipeLabel: recipeLabel,
                 }),
             })
             if (deleteResponse.ok) {
@@ -130,10 +132,10 @@ export default function RecipeDetails() {
                     <div className="row mb-3">
                         <div className="d-flex flex-sm-row flex-column">
                             <div>
-                                <img src={`data:image/jpeg;base64,${recipeData.image}`} alt={recipeData.label} className="recipe-image img-thumbnail" loading="lazy" style={{ height: 300, width: 300, marginRight: 20 }}/>
+                                <img src={`data:image/jpeg;base64,${recipeData.image}`} alt={recipeLabel} className="recipe-image img-thumbnail" loading="lazy" style={{ height: 300, width: 300, marginRight: 20 }}/>
                             </div>
                             <div>
-                                <h1 className="recipe-title">{recipeData.label}</h1>
+                                <h1 className="recipe-title">{recipeLabel}</h1>
                                 <p className="source">Source: {recipeData.source}</p>
                                 <p className="ratings">Rating: {recipeData.overallRating} (from {recipeData.numRating} reviews)</p>
                                 <a href={recipeData.url} target="_blank" rel="noopener noreferrer" className="full-recipe-link">View Full Recipe</a>

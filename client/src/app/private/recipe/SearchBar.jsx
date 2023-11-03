@@ -11,6 +11,10 @@ export default function SearchBar({ onSearch }) {
   };
 
   const handleSearch = () => {
+    if (query.length > 30) {
+      window.alert('Search query is too long!');
+      return;
+    }
     onSearch(query);
   };
 

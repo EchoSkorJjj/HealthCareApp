@@ -109,17 +109,6 @@ export default function Header({onToggle, handleLogout}) {
                     <motion.span variants={header} className='body-component'>
                     {isAuthenticated || isGoogleAuthenticated || isGithubAuthenticated ? (
                     <>
-                        <div className='search-bar-offcanvas d-flex align-items-center '>
-                            <Form className="d-flex">
-                                <Form.Control
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                                />
-                                <Button variant="outline-success">Search</Button>
-                            </Form>
-                        </div>
                         <div ref={notificationContainerRef}>
                             <motion.div 
                                 whileHover={window.innerWidth >= 992 ? {

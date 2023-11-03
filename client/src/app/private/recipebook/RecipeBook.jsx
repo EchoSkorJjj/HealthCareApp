@@ -24,8 +24,8 @@ export default function RecipeBook() {
         setShow(true);
     }
 
-    const handleSelectRecipe = (recipeId) => {
-        navigate(`/recipebook/${recipeId}`);
+    const handleSelectRecipe = (recipeLabel) => {
+        navigate(`/recipebook/${recipeLabel}`);
     };
 
     let easing = "easeInOut";
@@ -92,7 +92,7 @@ export default function RecipeBook() {
         fetchRecipes();
     }, []);
 
-    async function handleDelete(recipeId, e) {
+    async function handleDelete(recipeLabel, e) {
         e.stopPropagation();
         setLoading(true);
         try {
@@ -103,7 +103,7 @@ export default function RecipeBook() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    recipeId: recipeId,
+                    recipeLabel: recipeLabel,
                 }),
             })
             if (deleteResponse.ok) {
@@ -146,17 +146,17 @@ export default function RecipeBook() {
                     animate="animate"
                     whileHover="whileHover"
                     whileTap="whileTap" 
-                    onClick={() => handleSelectRecipe(recipe.recipeId)} 
+                    onClick={() => handleSelectRecipe(recipe.recipeLabel)} 
                     type='button' 
                     variants={component} 
-                    className='mb-3 rounded list-group-item d-flex flex-md-row flex-column justify-content-md-between jusitfy-content-center align-items-md-start align-items-center text-md-start text-center' key={recipe.recipeId}>
+                    className='mb-3 rounded list-group-item d-flex flex-md-row flex-column justify-content-md-between jusitfy-content-center align-items-md-start align-items-center text-md-start text-center' key={recipe.recipeLabel}>
                         <div className="list-item-container ms-2 me-md-auto me-2 d-flex flex-md-row flex-column gap-2">
                             <div className='image-container col-md-3 col-12'>
-                                <img src={`data:image/jpeg;base64,${recipe.image}`} alt={recipe.label} className="rounded float-start recipe-image img-thumbnail" />
+                                <img src={`data:image/jpeg;base64,${recipe.image}`} alt={recipe.recipeLabel} className="rounded float-start recipe-image img-thumbnail" />
                             </div>
                             <div className='col-md-8 col-12'>
                                 <div className="fw-bold fs-2 label-text">
-                                    {recipe.label}
+                                    {recipe.recipeLabel}
                                 </div>
                                 <p>Portions: {recipe.yield}</p>
                                 <p>Calories:{Math.round(recipe.totalNutrients[0].ENERC_KCAL.quantity / recipe.yield)}{recipe.totalNutrients[0].ENERC_KCAL.unit}</p>
@@ -177,7 +177,7 @@ export default function RecipeBook() {
                                     <Button variant="secondary" onClick={(e) => handleCloseDelete(e)}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" onClick={(e) => handleDelete(recipe.recipeId, e)}>
+                                    <Button variant="primary" onClick={(e) => handleDelete(recipe.recipeLabel, e)}>
                                         remove
                                     </Button>
                                 </Modal.Footer>

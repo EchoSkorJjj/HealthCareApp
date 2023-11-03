@@ -18,21 +18,14 @@ const getRecipes = async (req, res) => {
       const data = await response.json();
       res.status(200).json(data);
 
-      const existingRecipeIds = await Recipe.find({}, 'recipeId');
-      const existingRecipeIdsSet = new Set(existingRecipeIds.map(recipe => recipe.recipeId));
+      const existingRecipeLabels = await Recipe.find({}, 'recipeLabel');
+      const existingRecipeLabelsSet = new Set(existingRecipeLabels.map(recipe => recipe.recipeLabel));
   
       const recipesToInsertPromises = data.hits.map(async (hit) => {
         const recipeInfo = hit.recipe;
-        const uri = recipeInfo.uri;
-        const match = uri.match(/recipe_([A-Za-z0-9]+)/);
-  
-        if (!match) {
-          return null; 
-        }
-  
-        const recipeId = match[1];
-  
-        if (existingRecipeIdsSet.has(recipeId)) {
+        const recipeLabel = recipeInfo.label;
+       
+        if (existingRecipeLabelsSet.has(recipeLabel)) {
           return null; 
         }
   
@@ -49,8 +42,7 @@ const getRecipes = async (req, res) => {
 
   
         return {
-          recipeId: recipeId,
-          label: recipeInfo.label,
+          recipeLabel: recipeLabel,
           image: encodedImage,
           ingredientLines: recipeInfo.ingredientLines,
           source: recipeInfo.source,
@@ -60,8 +52,7 @@ const getRecipes = async (req, res) => {
           url: recipeInfo.url,
         };
       });
-  
-      // Filter out null values (skipped recipes) and insert the remaining new recipes
+
       const recipesToInsert = (await Promise.all(recipesToInsertPromises)).filter(recipe => recipe !== null);
   
       if (recipesToInsert.length > 0) {
@@ -89,17 +80,14 @@ const getNutrition = async (req, res) => {
 };
 
 const getRecipeRating = async (req, res) => {
-    const {q : uri} = req.query;
+    const {q : recipeLabel} = req.query;
     try {
-        const regex = /recipe_([A-Za-z0-9]+)/;
-        const match = uri.match(regex);
-        const recipeId = match[1];
-        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        const recipeExist = await Recipe.findOne({ recipeLabel: recipeLabel});
         if (recipeExist) {
             overallRating = recipeExist.overallRating;
             numRating = recipeExist.numRating;
             const userId = req.session.user.id;
-            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeId: recipeId });
+            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeLabel: recipeLabel });
             if (recipeReview) {
                 userRating = recipeReview.rating;
                 userReview = recipeReview.review;
@@ -107,7 +95,7 @@ const getRecipeRating = async (req, res) => {
                 userRating = 0;
                 userReview = '';
             }
-            const reviews = await RecipeReview.find({ recipeId: recipeId });
+            const reviews = await RecipeReview.find({ recipeLabel: recipeLabel });
             res.status(200).json({overallRating, numRating, userRating, userReview, reviews});
         }
     } catch (error) {
@@ -116,21 +104,18 @@ const getRecipeRating = async (req, res) => {
 }
 
 const saveRecipe = async (req,res) => {
-    const { q: uri } = req.query;
+    const { q: recipeLabel } = req.query;
     try {
-        const regex = /recipe_([A-Za-z0-9]+)/;
-        const match = uri.match(regex);
-        const recipeId = match[1];
-        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        const recipeExist = await Recipe.findOne({ recipeLabel: recipeLabel });
         if (recipeExist) {
             const userId = req.session.user.id;
             const profile = await Profile.findOne({ userId: userId });
             if (profile) {
                 const recipeBook = profile.recipeBook;
-                if (recipeBook.includes(recipeId)) {
+                if (recipeBook.includes(recipeLabel)) {
                     res.status(200).json({ message: 'Recipe already saved' });
                 } else {
-                    recipeBook.push(recipeId);
+                    recipeBook.push(recipeLabel);
                     profile.recipeBook = recipeBook;
                     await profile.save();
                     res.status(200).json({ message: 'Recipe saved successfully' });
@@ -143,17 +128,14 @@ const saveRecipe = async (req,res) => {
 }
 
 const saveReview = async (req, res) => {
-    const { q: uri } = req.query;
+    const { q: recipeLabel } = req.query;
     const { rating, review } = req.body;
     try {
-        const regex = /recipe_([A-Za-z0-9]+)/;
-        const match = uri.match(regex);
-        const recipeId = match[1];
-        const recipeExist = await Recipe.findOne({ recipeId: recipeId });
+        const recipeExist = await Recipe.findOne({ recipeLabel: recipeLabel });
         if (recipeExist) {
             const userId = req.session.user.id;
-            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeId: recipeId });
-            const recipeInfo = await Recipe.findOne({ recipeId: recipeId });
+            const recipeReview = await RecipeReview.findOne({ userId: userId, recipeLabel: recipeLabel });
+            const recipeInfo = await Recipe.findOne({ recipeLabel: recipeLabel });
             const user = await User.findById(userId);
             const date = new Date();
             if (recipeReview) {
@@ -169,7 +151,7 @@ const saveReview = async (req, res) => {
             } else {
                 const newRecipeReview = new RecipeReview({
                     userId: userId,
-                    recipeId: recipeId,
+                    recipeLabel: recipeLabel,
                     rating: rating,
                     review: review,
                     date: date,
@@ -197,7 +179,7 @@ const getRecipeBook = async (req, res) => {
         const profile = await Profile.findOne({ userId: userId });
         const savedRecipe = profile.recipeBook;
         for (const recipe of savedRecipe) {
-            const recipeInfo = await Recipe.findOne({ recipeId: recipe });
+            const recipeInfo = await Recipe.findOne({ recipeLabel: recipe });
             recipeList.push(recipeInfo);
         }
         res.status(200).json({ recipeList: recipeList});
@@ -208,11 +190,11 @@ const getRecipeBook = async (req, res) => {
 
 const removeRecipe = async (req, res) => {
     try {
-        const {recipeId: recipeId} = req.body;
+        const {recipeLabel: recipeLabel} = req.body;
         const userId = req.session.user.id;
         const profile = await Profile.findOne({ userId: userId });
         const recipeBook = profile.recipeBook;
-        const index = recipeBook.indexOf(recipeId);
+        const index = recipeBook.indexOf(recipeLabel);
         if (index > -1) {
             recipeBook.splice(index, 1);
         }
@@ -220,7 +202,7 @@ const removeRecipe = async (req, res) => {
         await profile.save();
         const recipeList = [];
         for (const recipe of profile.recipeBook) {
-            const recipeInfo = await Recipe.findOne({ recipeId: recipe });
+            const recipeInfo = await Recipe.findOne({ recipeLabel: recipe });
             recipeList.push(recipeInfo);
         }
         res.status(200).json({ recipeList: recipeList });
@@ -230,9 +212,9 @@ const removeRecipe = async (req, res) => {
 }
 
 const getRecipeData = async (req, res) => {
-    const { recipeId: recipeId} = req.body;
+    const { recipeLabel: recipeLabel} = req.body;
     try {
-        const recipeData = await Recipe.findOne({ recipeId: recipeId});
+        const recipeData = await Recipe.findOne({ recipeLabel: recipeLabel});
         res.status(200).json({ recipeData: recipeData });
     } catch (error) {
         res.status(400).json({ message: error.message });

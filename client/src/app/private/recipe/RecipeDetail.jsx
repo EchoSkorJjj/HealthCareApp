@@ -50,7 +50,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   async function handleSaveRecipe() {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      const response = await fetch(`${baseUrl}/api/recipe/saveRecipe?q=${encodeURIComponent(recipe.uri)}`,
+      const response = await fetch(`${baseUrl}/api/recipe/saveRecipe?q=${encodeURIComponent(recipe.label)}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -69,7 +69,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
     const submitReview = {...reviewForm}
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      const response = await fetch(`${baseUrl}/api/recipe/saveReview?q=${encodeURIComponent(recipe.uri)}`,{
+      const response = await fetch(`${baseUrl}/api/recipe/saveReview?q=${encodeURIComponent(recipe.label)}`,{
           method: 'PATCH',
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   async function handleGetReview() {
     const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_HTTPS_SERVER : import.meta.env.VITE_DEVELOPMENT_SERVER;
     try {
-      fetch(`${baseUrl}/api/recipe/getRecipeRating?q=${encodeURIComponent(recipe.uri)}`,
+      fetch(`${baseUrl}/api/recipe/getRecipeRating?q=${encodeURIComponent(recipe.label)}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -188,6 +188,36 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
                 <span className='ms-2 d-sm-inline-block d-block'>{rating.numRating} ratings</span>
               </div>
             </div>
+            <div className='row mt-3 d-inline-block d-lg-none'>
+              <div className="col-lg-auto">
+                <button className="btn btn-primary float-start" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
+              </div>
+              <div className="col-auto">
+                <div className="modal fade" id="reviewModal" aria-labelledby="reviewModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="reviewModalLabel">User Reviews</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        <ul className="list-group">
+                          {reviews.map((review, index) => (
+                            <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
+                              <div className="ms-2 me-auto">
+                                <div className="fw-bold text-start">{review.username}</div>
+                                <p>{review.review}</p> 
+                              </div>
+                              <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className='row mt-3'>
               <div className="col-auto">
                 <p className='card-text mb-0'>Servings: {recipe.yield}</p>
@@ -236,9 +266,9 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
                 </ul>
               </div>
             </div>
-            <div className='row mt-3'>
+            <div className='row mt-3 d-none d-lg-block'>
               <div className="col-lg-auto">
-                <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
+                <button className="btn btn-primary float-start" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
               </div>
               <div className="col-auto">
                 <div className="modal fade" id="reviewModal" aria-labelledby="reviewModalLabel" aria-hidden="true">

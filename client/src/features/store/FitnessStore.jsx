@@ -4,6 +4,7 @@ import { persist, createJSONStorage} from 'zustand/middleware'
 const useFitnessStore = create(
     persist(
         (set) => ({
+        isFirstVisit: true,
         hasAccessToken: '',
         fitnessStore: {
             totalSteps: '',
@@ -15,6 +16,7 @@ const useFitnessStore = create(
             dailyCalories: '',
             monthlySteps: '',
         }, 
+        setIsFirstVisit: (data) => set({ isFirstVisit: data}),
         setAccessToken: (data) => set({ hasAccessToken: data }),
         resetAccessToken: () => set({ hasAccessToken: ''}),
         setFitnessData: (data) => set({ fitnessStore: {...data} }),

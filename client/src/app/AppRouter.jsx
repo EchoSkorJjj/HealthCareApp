@@ -114,7 +114,7 @@ export const AppRouter = () => {
             <Route path="/nutrition" element={<NutritionAnalyzerPage />} />
             <Route path="/recipe" element={<CombinedPage />}/>
             <Route path="/recipebook" element={<RecipeBookPage />} />
-            <Route path="/recipebook/:recipeId" element={<RecipeBookDetailPage />} />
+            <Route path="/recipebook/:recipeLabel" element={<RecipeBookDetailPage />} />
             <Route path="/trainer" element={<TrainerPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage/>}/>
