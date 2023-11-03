@@ -47,8 +47,7 @@ npm install
 #### Run the application:
 Client
 ```bash
-npm run build
-npm run preview
+npm run dev
 ```
 
 Server
