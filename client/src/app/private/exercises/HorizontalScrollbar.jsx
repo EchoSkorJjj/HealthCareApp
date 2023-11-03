@@ -9,7 +9,7 @@ const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => (
     {data.map((item, index) => (
       <div
         key={item.id || item}
-        itemID={item.id || `item-${index}`}  // ensure itemId is provided
+        itemID={item.id || `item-${index}`}  
         title={item.id || item}
         className="scroll-items"
       >

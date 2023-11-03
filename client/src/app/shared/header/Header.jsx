@@ -96,7 +96,10 @@ export default function Header({onToggle, handleLogout}) {
                         <FontAwesomeIcon icon={faListUl} className="me-2 fa-solid fa-2x"/>
                     </button>
                 )}
-                <motion.a className="logo_wrapper" href="/home" variants={header}>HealthCare<span>Pro</span></motion.a>
+                <motion.a className="logo_wrapper navbar-brand d-flex align-items-center" href="/home" variants={header}>
+                    <img src={logo} alt="logo" style={{width: 40, height: 40}}/>
+                    HealthCare<span>Pro</span>
+                </motion.a>
                 <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar-expand-lg" type="button" aria-controls="offcanvasNavbar-expand-lg" className="custom-navbar-toggle navbar-toggler collapsed">
                     <FontAwesomeIcon icon={faEllipsis} className="fa-solid fa-2x"/>
                 </button>
