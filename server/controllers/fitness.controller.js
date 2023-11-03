@@ -55,14 +55,11 @@ const fetchStepCountData = async (req, res) => {
                 stepsArray[index] = bucket.dataset[0].point[0].value[0].intVal;
             }
         });
-        // console.log("steps array: " + stepsArray);
 
         const totalSteps = stepsArray.reduce((total, daySteps) => total + (daySteps || 0), 0);
-        
         res.status(200).json({dailySteps: stepsArray, totalSteps });
 
     } catch (error) {
-        // console.error("Error fetching step count data:", error);
         res.status(404).json({ message: 'Error fetching step count data' });
     }
 };
@@ -107,11 +104,9 @@ const fetchDistanceData = async (req,res) => {
         });
 
         const totalDistance = weekDistances.reduce((total, dayDistance) => total + dayDistance, 0);
-        
         res.status(200).json({dailyDistance: weekDistances, totalDistance });
 
     } catch (error) {
-        // console.error("Error fetching distance data:", error);
         res.status(404).json({ message: error });
     }
 };
@@ -156,11 +151,9 @@ const fetchCaloriesData = async (req, res) => {
         });
 
         const totalCalories = weekCalories.reduce((total, dayCalories) => total + dayCalories, 0);
-        
         res.status(200).json({dailyCalories: weekCalories, totalCalories });
 
     } catch (error) {
-        // console.error("Error fetching calories data:", error);
         res.status(404).json({ message: error });
     }
 };

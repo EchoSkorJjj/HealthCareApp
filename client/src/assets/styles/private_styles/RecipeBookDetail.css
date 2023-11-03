@@ -1,6 +1,7 @@
 .data-container {
     margin-top: 108px;
     width: 100%;
+    padding-bottom: 10rem;
 }
 
 @media screen and (max-width: 767px) {
