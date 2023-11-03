@@ -237,15 +237,29 @@
 }
 
 
+
+
 @media screen and (max-height: 1000px) {
     .forms-container {
         margin-top: 10rem;
     }
 }
 
-@media screen and (max-height: 800px) {
+@media screen and (max-height: 800px) and (max-width: 600px) {
     .forms-container {
         margin-top: 20rem;
+    }
+}
+
+@media screen and (max-height: 420px) and (max-width: 900px) {
+    .forms-container {
+        margin-top: 15rem;
+    }
+}
+
+@media screen and (max-height: 400px) and (max-width: 700px) {
+    .forms-container {
+        margin-top: 15rem;
     }
 }
 
