@@ -13,6 +13,10 @@
 }
 
 .filler-container {
+    padding-bottom: 50rem;
+}
+
+.filler-text {
     padding-bottom: 20rem;
 }
 

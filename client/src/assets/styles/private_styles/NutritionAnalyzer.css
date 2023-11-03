@@ -2,27 +2,12 @@
 .nutrition-main {
   margin-top: 108px;
   width: 100% !important;
-  /* margin-left: 210px;
-  width: calc(100% - 210px);
-  margin-right: 0px;
-  flex-grow: 1; */
+  padding-bottom: 5rem;
 }
 
 .filler-component{
   height: 80dvh;
 }
-
-/* @media screen and (max-width: 1275px) {
-  .nutrition-main {
-    margin-left: 65px;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .nutrition-main {
-      margin-left: 0px;
-  }
-} */
 
 .nutrition-container {
     background-color: #f5f5f5;

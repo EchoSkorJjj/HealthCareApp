@@ -57,8 +57,7 @@
     color: #5b5b5b;
     border-radius: 50%;
   }
-  
-  /* Card item styles */
+
   .item-container .card {
     border: unset;
   }
@@ -96,4 +95,47 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .item-slider-container {
+      width: 100%;
+    }
+    .item-slider .left-arrow-left, .item-slider .right-arrow-right {
+      transform: scale(0.7);
+    }
+  
+    .item-slider .left-arrow-left {
+      left: 5px;
+    }
+  
+    .item-slider .right-arrow-right {
+      right: 5px;
+    }
+  
+    .item-slider .item-container {
+      padding: 0 30px; 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .item-slider .left-arrow-left, .item-slider .right-arrow-right {
+      transform: scale(0.5);
+    }
+  
+    .item-slider .left-arrow-left {
+      left: 2px;
+    }
+  
+    .item-slider .right-arrow-right {
+      right: 2px; 
+    }
+  
+    .item-slider .item-container {
+      padding: 0 20px; 
+    }
+  
+    .item-slider-container .item-title {
+      font-size: 16px; 
+    }
   }

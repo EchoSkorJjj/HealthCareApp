@@ -1,6 +1,6 @@
 export const exerciseOptions = {
     method: 'GET',
-    params: {limit: '50'},
+    params: {limit: '1200'},
     headers: {
       'X-RapidAPI-Host': import.meta.env.VITE_RAPID_API_EXERCISE_HOST,
       'X-RapidAPI-Key': import.meta.env.VITE_RAPID_API_EXERCISE_KEY,

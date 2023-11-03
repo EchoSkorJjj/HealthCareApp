@@ -4,6 +4,10 @@
     color: #007bff;
     text-decoration: none;
   }
+
+.recipe-detail {
+  padding-bottom: 10rem;
+}
   
   .recipe-detail a:hover {
     text-decoration: underline;

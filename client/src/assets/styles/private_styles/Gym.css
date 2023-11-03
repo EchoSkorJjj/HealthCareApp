@@ -1,20 +1,4 @@
 .gym-container {
     margin-top: 108px;
     width: 100% !important;
-    /* margin-left: 210px;
-    width: calc(100% - 210px);
-    margin-right: 0px;
-    flex-grow: 1; */
 }
-
-/* @media screen and (max-width: 1275px) {
-    .gym-container {
-        margin-left: 65px;
-    }
-}
-
-@media screen and (max-width: 991px) {
-    .gym-container {
-        margin-left: 0px;
-    }
-} */

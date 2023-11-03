@@ -11,8 +11,8 @@ const BodyPart = ({ item, setBodyPart, bodyPart }) => {
   return (
     <div
       type="button"
-      className={`bodyPart-card${bodyPart === item ? ' selected' : ''}`}
-      onClick={handleClick} // Referencing the new handleClick function
+      className={`bodyPart-card ${bodyPart === item ? ' selected' : ''}`}
+      onClick={handleClick} 
     >
       <img src={Icon} alt="dumbbell" style={{ width: '40px', height: '40px' }} />
       <div className="fw-bold" style={{ fontSize: '24px', fontFamily: 'Alegreya', color: '#3A1212', textTransform: 'capitalize' }}>

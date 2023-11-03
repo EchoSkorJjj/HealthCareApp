@@ -8,7 +8,8 @@ const ItemSlider = ({ title, children }) => {
   const [scrollX, setscrollX] = useState(0);
   const [scrollEnd, setScrollEnd] = useState(false);
 
-  const slide = (shift) => {
+  const slide = (shiftAmount) => {
+    const shift = window.innerWidth < 480 ? window.innerWidth : shiftAmount;
     scrl.current.scrollBy({
       left: shift,
       behavior: 'smooth'

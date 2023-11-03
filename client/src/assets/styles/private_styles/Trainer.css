@@ -1,10 +1,21 @@
 .trainer-container {
     margin-top: 108px;
     width: 100% !important;
+    padding-bottom: 20rem;
   }
 
 .filler-component {
-  height: 80dvh;
+  padding-bottom: 10rem;
+}
+
+.img-gif {
+  width: 80%;
+}
+
+@media screen and (max-width: 767px) {
+  .img-gif {
+    width: 60%;
+  }
 }
 
 .trainer-btn {
