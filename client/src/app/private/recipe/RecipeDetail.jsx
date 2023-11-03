@@ -26,6 +26,11 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
   const handleCloseReview = () => setShow(false);
   const handleShowReview = () => setShow(true);
 
+  const [showReviews, setShowReviews] = useState(false);
+
+  const handleShowReviewList = () => setShowReviews(true);
+  const handleCloseReviewList = () => setShowReviews(false);
+
   function updateRating(value) {
     return setRating((prev) => {
         return {...prev, ...value};
@@ -190,32 +195,32 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
             </div>
             <div className='row mt-3 d-inline-block d-lg-none'>
               <div className="col-lg-auto">
-                <button className="btn btn-primary float-start" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
+                <button className="btn btn-primary float-start" type="button" onClick={() => handleShowReviewList(true)}>View Reviews</button>
               </div>
               <div className="col-auto">
-                <div className="modal fade" id="reviewModal" aria-labelledby="reviewModalLabel" aria-hidden="true">
-                  <div className="modal-dialog modal-dialog-scrollable">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="reviewModalLabel">User Reviews</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div className="modal-body">
-                        <ul className="list-group">
-                          {reviews.map((review, index) => (
-                            <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
-                              <div className="ms-2 me-auto">
-                                <div className="fw-bold text-start">{review.username}</div>
-                                <p>{review.review}</p> 
-                              </div>
-                              <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Modal show={showReviews} onHide={handleCloseReviewList}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>User Reviews</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <ul className="list-group">
+                      {reviews.map((review, index) => (
+                        <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
+                          <div className="ms-2 me-auto">
+                            <div className="fw-bold text-start">{review.username}</div>
+                            <p>{review.review}</p> 
+                          </div>
+                          <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseReviewList}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             </div>
             <div className='row mt-3'>
@@ -268,32 +273,32 @@ export default function RecipeDetail({ recipe, setSelectedRecipe }) {
             </div>
             <div className='row mt-3 d-none d-lg-block'>
               <div className="col-lg-auto">
-                <button className="btn btn-primary float-start" data-bs-toggle="modal" data-bs-target="#reviewModal">View Reviews</button>
+                <button className="btn btn-primary float-start" type="button" onClick={() => handleShowReviewList(true)}>View Reviews</button>
               </div>
               <div className="col-auto">
-                <div className="modal fade" id="reviewModal" aria-labelledby="reviewModalLabel" aria-hidden="true">
-                  <div className="modal-dialog modal-dialog-scrollable">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="reviewModalLabel">User Reviews</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div className="modal-body">
-                        <ul className="list-group">
-                          {reviews.map((review, index) => (
-                            <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
-                              <div className="ms-2 me-auto">
-                                <div className="fw-bold text-start">{review.username}</div>
-                                <p>{review.review}</p> 
-                              </div>
-                              <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Modal show={showReviews} onHide={handleCloseReviewList}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>User Reviews</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <ul className="list-group">
+                      {reviews.map((review, index) => (
+                        <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
+                          <div className="ms-2 me-auto">
+                            <div className="fw-bold text-start">{review.username}</div>
+                            <p>{review.review}</p> 
+                          </div>
+                          <span className="badge bg-primary rounded-pill">{review.rating}/5</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseReviewList}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             </div>
           </div>
