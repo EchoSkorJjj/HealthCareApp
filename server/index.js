@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpecs = require('./config/swaggerConfig')
+const swaggerSpecs = require('./config/swaggerConfig');
 const helmetConfig = require('./config/helmetConfig.js');
 
 require('dotenv').config();

@@ -8,7 +8,7 @@ import { PublicRoute } from './PublicRoute';
 
 import '../assets/styles/shared_styles/AppRouter.css';
 
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { LOGGED_IN_KEY, GOOGLE_AUTH_KEY, GITHUB_AUTH_KEY, useLocalStorage } from '../features/localStorage'
 import { useAuth } from '../features/auth';
 import useProfileStore from '../features/store/ProfileStore';
@@ -102,6 +102,7 @@ export const AppRouter = () => {
         <Routes>
           <Route element={<PublicRoute strict={true}/>}>
             <Route path={HOME_ROUTE} element={<Home />} />
+            <Route path="/index.html" element={<Navigate to="/home" replace />} />
             <Route path="/newlogin" element={<NewLoginPage />} />
             <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
             <Route path="/resetpassword" element={<ResetPasswordPage />} />

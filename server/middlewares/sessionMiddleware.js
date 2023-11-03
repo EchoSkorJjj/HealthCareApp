@@ -6,6 +6,8 @@ const store = new MongoDBStore({
   collection: 'sessions',
 });
 
+const productionMode = process.env.NODE_ENV
+
 const productionSessionMiddleware = session({
   name: 'sid',
   secret: process.env.MY_SECRET_KEY,
@@ -41,7 +43,7 @@ const developmentSessionMiddleware = session({
   store: store, // Use the MongoDB store
 });
 
-const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
+const sessionMiddleware = productionMode == 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
 // const sessionMiddleware = developmentSessionMiddleware;
 
 module.exports = sessionMiddleware;
