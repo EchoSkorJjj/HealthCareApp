@@ -32,14 +32,16 @@ const developmentSessionMiddleware = session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
-    secure: true, // Set to false for development (http)
-    domain: '.healthcarepro.live',
-    sameSite: 'none', // Set sameSite to 'lax'
+    // secure: true, // Set to false for development (http)
+    // domain: '.healthcarepro.live',
+    // sameSite: 'none', // Set sameSite to 'lax'
+    secure: false, // Set to false for development (http)
+    sameSite: 'lax', // Set sameSite to 'lax'
   },
   store: store, // Use the MongoDB store
 });
 
-// const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
-const sessionMiddleware = productionSessionMiddleware;
+const sessionMiddleware = process.env.NODE_ENV === 'production' ? productionSessionMiddleware : developmentSessionMiddleware;
+// const sessionMiddleware = developmentSessionMiddleware;
 
 module.exports = sessionMiddleware;
