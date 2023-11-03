@@ -274,7 +274,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div className='col-md-4'>
-                                <div className='w-100 d-flex flex-md-column flex-row'>
+                                <div className='w-100 d-flex flex-md-column flex-sm-row flex-column'>
                                     <div className='mb-4 w-100 d-flex align-items-center justify-content-center'>
                                         <CircularBar 
                                             value={totalSteps}
