@@ -2,8 +2,7 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Pre-requisites](#pre-requisites)
-- [Installation](#installation)
+- [Deployment](#deployment)
 - [Usage](#usage)
 - [Features](#features)
 - [API Documentation](#api-documentation)
@@ -13,101 +12,58 @@
 ## Introduction
 Brief overview of the healthcare app and its purpose.
 
-## Pre-requisites
-1. Docker
-2. Docker Compose
-3. Make
-4. Self Signed SSL Certificate
-
-## Installation
-1. For Ubuntu
-2. For Windows
-
-### Installing Make on Ubuntu
-#### 1. Update apt Database
+## Deployment
+#### Our Application is hosted on Heroku. To view the application, visit the following URL:
 ```bash
-$ sudo apt update
+https://www.healthcarepro.live/home
 ```
-#### 2. Install Make
+
+#### Our Google Fitness API requires a Google Account that is linked to a Google Fitness account. 
+Here is the Username and Password for the Google Account that is linked to our Google Fitness account:
 ```bash
-$ sudo apt -y install make
+Username:
+Password:
 ```
-#### 3. Verify Installation
+
+#### Disclaimer:
+Our application is hosted on Heroku server in the United States. It could take a few seconds for the pages to load or for the application to respond. Please be patient.
+
+#### If the hosted application is not working or if you would like to run the application locally, follow the instructions below:
+#### Visit our GitHub repository:
 ```bash
-$ make --version
+https://github.com/HelloTech69/HealthCareApp
 ```
 
-### Installing Make on Windows
-##### 1. Run Powershell as an administrator
-Windows Search > Windows Powershell > Right Click > Run as Administrator
-
-##### 2. Check output of `Get-ExecutionPolicy`
-If `Get-ExecutionPolicy` returns `Restricted`, run the following command.
-```
-$ Set-ExecutionPolicy AllSigned
-```
-If it is already unrestricted, then you can skip this step.
-
-##### 3. Install `chocolatey`
-```
-$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-```
-
-##### 4. Install `Make`
-```
-$ choco install make
-```
-
-##### 5. Test Make installation
-```
-$ make -version
-```
-
-##### 6. Reset Execution Policy
-```
-$ Set-ExecutionPolicy Restricted
-```
-
-## Creating a Self Signed SSL Certificate
-
-#### 1. Follow the instructions below
-Click [here](https://devopscube.com/create-self-signed-certificates-openssl/).
-#### 2. Add the rootCA.crt to your trusted root certificates E.g. For Chrome
-
-##### Go to your browser settings -> Privacy and security -> Security -> Manage Device Certificates
-##### Go to Authorities and import the rootCA.crt file from your certificate folder
-
-### Deployment Guide
-#### 1. Clone the repository
+#### Clone the repository:
 ```bash
-$ gh repo clone HelloTech69/HealthCareApp
+gh repo clone HelloTech69/HealthCareApp
 ```
 
-#### 2. Navigate to the project directory
+#### Install the dependencies for both server and client:
 ```bash
-$ cd HealthCareApp
+npm install
 ```
 
-#### 3. In the config folder, create a certs folder if it does not exist
-#### 4. Copy the domain name or your IP .crt and .key files to the certs folder
-
-#### 5. Build the Docker image
+#### Run the application:
+Client
 ```bash
-$ make build
+npm run build
+npm run preview
 ```
 
-#### 6. Run the Docker container
+Server
 ```bash
-$ make up
+npm start
 ```
 
-#### 7. Just for Myself
-In the server folder, modify the node env do production, modify sessionMiddleware, modify the config
-In the client folder, modify the server/deployment url
-In google console and github Oauth, modify the redirect url
-
-## Usage
-Guidance on how to use the app effectively.
+#### Visit the following URL to view the application:
+```bash
+http://localhost:5173/home
+```
+OR the following URL which would redirect you to the home page:
+```bash
+http://localhost:5173/index.html
+```
 
 ## Features
 
@@ -126,10 +82,9 @@ Guidance on how to use the app effectively.
     - Also provides counter for user to keep track of exercise currently being done
     - Ensures users are doing the exercise correctly
 
-4. **Feature 4**
-    - Description of feature 4
-    - Description of feature 4
-    - Description of feature 4
+4. **Exercise Tutorials**
+    - Provides users with a list of exercises to choose from
+    - Each exercise has a video tutorial to show users how to do the exercise
 
 ## API Documentation
 #### For viewing the API documentation, run the application and visit the following URL:
