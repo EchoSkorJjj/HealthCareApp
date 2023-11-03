@@ -10,8 +10,8 @@ export default function Footer() {
         <footer className="footer-container">
             <div className="footer-content">
                 <div className="footer-section">
-                    <h5>Footer Content</h5>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste atque ea quis molestias.</p>
+                    <h5>Intro</h5>
+                    <p>This is a health care and wellness application for all Users.</p>
                 </div>
                 <div className="footer-section">
                     <h5>Organization</h5>
