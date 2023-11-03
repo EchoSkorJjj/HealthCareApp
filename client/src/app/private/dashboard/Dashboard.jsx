@@ -219,7 +219,7 @@ export default function Dashboard() {
                         </div>
                     </div>                    
                     ) : (
-                    <div className='row'>
+                    <>
                         <div className='row'>
                             <div className='col-4 d-flex justify-content-center align-items-center'>
                                 <button 
@@ -320,7 +320,7 @@ export default function Dashboard() {
                                 </Modal.Footer>
                             </Modal>
                         )}
-                    </div>
+                    </>
                     )}                       
                 </div>
             </div>
