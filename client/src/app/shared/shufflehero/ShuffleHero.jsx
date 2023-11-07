@@ -180,9 +180,9 @@ const ShuffleHero = () => {
             </motion.a>
           </motion.div>
           <motion.div className="review_container" variants={stagger}>
-              <motion.p className="total_review" variants={star}>64+ Reviews</motion.p>
+              <motion.p className="total_review" variants={star}>1500+ Reviews</motion.p>
               <StarRating />
-              <motion.p className="more_review" variants={star}>More then 50+ people taking services</motion.p>
+              <motion.p className="more_review" variants={star}>More then 50000 people utilizing our services</motion.p>
           </motion.div>
         </motion.div>
         <motion.div className="shuffle-hero col-lg-6 col-12">  
