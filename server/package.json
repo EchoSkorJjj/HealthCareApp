@@ -41,5 +41,8 @@
     "jest": "^29.7.0",
     "mongodb-memory-server": "^9.0.1",
     "supertest": "^6.3.3"
+  },
+  "overrides": {
+    "fast-xml-parser": "^5.7.0"
   }
 }
